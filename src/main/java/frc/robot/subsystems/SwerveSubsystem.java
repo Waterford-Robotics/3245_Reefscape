@@ -56,10 +56,10 @@ public class SwerveSubsystem extends SubsystemBase {
 
   // Creates a New SwerveSubsystem
   public SwerveSubsystem() {
-    
+
     // Configure the Telemetry before creating the SwerveDrive to avoid unnecessary objects being created.
     // TURN OFF DURING COMPETITION BECAUSE IT * WILL *  SLOW YOUR ROBOT (It's for displaying info in Shuffleboard)
-    //SwerveDriveTelemetry.verbosity = TelemetryVerbosity.HIGH;
+    // SwerveDriveTelemetry.verbosity = TelemetryVerbosity.HIGH;
     
     // Initializes robot using the JSON Files with all the constants so you don't have to. Hooray!
     try {
@@ -260,7 +260,7 @@ public class SwerveSubsystem extends SubsystemBase {
     }
   }
 
-  // Very big and scary follow path command. Pray it works, because it's massive.
+  // Very big and scary follow path command. Pray it works, because you never know...
   public void followPathAutobuilderCommand(String pathName) {
     try{
         // Load the path you want to follow using its name in the GUI

@@ -23,20 +23,20 @@ public final class Constants {
     public static final int k_Y = Button.kY.value; // Y
     public static final int k_dpadRight = 90; // D-Pad Right
     public static final int k_dpadLeft = 270; // D-Pad Left
-}
-
+  }
 
   // Constants for Kraken Drivetrain!
   public static final class SwerveConstants {
+
     // Must be max physically possible speed
     public static final double k_maxSpeed = edu.wpi.first.math.util.Units.feetToMeters(18.9);
-    public static final double kMaxAngularSpeed = 1.5 * Math.PI; // radians per second
+    public static final double k_maxAngularSpeed = 1.5 * Math.PI; // Radians per second
   }
 
   // Constants for controller input!
   public static final class DriveConstants {
 
-    // YAGSL Swerve Stuff (Don't touch)
+    // YAGSL Swerve Stuff
     public static final double k_driveDeadBand = 0.1;
     public static final double k_driveSpeed = -1;
     public static final double k_turnRate = -1;
@@ -61,8 +61,8 @@ public final class Constants {
     public static final int k_elevatorKrakenRightID = 22;
 
     // Wrist
-    public static final int k_shooterKrakenID = 31;
-    public static final int k_wristKrakenID = 32;
+    public static final int k_wristKrakenID = 31;
+    public static final int k_shooterKrakenID = 32;
   }
 
   // Constants for Sensor IDs
@@ -77,9 +77,9 @@ public final class Constants {
   public static final class ElevatorConstants {
     public static final Distance k_zeroHeight = Units.Inches.of(0);
     public static final Distance k_coralL1Height = Units.Inches.of(0); 
-    public static final Distance k_coralL2Height = Units.Inches.of(6);
-    public static final Distance k_coralL3Height = Units.Inches.of(22);
-    public static final Distance k_coralL4Height = Units.Inches.of(48.8);
+    public static final Distance k_coralL2Height = Units.Inches.of(7);
+    public static final Distance k_coralL3Height = Units.Inches.of(21);
+    public static final Distance k_coralL4Height = Units.Inches.of(48.6);
   }
 
   // Constants for Wrist
@@ -96,7 +96,7 @@ public final class Constants {
     public static final int k_elevatorSupplyCurrentLimit = 40;
 
     public static final double k_shooterRampRate = 0.05;
-    public static final double k_shooterClosedMaxSpeed = 0.1;
+    public static final double k_shooterClosedMaxSpeed = 0.4;
     public static final int k_supplyCurrentLimit = 40;
   }
 
@@ -107,15 +107,15 @@ public final class Constants {
     public static final double k_elevatorkD = 0.15;
     public static final double k_elevatorkS = 0.4;
     public static final double k_elevatorkV = 0.001;
-    public static final double k_elevatorkA = 0.001;
+    public static final double k_elevatorkA = 0.0;
     public static final double k_elevatorkG = 0.3;
 
-    public static final double k_wristP = 0.0;
+    public static final double k_wristP = 0.0; 
     public static final double k_wristI = 0.0;
     public static final double k_wristD = 0.0;
     public static final double k_wristS = 0.0;
-    public static final double k_wristV = 0.0;
-    public static final double k_wristG = 0.0;
+    public static final double k_wristV = 0.001;
+    public static final double k_wristG = 0.4;
     
     public static final double k_shooterkP = 0.0;
     public static final double k_shooterkI = 0.0;
@@ -135,6 +135,9 @@ public final class Constants {
 
     // Name
     public static final String k_limelightName = "limelight-three";
+    
+    // Boolean for Left/Right Reef
+    public static boolean k_isRightReef = true;
 
     // PID for Tag Relative Control in General
     public static final double kP_aim = 0.04;
@@ -150,7 +153,6 @@ public final class Constants {
     public static final double kD_strafe = 0.0;
 
     // Aim/Range
-    public static final double k_aimThreshold = 0.5;
     public static final double k_rangeThresholdMax = -3.8;
     public static final double k_rangeThresholdMin = -4.2;
     public static final double k_rangeTarget = -4;
@@ -183,6 +185,10 @@ public final class Constants {
 
     public static final double k_tzValidRange = -1.5;
     public static final double k_yawValidRange = 35;
+
+    public static final double k_rangeThreshold = 0.03;
+    public static final double k_strafeThreshold = 0.03;
+    public static final double k_aimThreshold = 0.5;
 
     // Tag Reject Distance
     public static final int rejectionDistance = 3;

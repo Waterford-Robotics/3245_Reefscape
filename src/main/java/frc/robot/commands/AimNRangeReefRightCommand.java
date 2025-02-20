@@ -144,7 +144,7 @@ public class AimNRangeReefRightCommand extends Command {
 
     // Multiply by -1 because robot is CCW Positive. Multiply by a reduction 
     // multiplier to reduce speed. Scale TX up with robot speed.
-    targetingAngularVelocity *= -0.1 * SwerveConstants.kMaxAngularSpeed;
+    targetingAngularVelocity *= -0.1 * SwerveConstants.k_maxAngularSpeed;
 
     // Hooray
     return targetingAngularVelocity;

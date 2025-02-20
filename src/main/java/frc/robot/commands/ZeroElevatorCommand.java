@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import frc.robot.Constants.ElevatorConstants;
 import frc.robot.subsystems.ElevatorSubsystem;
+
 import edu.wpi.first.wpilibj2.command.Command;
 
 // Raises Elevator
@@ -30,7 +31,7 @@ public class ZeroElevatorCommand extends Command {
   
   // Actual command
   public void execute() {
-    if(m_elevatorSubsystem.getCurrentPosition() < 5 && m_elevatorSubsystem.getCurrentVelocity() == 0) {
+    if(m_elevatorSubsystem.getCurrentPosition() < 2 && m_elevatorSubsystem.getCurrentVelocity() == 0) {
       m_finished = true;
     }
   }

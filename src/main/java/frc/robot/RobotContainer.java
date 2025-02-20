@@ -8,11 +8,11 @@ import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ElevatorConstants;
 import frc.robot.commands.SetElevatorCommand;
+import frc.robot.commands.SetReefCommand;
 import frc.robot.commands.ZeroElevatorCommand;
 import frc.robot.commands.RunIntakeForSecsCommand;
 import frc.robot.commands.RunShootForSecsCommand;
-import frc.robot.commands.AimNRangeReefLeftCommand;
-import frc.robot.commands.AimNRangeReefRightCommand;
+import frc.robot.commands.AimNRangeCommand;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.WristSubsystem;
@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -46,8 +47,15 @@ public class RobotContainer {
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController = new CommandXboxController(ControllerConstants.kDriverControllerPort);
 
+  // Command Chain for Manual Reset
+  SequentialCommandGroup resetCommand = new SequentialCommandGroup(
+    new SetElevatorCommand(m_elevatorSubsystem, "zero"),
+    new ZeroElevatorCommand(m_elevatorSubsystem)
+  );
+
   // Command Chain for Scoring on L2
   SequentialCommandGroup scoreL2Command = new SequentialCommandGroup(
+    new ZeroElevatorCommand(m_elevatorSubsystem),
     new ParallelCommandGroup(
       new SetElevatorCommand(m_elevatorSubsystem, "L2"),
       new RunIntakeForSecsCommand(m_wristSubsystem, 1.5)
@@ -59,9 +67,10 @@ public class RobotContainer {
 
   // Command Chain for Scoring on L3
   SequentialCommandGroup scoreL3Command = new SequentialCommandGroup(
+    new ZeroElevatorCommand(m_elevatorSubsystem),
     new ParallelCommandGroup(
       new SetElevatorCommand(m_elevatorSubsystem, "L3"),
-      new RunIntakeForSecsCommand(m_wristSubsystem, 1.5)
+      new RunIntakeForSecsCommand(m_wristSubsystem, 1.8)
     ),
     new RunShootForSecsCommand(m_wristSubsystem, 1),
     new SetElevatorCommand(m_elevatorSubsystem, "zero"),
@@ -70,11 +79,48 @@ public class RobotContainer {
 
   // Command Chain for Scoring on L4
   SequentialCommandGroup scoreL4Command = new SequentialCommandGroup(
+    new ZeroElevatorCommand(m_elevatorSubsystem),
     new ParallelCommandGroup(
       new SetElevatorCommand(m_elevatorSubsystem, "L4"),
       new RunIntakeForSecsCommand(m_wristSubsystem, 1.5)
     ),
     new RunShootForSecsCommand(m_wristSubsystem, 1),
+    new SetElevatorCommand(m_elevatorSubsystem, "zero"),
+    new ZeroElevatorCommand(m_elevatorSubsystem)
+  );
+
+  // Command Chain for Completely Automated Right Reef L2
+  SequentialCommandGroup aimNRangescoreL2Command = new SequentialCommandGroup(
+    new ParallelDeadlineGroup(
+      new AimNRangeCommand(m_swerveSubsystem),
+      new SetElevatorCommand(m_elevatorSubsystem, "L2"),
+      new RunIntakeForSecsCommand(m_wristSubsystem, 2.0)
+    ),
+    new RunShootForSecsCommand(m_wristSubsystem, 1.0),
+    new SetElevatorCommand(m_elevatorSubsystem, "zero"),
+    new ZeroElevatorCommand(m_elevatorSubsystem)
+  );
+
+  // Command Chain for Completely Automated Right Reef L3
+  SequentialCommandGroup aimNRangescoreL3Command = new SequentialCommandGroup(
+    new ParallelDeadlineGroup(
+      new AimNRangeCommand(m_swerveSubsystem),
+      new SetElevatorCommand(m_elevatorSubsystem, "L3"),
+      new RunIntakeForSecsCommand(m_wristSubsystem, 2.0)
+    ),
+    new RunShootForSecsCommand(m_wristSubsystem, 1.0),
+    new SetElevatorCommand(m_elevatorSubsystem, "zero"),
+    new ZeroElevatorCommand(m_elevatorSubsystem)
+  );
+
+  // Command Chain for Completely Automated Right Reef L4
+  SequentialCommandGroup aimNRangescoreL4Command = new SequentialCommandGroup(
+    new ParallelDeadlineGroup(
+      new AimNRangeCommand(m_swerveSubsystem),
+      new SetElevatorCommand(m_elevatorSubsystem, "L4"),
+      new RunIntakeForSecsCommand(m_wristSubsystem, 2.0)
+    ),
+    new RunShootForSecsCommand(m_wristSubsystem, 1.0),
     new SetElevatorCommand(m_elevatorSubsystem, "zero"),
     new ZeroElevatorCommand(m_elevatorSubsystem)
   );
@@ -106,10 +152,7 @@ public class RobotContainer {
     // Lower Elevator Manually - "A" Button
     new JoystickButton(m_driverController.getHID(), DriveConstants.k_A)
       .onTrue(
-        new SequentialCommandGroup(
-          new InstantCommand(() -> m_elevatorSubsystem.setPosition(ElevatorConstants.k_zeroHeight), m_elevatorSubsystem),
-          new InstantCommand(() -> m_elevatorSubsystem.setNeutral(), m_elevatorSubsystem)
-        )
+        resetCommand
       );
     
     // Score Coral on L2 and Zero Elevator - "B" Button
@@ -167,14 +210,14 @@ public class RobotContainer {
       );
 
     new POVButton(m_driverController.getHID(), ControllerConstants.k_dpadRight)
-    .onTrue(
-      new AimNRangeReefRightCommand(m_swerveSubsystem)
-    );
+      .onTrue(
+        new SetReefCommand("right")
+      );
 
     new POVButton(m_driverController.getHID(), ControllerConstants.k_dpadLeft)
-    .onTrue(
-      new AimNRangeReefLeftCommand(m_swerveSubsystem)
-    );
+      .onTrue(
+        new SetReefCommand("left")
+      );
   }
   
   // Commands!

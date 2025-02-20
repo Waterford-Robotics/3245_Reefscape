@@ -136,4 +136,7 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     SmartDashboard.putNumber("Elevator/Last Desired Position", lastDesiredPosition.magnitude()); 
   }
+
+  // TODO: Set elevator to zero on start up
+  // TODO: Manual reset command
 }

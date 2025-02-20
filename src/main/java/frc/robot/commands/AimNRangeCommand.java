@@ -11,7 +11,7 @@ import frc.robot.subsystems.Limelight.LimelightHelpers;
 
 
 // Positions Robot at the Nearest Valid Target
-public class AimNRangeReefLeftCommand extends Command {
+public class AimNRangeCommand extends Command {
     
   // Instantiate Stuff
   SwerveSubsystem m_swerveSubsystem;
@@ -27,18 +27,19 @@ public class AimNRangeReefLeftCommand extends Command {
   // All the Valid IDs available for positioning
   int[] validIDs = {6, 7, 8, 9, 10, 11};
 
-  // Valid Tag
-  int validTag;
-
   // Bot Pose Target Space Relative (TX, TY, TZ, Pitch, Yaw, Roll)
   private double[] botPoseTargetSpace = new double[6];
 
-
   // Lil boolean for checking for "Tag In View" 
-  boolean tiv;
+  private boolean tiv;
+
+  // Constants
+  private double m_rangeTarget;
+  private double m_strafeTarget;
+  private double m_aimTarget;
 
   // Constructor
-  public AimNRangeReefLeftCommand(SwerveSubsystem driveSubsystem) {
+  public AimNRangeCommand(SwerveSubsystem driveSubsystem) {
         
     // Definitions and setting parameters are equal to members!
     m_swerveSubsystem = driveSubsystem;
@@ -51,15 +52,26 @@ public class AimNRangeReefLeftCommand extends Command {
     // Adds condition that filters out undesired IDs
     LimelightHelpers.SetFiducialIDFiltersOverride(VisionConstants.k_limelightName, validIDs);
 
-    validTag = (int) LimelightHelpers.getFiducialID(VisionConstants.k_limelightName);
-
     // Update BotPoseTargetSpace
     botPoseTargetSpace = NetworkTableInstance.getDefault().getTable(VisionConstants.k_limelightName).getEntry("botpose_targetspace").getDoubleArray(new double[6]);
 
     // Checks for TIV
-    tiv = LimelightHelpers.getTV(VisionConstants.k_limelightName) 
+    tiv = (LimelightHelpers.getTV(VisionConstants.k_limelightName) 
       && botPoseTargetSpace[2] > VisionConstants.k_tzValidRange 
-      && Math.abs(botPoseTargetSpace[4])< VisionConstants.k_yawValidRange;
+      && Math.abs(botPoseTargetSpace[4]) < VisionConstants.k_yawValidRange
+    );
+
+    // Set Constants
+    if (VisionConstants.k_isRightReef) {
+      m_rangeTarget = VisionConstants.k_rangeReefRightTarget;
+      m_strafeTarget = VisionConstants.k_strafeReefRightTarget;
+      m_aimTarget = 0.0;
+    }
+    else {
+      m_rangeTarget = VisionConstants.k_rangeReefLeftTarget;
+      m_strafeTarget = VisionConstants.k_strafeReefLeftTarget;
+      m_aimTarget = 0.0;
+    }
 
     // Timer Reset
     timer.start();
@@ -73,7 +85,7 @@ public class AimNRangeReefLeftCommand extends Command {
     botPoseTargetSpace = NetworkTableInstance.getDefault().getTable(VisionConstants.k_limelightName).getEntry("botpose_targetspace").getDoubleArray(new double[6]);
 
     // If tags are in view, drive right over!
-    if (LimelightHelpers.getFiducialID(VisionConstants.k_limelightName) == validTag) m_swerveSubsystem.driveCommand(() -> limelight_range_PID(), () -> limelight_strafe_PID(), () -> limelight_aim_PID());
+    if (LimelightHelpers.getTV(VisionConstants.k_limelightName)) m_swerveSubsystem.driveCommand(() -> limelight_range_PID(), () -> limelight_strafe_PID(), () -> limelight_aim_PID());
 
     // Otherwise we tell it to quit
     else tiv = false;
@@ -86,16 +98,16 @@ public class AimNRangeReefLeftCommand extends Command {
   public boolean isFinished() {
     return (
       // Range (Distance to Tag)
-      botPoseTargetSpace[2] < VisionConstants.k_rangeReefLeftThresholdMax
-      && botPoseTargetSpace[2]  > VisionConstants.k_rangeReefLeftThresholdMin
+      botPoseTargetSpace[2] < m_rangeTarget + VisionConstants.k_rangeThreshold
+      && botPoseTargetSpace[2]  > m_rangeTarget - VisionConstants.k_rangeThreshold
       
       // Aim (Angle)
-      && botPoseTargetSpace[4]  < VisionConstants.k_aimReefLeftThresholdMax
-      && botPoseTargetSpace[4]  > VisionConstants.k_aimReefLeftThresholdMin
+      && botPoseTargetSpace[4]  < VisionConstants.k_aimThreshold
+      && botPoseTargetSpace[4]  > -VisionConstants.k_aimThreshold
 
       // Strafe (Left Right Positioning)
-      && botPoseTargetSpace[0]  < VisionConstants.k_strafeReefLeftThresholdMax
-      && botPoseTargetSpace[0]  > VisionConstants.k_strafeReefLeftThresholdMin)
+      && botPoseTargetSpace[0]  < m_strafeTarget + VisionConstants.k_strafeThreshold
+      && botPoseTargetSpace[0]  > m_strafeTarget - VisionConstants.k_rangeThreshold)
 
       // Other quit conditions
       || !tiv || timer.get() > 3;
@@ -108,7 +120,7 @@ public class AimNRangeReefLeftCommand extends Command {
     m_rangeController.enableContinuousInput(-3, 0); // TODO: Check these numbers?
     
     // Calculates response based on difference in distance from tag to robot
-    double targetingForwardSpeed = m_rangeController.calculate(botPoseTargetSpace[2] - VisionConstants.k_rangeReefLeftTarget);
+    double targetingForwardSpeed = m_rangeController.calculate(botPoseTargetSpace[2] - m_rangeTarget);
 
     // Value scale up to robot max speed and invert (double cannot exceed 1.0)
     targetingForwardSpeed *= -1.0 * SwerveConstants.k_maxSpeed;
@@ -124,7 +136,7 @@ public class AimNRangeReefLeftCommand extends Command {
     m_strafeController.enableContinuousInput(-3, 3); // TODO: Check me!
     
     // Calculates response based on difference in horizontal distance from tag to robot
-    double targetingStrafeSpeed = m_strafeController.calculate(botPoseTargetSpace[0] - VisionConstants.k_strafeReefLeftTarget);
+    double targetingStrafeSpeed = m_strafeController.calculate(botPoseTargetSpace[0] - m_strafeTarget);
 
     // Value scale up to robot max speed (Double can't exceed 1.0)
     targetingStrafeSpeed *= 1.0 * SwerveConstants.k_maxSpeed;
@@ -140,7 +152,7 @@ public class AimNRangeReefLeftCommand extends Command {
     m_aimController.enableContinuousInput(-30, 30); // TODO: Check Value 
     
     // Calculates response based on difference in angle from tag to robot
-    double targetingAngularVelocity = m_aimController.calculate(botPoseTargetSpace[4] - VisionConstants.k_aimReefLeftTarget);
+    double targetingAngularVelocity = m_aimController.calculate(botPoseTargetSpace[4] - m_aimTarget);
 
     // Multiply by -1 because robot is CCW Positive. Multiply by a reduction 
     // multiplier to reduce speed. Scale TX up with robot speed.

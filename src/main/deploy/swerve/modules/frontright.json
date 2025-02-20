@@ -10,8 +10,8 @@
     "canbus": "Drivebase"
   },
   "inverted": {
-    "drive": true,
-    "angle": false
+    "drive": false,
+    "angle": true
   },
   "angle": {
     "type": "krakenx60",

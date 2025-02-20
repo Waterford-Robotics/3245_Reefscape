@@ -49,7 +49,7 @@ public class WristSubsystem extends SubsystemBase{
     wristConfig.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Units.Rotations.of(2).in(Units.Rotations); // Starting position
     wristConfig.Slot0.GravityType = GravityTypeValue.Arm_Cosine;
 
-    wristConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive; // TODO: Check me
+    wristConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive; // TODO: Check me
 
     wristConfig.Feedback.SensorToMechanismRatio = 0.4545;
 
@@ -94,7 +94,7 @@ public class WristSubsystem extends SubsystemBase{
   }
 
   public void shoot(){
-    m_shooter.set(0.1);
+    m_shooter.set(0.2);
   }
 
   public void stopShooter(){
@@ -103,7 +103,7 @@ public class WristSubsystem extends SubsystemBase{
 
   public void intake(){
     // m_wrist.setPosition(WristConstants.k_coralIntakeHeight.in(Units.Rotations));
-    m_shooter.set(-0.1);
+    m_shooter.set(-0.2);
   }
 
   public void periodic() {
