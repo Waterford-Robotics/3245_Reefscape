@@ -63,6 +63,10 @@ public final class Constants {
     // Wrist
     public static final int k_wristKrakenID = 31;
     public static final int k_shooterKrakenID = 32;
+
+    //Algae
+    public static final int k_algaeWristID = 41;
+    public static final int k_algaeIntakeID = 42;
   }
 
   // Constants for Sensor IDs
@@ -87,6 +91,14 @@ public final class Constants {
     public static final Angle k_wrist1Height = Units.Rotations.of(0.96); 
     public static final Angle k_wrist2Height = Units.Rotations.of(0.96);
     public static final Angle k_coralIntakeAngle = Units.Rotations.of(1.3);
+  }
+
+  public static final class AlgaeConstants {
+    public static final double k_algaeRampRate = 0.25;
+    public static final double k_algaeClosedMaxSpeed = 0.8;
+    public static final int k_algaeSupplyCurrentLimit = 40;
+
+    
   }
 
   // Constants for Motors
@@ -123,6 +135,22 @@ public final class Constants {
     public static final double k_shooterkS = 0.0;
     public static final double k_shooterkV = 0.0;
     public static final double k_shooterkG = 0.0;
+
+    public static final double k_algaeWristkP = 0.0;
+    public static final double k_algaeWristkI = 0.0;
+    public static final double k_algaeWristkD = 0.0;
+    public static final double k_algaeWristkS = 0.0;
+    public static final double k_algaeWristkV = 0.0;
+    public static final double k_algaeWristkA = 0.0;
+    public static final double k_algaeWristkG = 0.0;
+
+    public static final double k_algaeIntakekP = 0.0;
+    public static final double k_algaeIntakekI = 0.0;
+    public static final double k_algaeIntakekD = 0.0;
+    public static final double k_algaeIntakekS = 0.0;
+    public static final double k_algaeIntakekV = 0.0;
+    public static final double k_algaeIntakekA = 0.0;
+    public static final double k_algaeIntakekG = 0.0;
   }
 
   // Constants for Autonomous
