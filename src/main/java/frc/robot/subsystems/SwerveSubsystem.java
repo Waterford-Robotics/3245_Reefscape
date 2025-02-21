@@ -6,7 +6,6 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.Constants.VisionConstants;
 import frc.robot.subsystems.Limelight.LimelightHelpers;
@@ -17,7 +16,6 @@ import java.util.function.DoubleSupplier;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathPlannerAuto;
-import com.pathplanner.lib.commands.PathfindingCommand;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
@@ -28,8 +26,6 @@ import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import swervelib.parser.SwerveParser;
-import swervelib.telemetry.SwerveDriveTelemetry;
-import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
 import swervelib.SwerveDrive;
 import swervelib.math.SwerveMath;
 import edu.wpi.first.math.VecBuilder;
@@ -120,7 +116,7 @@ public class SwerveSubsystem extends SubsystemBase {
   public void periodic() {
 
     // Updates Odometry with Vision if Applicable
-    updateVisionMeasurements();
+    // updateVisionMeasurements();
 
     // Update Field2d
     m_field.setRobotPose(swerveDrive.getPose());
@@ -226,8 +222,6 @@ public class SwerveSubsystem extends SubsystemBase {
       && estimate.avgTagDist < VisionConstants.rejectionDistance;
   }
 
-
-  // TODO: Add follow to pose feature
   // Updates Odometry with the Limelight Readings using MT2 - Replacement for updateVisionOdometry()
   public void updateVisionMeasurements() {
 

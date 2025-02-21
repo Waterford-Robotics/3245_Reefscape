@@ -6,10 +6,12 @@ package frc.robot;
 
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.DriveConstants;
-import frc.robot.Constants.ElevatorConstants;
+import frc.robot.Constants.WristConstants;
 import frc.robot.commands.SetElevatorCommand;
 import frc.robot.commands.SetReefCommand;
+import frc.robot.commands.SetWristCommand;
 import frc.robot.commands.ZeroElevatorCommand;
+import frc.robot.commands.ZeroWristCommand;
 import frc.robot.commands.RunIntakeForSecsCommand;
 import frc.robot.commands.RunShootForSecsCommand;
 import frc.robot.commands.AimNRangeCommand;
@@ -46,6 +48,18 @@ public class RobotContainer {
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController = new CommandXboxController(ControllerConstants.kDriverControllerPort);
+
+  // Command Chain for Raising Wrist
+  SequentialCommandGroup RaiseWristCommand = new SequentialCommandGroup(
+    new ZeroWristCommand(m_wristSubsystem),
+    new SetWristCommand(m_wristSubsystem, "intake")
+  );
+
+  // Command Chain for Lowering Wrist
+  SequentialCommandGroup LowerWristCommand = new SequentialCommandGroup(
+    new SetWristCommand(m_wristSubsystem, "score"),
+    new ZeroWristCommand(m_wristSubsystem)
+  );
 
   // Command Chain for Manual Reset
   SequentialCommandGroup resetCommand = new SequentialCommandGroup(
@@ -138,9 +152,9 @@ public class RobotContainer {
     // NamedCommands.registerCommand("ExampleCommand", new ExampleCommand(m_exampleSubsystem);
 
     // Autos
-    m_chooser.addOption("Test Auto", m_swerveSubsystem.getAutonomousCommand("Test Auto"));
-    m_chooser.addOption("Example Auto RED", m_swerveSubsystem.getAutonomousCommand("Example Auto RED"));
-    m_chooser.addOption("Example Auto BLUE", m_swerveSubsystem.getAutonomousCommand("Example Auto BLUE"));
+    // m_chooser.addOption("Test Auto", m_swerveSubsystem.getAutonomousCommand("Test Auto"));
+    // m_chooser.addOption("Example Auto RED", m_swerveSubsystem.getAutonomousCommand("Example Auto RED"));
+    // m_chooser.addOption("Example Auto BLUE", m_swerveSubsystem.getAutonomousCommand("Example Auto BLUE"));
 
     // Puts a chooser on the SmartDashboard!
     SmartDashboard.putData("AutoMode", m_chooser);
@@ -148,7 +162,7 @@ public class RobotContainer {
 
   // Trigger & Button Bindings!
   private void configureBindings() {
-
+ 
     // Lower Elevator Manually - "A" Button
     new JoystickButton(m_driverController.getHID(), DriveConstants.k_A)
       .onTrue(
@@ -172,18 +186,16 @@ public class RobotContainer {
       .onTrue(
         scoreL4Command
       );
-
-    /*
+    
     new JoystickButton(m_driverController.getHID(), DriveConstants.k_rightbump)
       .onTrue(
-        new InstantCommand(() -> m_wristSubsystem.setPosition(WristConstants.k_wrist1Height))
+        RaiseWristCommand
       );
 
     new JoystickButton(m_driverController.getHID(), DriveConstants.k_leftbump)
       .onTrue(
-        new InstantCommand(() -> m_wristSubsystem.setPosition(WristConstants.k_wrist2Height))
+        LowerWristCommand
       );
-    */
 
     // Intake Manually - Right Trig
     new Trigger(() -> m_driverController.getRawAxis(DriveConstants.k_righttrig) > 0.05)
@@ -206,9 +218,10 @@ public class RobotContainer {
     // Example Path yay - "start" Button
     new JoystickButton(m_driverController.getHID(), DriveConstants.k_start)
       .onTrue(
-        new InstantCommand(() -> m_swerveSubsystem.followPathAutobuilderCommand("Example Path RED"), m_swerveSubsystem)
+        // new InstantCommand(() -> m_swerveSubsystem.followPathAutobuilderCommand("Example Path RED"), m_swerveSubsystem)
+        new ZeroWristCommand(m_wristSubsystem)
       );
-
+    /* 
     new POVButton(m_driverController.getHID(), ControllerConstants.k_dpadRight)
       .onTrue(
         new SetReefCommand("right")
@@ -218,6 +231,7 @@ public class RobotContainer {
       .onTrue(
         new SetReefCommand("left")
       );
+    */
   }
   
   // Commands!

@@ -12,7 +12,7 @@ import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.MotorConstants;
+import frc.robot.Constants.WristConstants;
 import frc.robot.Constants.MotorIDConstants;
 import frc.robot.Constants.MotorPIDConstants;
 
@@ -42,16 +42,16 @@ public class WristSubsystem extends SubsystemBase{
     wristConfig.Slot0.kG = MotorPIDConstants.k_wristG;
 
     wristConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-    wristConfig.CurrentLimits.SupplyCurrentLimit = MotorConstants.k_supplyCurrentLimit;
+    wristConfig.CurrentLimits.SupplyCurrentLimit = WristConstants.k_supplyCurrentLimit;
     wristConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = true; 
-    wristConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold = Units.Rotations.of(0.7).in(Units.Rotations); // TODO: Check me
+    wristConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold = Units.Rotations.of(5).in(Units.Rotations); // TODO: Check me
     wristConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
-    wristConfig.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Units.Rotations.of(2).in(Units.Rotations); // Starting position
+    wristConfig.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Units.Rotations.of(0).in(Units.Rotations); // Starting position
     wristConfig.Slot0.GravityType = GravityTypeValue.Arm_Cosine;
 
-    wristConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive; // TODO: Check me
+    wristConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive; 
 
-    wristConfig.Feedback.SensorToMechanismRatio = 0.4545;
+    // wristConfig.Feedback.SensorToMechanismRatio = 0.4545;
 
     shooterConfig = new TalonFXConfiguration();
 
@@ -63,17 +63,14 @@ public class WristSubsystem extends SubsystemBase{
     shooterConfig.Slot0.kV = MotorPIDConstants.k_shooterkV;
 
     // Kraken Configs
-    shooterConfig.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = MotorConstants.k_shooterRampRate;
-    shooterConfig.MotorOutput.PeakForwardDutyCycle = MotorConstants.k_shooterClosedMaxSpeed;
-    shooterConfig.MotorOutput.PeakReverseDutyCycle = -MotorConstants.k_shooterClosedMaxSpeed;
+    shooterConfig.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = WristConstants.k_shooterRampRate;
+    shooterConfig.MotorOutput.PeakForwardDutyCycle = WristConstants.k_shooterClosedMaxSpeed;
+    shooterConfig.MotorOutput.PeakReverseDutyCycle = -WristConstants.k_shooterClosedMaxSpeed;
     shooterConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-    shooterConfig.CurrentLimits.SupplyCurrentLimit = MotorConstants.k_supplyCurrentLimit;
+    shooterConfig.CurrentLimits.SupplyCurrentLimit = WristConstants.k_supplyCurrentLimit;
 
     m_wrist.getConfigurator().apply(wristConfig, 0.05);
     m_shooter.getConfigurator().apply(shooterConfig, 0.05);
-
-    // Deprecated
-    // m_wrist.setInverted(true);
   }
 
   public Angle getWristPosition(){
@@ -93,8 +90,16 @@ public class WristSubsystem extends SubsystemBase{
     m_wrist.setPosition(setpoint.in(Units.Rotations));
   }
 
+  public double getCurrentPosition() {
+    return m_wrist.getPosition().getValueAsDouble();
+  }
+
+  public double getCurrentVelocity() {
+    return m_wrist.getVelocity().getValueAsDouble();
+  }
+
   public void shoot(){
-    m_shooter.set(0.2);
+    m_shooter.set(WristConstants.k_shootSpeed);
   }
 
   public void stopShooter(){
@@ -102,13 +107,13 @@ public class WristSubsystem extends SubsystemBase{
   }
 
   public void intake(){
-    // m_wrist.setPosition(WristConstants.k_coralIntakeHeight.in(Units.Rotations));
-    m_shooter.set(-0.2);
+    m_shooter.set(-WristConstants.k_intakeSpeed);
   }
 
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("Wrist/Pos", m_wrist.getPosition().getValueAsDouble());
+    /*
+    SmartDashboard.putNumber("Wrist/Pos", Units.Rotations.of(m_wrist.getPosition().getValueAsDouble()).magnitude());
     SmartDashboard.putString("Wrist/Units", m_wrist.getPosition().getUnits());
     SmartDashboard.putNumber("Wrist/CLO", m_wrist.getClosedLoopOutput().getValueAsDouble());
     SmartDashboard.putNumber("Wrist/Output", m_wrist.get());
@@ -116,5 +121,6 @@ public class WristSubsystem extends SubsystemBase{
     SmartDashboard.putNumber("Wrist/Current", m_wrist.getSupplyCurrent().getValueAsDouble());
 
     SmartDashboard.putNumber("Wrist/Last Desired Position", lastDesiredPosition.magnitude());
+    */
   }
 }

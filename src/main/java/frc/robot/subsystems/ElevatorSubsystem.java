@@ -17,7 +17,7 @@ import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.MotorConstants;
+import frc.robot.Constants.ElevatorConstants;
 import frc.robot.Constants.MotorIDConstants;
 import frc.robot.Constants.MotorPIDConstants;
 
@@ -54,14 +54,13 @@ public class ElevatorSubsystem extends SubsystemBase {
     krakenConfig.Slot0.kA = MotorPIDConstants.k_elevatorkA;
 
     // Kraken Configs
-    // krakenConfig.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = MotorConstants.k_elevatorRampRate;
     krakenConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-    krakenConfig.CurrentLimits.SupplyCurrentLimit = MotorConstants.k_elevatorSupplyCurrentLimit;
-    krakenConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive; // TODO: Check me
+    krakenConfig.CurrentLimits.SupplyCurrentLimit = ElevatorConstants.k_elevatorSupplyCurrentLimit;
+    krakenConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
 
     // Motor Limitations
     krakenConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = true; // No breaking elevator
-    krakenConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold = Units.Inches.of(49).in(Units.Inches); // TODO: Check me
+    krakenConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold = Units.Inches.of(49).in(Units.Inches);
     krakenConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
     krakenConfig.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Units.Inches.of(0).in(Units.Inches); // Starting position
 
@@ -119,6 +118,7 @@ public class ElevatorSubsystem extends SubsystemBase {
   }
 
   public void periodic() {
+    /*
     // This method will be called once per scheduler run
     currentLeftPosition = Units.Inches.of(m_elevatorKrakenLeft.getPosition().getValueAsDouble());
     currentRightPosition = Units.Inches.of(m_elevatorKrakenRight.getPosition().getValueAsDouble());
@@ -135,8 +135,6 @@ public class ElevatorSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Elevator/Right/Current", m_elevatorKrakenRight.getSupplyCurrent().getValueAsDouble());
 
     SmartDashboard.putNumber("Elevator/Last Desired Position", lastDesiredPosition.magnitude()); 
+    */
   }
-
-  // TODO: Set elevator to zero on start up
-  // TODO: Manual reset command
 }

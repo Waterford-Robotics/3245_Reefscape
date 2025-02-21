@@ -67,14 +67,15 @@ public final class Constants {
 
   // Constants for Sensor IDs
   public static final class SensorIDConstants {
-    
-    // REV Through Bore
-    public static final int elevatorEncAPort = 0;
-    public static final int elevatorEncBPort = 1;
+
   }
 
   // Constants for Elevator
   public static final class ElevatorConstants {
+    public static final double k_elevatorRampRate = 0.25;
+    public static final double k_elevatorClosedMaxSpeed = 0.8;
+    public static final int k_elevatorSupplyCurrentLimit = 40;
+
     public static final Distance k_zeroHeight = Units.Inches.of(0);
     public static final Distance k_coralL1Height = Units.Inches.of(0); 
     public static final Distance k_coralL2Height = Units.Inches.of(7);
@@ -84,20 +85,20 @@ public final class Constants {
 
   // Constants for Wrist
   public static final class WristConstants { // TODO: Change us!
-    public static final Angle k_wrist1Height = Units.Rotations.of(0.96); 
-    public static final Angle k_wrist2Height = Units.Rotations.of(0.96);
-    public static final Angle k_coralIntakeAngle = Units.Rotations.of(1.3);
+    public static final double k_shooterRampRate = 0.05;
+    public static final double k_shooterClosedMaxSpeed = 0.4;
+    public static final int k_supplyCurrentLimit = 40;
+
+    public static final double k_shootSpeed = 0.2;
+    public static final double k_intakeSpeed = 0.15;
+
+    public static final Angle k_wristScoreAngle = Units.Rotations.of(0);
+    public static final Angle k_wristIntakeAngle = Units.Rotations.of(2.5);
   }
 
   // Constants for Motors
   public static final class MotorConstants {
-    public static final double k_elevatorRampRate = 0.25;
-    public static final double k_elevatorClosedMaxSpeed = 0.8;
-    public static final int k_elevatorSupplyCurrentLimit = 40;
-
-    public static final double k_shooterRampRate = 0.05;
-    public static final double k_shooterClosedMaxSpeed = 0.4;
-    public static final int k_supplyCurrentLimit = 40;
+    
   }
 
   // Constants for PID
@@ -110,12 +111,12 @@ public final class Constants {
     public static final double k_elevatorkA = 0.0;
     public static final double k_elevatorkG = 0.3;
 
-    public static final double k_wristP = 0.0; 
-    public static final double k_wristI = 0.0;
+    public static final double k_wristP = 0.9; 
+    public static final double k_wristI = 0.8;
     public static final double k_wristD = 0.0;
-    public static final double k_wristS = 0.0;
+    public static final double k_wristS = 0.4;
     public static final double k_wristV = 0.001;
-    public static final double k_wristG = 0.4;
+    public static final double k_wristG = 0.5;
     
     public static final double k_shooterkP = 0.0;
     public static final double k_shooterkI = 0.0;
