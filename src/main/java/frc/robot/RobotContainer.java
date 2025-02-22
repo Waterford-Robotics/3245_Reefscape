@@ -162,7 +162,7 @@ public class RobotContainer {
 
   // Trigger & Button Bindings!
   private void configureBindings() {
- 
+    
     // Lower Elevator Manually - "A" Button
     new JoystickButton(m_driverController.getHID(), DriveConstants.k_A)
       .onTrue(
@@ -187,11 +187,13 @@ public class RobotContainer {
         scoreL4Command
       );
     
+    // Raise Wrist - Right Bumper
     new JoystickButton(m_driverController.getHID(), DriveConstants.k_rightbump)
       .onTrue(
         RaiseWristCommand
       );
 
+    // Lower Wrist - Left Bumper
     new JoystickButton(m_driverController.getHID(), DriveConstants.k_leftbump)
       .onTrue(
         LowerWristCommand
@@ -218,10 +220,9 @@ public class RobotContainer {
     // Example Path yay - "start" Button
     new JoystickButton(m_driverController.getHID(), DriveConstants.k_start)
       .onTrue(
-        // new InstantCommand(() -> m_swerveSubsystem.followPathAutobuilderCommand("Example Path RED"), m_swerveSubsystem)
-        new ZeroWristCommand(m_wristSubsystem)
+        new AimNRangeCommand(m_swerveSubsystem)
       );
-    /* 
+
     new POVButton(m_driverController.getHID(), ControllerConstants.k_dpadRight)
       .onTrue(
         new SetReefCommand("right")
@@ -231,7 +232,6 @@ public class RobotContainer {
       .onTrue(
         new SetReefCommand("left")
       );
-    */
   }
   
   // Commands!

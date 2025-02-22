@@ -23,12 +23,12 @@ public class AimNRangeCommand extends Command {
   PIDController m_aimController = new PIDController(VisionConstants.kP_aim, VisionConstants.kI_aim, VisionConstants.kD_aim);
   PIDController m_rangeController = new PIDController(VisionConstants.kP_range, VisionConstants.kI_range, VisionConstants.kD_range);
   PIDController m_strafeController = new PIDController(VisionConstants.kP_strafe, VisionConstants.kI_strafe, VisionConstants.kD_strafe);
-    
-  // All the Valid IDs available for positioning
-  int[] validIDs = {6, 7, 8, 9, 10, 11};
 
   // Bot Pose Target Space Relative (TX, TY, TZ, Pitch, Yaw, Roll)
   private double[] botPoseTargetSpace = new double[6];
+
+  // All the Valid IDs available for positioning
+  int[] validIDs = {6, 7, 8, 9, 10, 11};
 
   // Lil boolean for checking for "Tag In View" 
   private boolean tiv;
@@ -46,9 +46,9 @@ public class AimNRangeCommand extends Command {
     addRequirements(driveSubsystem);
   }
 
-  // What we do to set up the command TODO: Needs a way to filter out bad poses
+  // What we do to set up the command 
   public void initialize() {
-    
+
     // Adds condition that filters out undesired IDs
     LimelightHelpers.SetFiducialIDFiltersOverride(VisionConstants.k_limelightName, validIDs);
 
@@ -81,33 +81,37 @@ public class AimNRangeCommand extends Command {
   // The actual control!
   public void execute() {
 
+    VisionConstants.k_positioning = true;
+
     // Update the pose from NetworkTables (Limelight Readings)
     botPoseTargetSpace = NetworkTableInstance.getDefault().getTable(VisionConstants.k_limelightName).getEntry("botpose_targetspace").getDoubleArray(new double[6]);
 
+    if (tiv){
+      tiv = LimelightHelpers.getTV(VisionConstants.k_limelightName);
+      m_swerveSubsystem.driveCommandRobotRelative(limelight_strafe_PID(), limelight_range_PID(), limelight_aim_PID());
+    }
+
     // If tags are in view, drive right over!
-    if (LimelightHelpers.getTV(VisionConstants.k_limelightName)) m_swerveSubsystem.driveCommand(() -> limelight_range_PID(), () -> limelight_strafe_PID(), () -> limelight_aim_PID());
+    // if (LimelightHelpers.getTV(VisionConstants.k_limelightName)) m_swerveSubsystem.driveCommand(() -> limelight_strafe_PID(), () -> limelight_range_PID(), () -> limelight_aim_PID());
 
     // Otherwise we tell it to quit
-    else tiv = false;
+    // else tiv = false;
   }
 
   // Add stuff we do after to reset here (a.k.a tag filters)
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    VisionConstants.k_positioning = false;
+  }
 
   // Are we done yet? Finishes when threshold is reached or if no tag in view or if timer is reached 
   public boolean isFinished() {
     return (
       // Range (Distance to Tag)
-      botPoseTargetSpace[2] < m_rangeTarget + VisionConstants.k_rangeThreshold
-      && botPoseTargetSpace[2]  > m_rangeTarget - VisionConstants.k_rangeThreshold
-      
+      Math.abs(botPoseTargetSpace[2] - m_rangeTarget) < VisionConstants.k_rangeThreshold &&
       // Aim (Angle)
-      && botPoseTargetSpace[4]  < VisionConstants.k_aimThreshold
-      && botPoseTargetSpace[4]  > -VisionConstants.k_aimThreshold
-
-      // Strafe (Left Right Positioning)
-      && botPoseTargetSpace[0]  < m_strafeTarget + VisionConstants.k_strafeThreshold
-      && botPoseTargetSpace[0]  > m_strafeTarget - VisionConstants.k_rangeThreshold)
+      Math.abs(botPoseTargetSpace[4] - m_aimTarget)  < VisionConstants.k_aimThreshold &&
+      // Strafe (Right Right Positioning)
+      Math.abs(botPoseTargetSpace[0] - m_strafeTarget)  < VisionConstants.k_strafeThreshold)
 
       // Other quit conditions
       || !tiv || timer.get() > 3;

@@ -23,6 +23,7 @@ public final class Constants {
     public static final int k_Y = Button.kY.value; // Y
     public static final int k_dpadRight = 90; // D-Pad Right
     public static final int k_dpadLeft = 270; // D-Pad Left
+    public static final int k_dpadup = 0; // D-Pad Up
   }
 
   // Constants for Kraken Drivetrain!
@@ -104,8 +105,6 @@ public final class Constants {
     public static final double k_algaeRampRate = 0.25;
     public static final double k_algaeClosedMaxSpeed = 0.8;
     public static final int k_algaeSupplyCurrentLimit = 40;
-
-    
   }
 
   // Constants for Motors
@@ -163,12 +162,12 @@ public final class Constants {
   public static final class VisionConstants {
 
     // Name
-    public static final String k_limelightName = "limelight-three";
+    public static final String k_limelightName = "limelight-four";
     
     // Boolean for Left/Right Reef
     public static boolean k_isRightReef = true;
 
-    // PID for Tag Relative Control in General
+    // PID for Tag Relative Control TODO: Maybe these numbers are too small?
     public static final double kP_aim = 0.04;
     public static final double kI_aim = 0.000;
     public static final double kD_aim = 0.000;
@@ -182,34 +181,34 @@ public final class Constants {
     public static final double kD_strafe = 0.0;
 
     // Aim/Range
-    public static final double k_rangeThresholdMax = -3.8;
-    public static final double k_rangeThresholdMin = -4.2;
+    // public static final double k_rangeThresholdMax = -3.8;
+    // public static final double k_rangeThresholdMin = -4.2;
     public static final double k_rangeTarget = -4;
 
     // AimNRange Reef Right
-    public static final double k_aimReefRightThresholdMax = 0.5;
-    public static final double k_aimReefRightThresholdMin = -0.5;
+    // public static final double k_aimReefRightThresholdMax = 0.5;
+    // public static final double k_aimReefRightThresholdMin = -0.5;
     public static final double k_aimReefRightTarget = 0;
 
-    public static final double k_rangeReefRightThresholdMax = -0.63;
-    public static final double k_rangeReefRightThresholdMin = -0.68;
-    public static final double k_rangeReefRightTarget = -0.65;
+    // public static final double k_rangeReefRightThresholdMax = -0.63;
+    // public static final double k_rangeReefRightThresholdMin = -0.68;
+    public static final double k_rangeReefRightTarget = -0.43;
 
-    public static final double k_strafeReefRightThresholdMax = 0.20;
-    public static final double k_strafeReefRightThresholdMin = 0.15;
-    public static final double k_strafeReefRightTarget = 0.18;
+    // public static final double k_strafeReefRightThresholdMax = 0.20;
+    // public static final double k_strafeReefRightThresholdMin = 0.15;
+    public static final double k_strafeReefRightTarget = 0.16;
 
     // AimNRange Reef Left
-    public static final double k_aimReefLeftThresholdMax = 0.5;
-    public static final double k_aimReefLeftThresholdMin = -0.5;
+    // public static final double k_aimReefLeftThresholdMax = 0.5;
+    // public static final double k_aimReefLeftThresholdMin = -0.5;
     public static final double k_aimReefLeftTarget = 0;
 
-    public static final double k_rangeReefLeftThresholdMax = -0.63;
-    public static final double k_rangeReefLeftThresholdMin = -0.68;
-    public static final double k_rangeReefLeftTarget = -0.65;
+    // public static final double k_rangeReefLeftThresholdMax = -0.63;
+    // public static final double k_rangeReefLeftThresholdMin = -0.68;
+    public static final double k_rangeReefLeftTarget = -0.43;
 
-    public static final double k_strafeReefLeftThresholdMax = -0.15;
-    public static final double k_strafeReefLeftThresholdMin = -0.20;
+    // public static final double k_strafeReefLeftThresholdMax = -0.15;
+    // public static final double k_strafeReefLeftThresholdMin = -0.20;
     public static final double k_strafeReefLeftTarget = -0.18;
 
     public static final double k_tzValidRange = -1.5;
@@ -224,5 +223,8 @@ public final class Constants {
 
     // Tag Reject Rotation Rate
     public static final int rejectionRotationRate = 720;
+
+    // For testing
+    public static boolean k_positioning = false;
   }
 }

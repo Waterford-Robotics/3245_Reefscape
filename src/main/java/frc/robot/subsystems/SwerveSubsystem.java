@@ -33,6 +33,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.networktables.NetworkTableInstance;
 
 // Swerve Subsystem Code yippee
 public class SwerveSubsystem extends SubsystemBase {
@@ -124,6 +125,14 @@ public class SwerveSubsystem extends SubsystemBase {
     // Puts position of robot on smartdashboard
     SmartDashboard.putNumber("X Position", swerveDrive.getPose().getX());
     SmartDashboard.putNumber("Y Position", swerveDrive.getPose().getY());
+
+    SmartDashboard.putBoolean("Right Reef?", VisionConstants.k_isRightReef);
+
+    SmartDashboard.putNumber("Strafe", NetworkTableInstance.getDefault().getTable(VisionConstants.k_limelightName).getEntry("botpose_targetspace").getDoubleArray(new double[6])[0]);
+    SmartDashboard.putNumber("Range", NetworkTableInstance.getDefault().getTable(VisionConstants.k_limelightName).getEntry("botpose_targetspace").getDoubleArray(new double[6])[2]);
+    SmartDashboard.putNumber("Aim", NetworkTableInstance.getDefault().getTable(VisionConstants.k_limelightName).getEntry("botpose_targetspace").getDoubleArray(new double[6])[4]);
+
+    SmartDashboard.putBoolean("Positioning?", VisionConstants.k_positioning);
   }
 
   // Command to drive the robot using translative values and heading as angular velocity.
@@ -140,6 +149,24 @@ public class SwerveSubsystem extends SubsystemBase {
         translationY.getAsDouble() * swerveDrive.getMaximumChassisVelocity()), 0.8),
         Math.pow(angularRotationX.getAsDouble(), 3) * swerveDrive.getMaximumChassisAngularVelocity(),
         true,
+        false);
+    });
+  }
+
+  // Command to drive the robot using translative values and heading as angular velocity.
+  // translationX - Translation in the X direction. Cubed for smoother controls.
+  // translationY - Translation in the Y direction. Cubed for smoother controls.
+  // angularRotationX - Angular velocity of the robot to set. Cubed for smoother controls.
+  // Returns Drive command.
+
+  public Command driveCommandRobotRelative(double translationX, double translationY, double angularRotationX) {
+    return run(() -> {
+      // Make the robot move
+      swerveDrive.drive(SwerveMath.scaleTranslation(new Translation2d(
+        translationX * swerveDrive.getMaximumChassisVelocity(),
+        translationY * swerveDrive.getMaximumChassisVelocity()), 0.8),
+        Math.pow(angularRotationX, 3) * swerveDrive.getMaximumChassisAngularVelocity(),
+        false,
         false);
     });
   }
