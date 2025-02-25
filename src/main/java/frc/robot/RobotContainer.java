@@ -182,7 +182,10 @@ public class RobotContainer {
 
   // Command Chain for Scoring on L2
   SequentialCommandGroup ScoreL2Command = new SequentialCommandGroup(
-    LowerWristCommand,
+    new SequentialCommandGroup(
+      new SetWristCommand(m_wristSubsystem, "score"),
+      new ZeroWristCommand(m_wristSubsystem)
+    ),
     new ZeroElevatorCommand(m_elevatorSubsystem),
     new ParallelCommandGroup(
       new SetElevatorCommand(m_elevatorSubsystem, "L2"),
@@ -195,7 +198,10 @@ public class RobotContainer {
 
   // Command Chain for Scoring on L3
   SequentialCommandGroup ScoreL3Command = new SequentialCommandGroup(
-    LowerWristCommand,
+    new SequentialCommandGroup(
+      new SetWristCommand(m_wristSubsystem, "score"),
+      new ZeroWristCommand(m_wristSubsystem)
+    ),
     new ZeroElevatorCommand(m_elevatorSubsystem),
     new ParallelCommandGroup(
       new SetElevatorCommand(m_elevatorSubsystem, "L3"),
@@ -208,7 +214,10 @@ public class RobotContainer {
 
   // Command Chain for Scoring on L4
   SequentialCommandGroup ScoreL4Command = new SequentialCommandGroup(
-    LowerWristCommand,
+    new SequentialCommandGroup(
+      new SetWristCommand(m_wristSubsystem, "score"),
+      new ZeroWristCommand(m_wristSubsystem)
+    ),
     new ZeroElevatorCommand(m_elevatorSubsystem),
     new ParallelCommandGroup(
       new SetElevatorCommand(m_elevatorSubsystem, "L4"),
@@ -221,7 +230,10 @@ public class RobotContainer {
 
   // Command Chain for Completely Automated L2
   SequentialCommandGroup AimNRangescoreL2Command = new SequentialCommandGroup(
-    LowerWristCommand,
+    new SequentialCommandGroup(
+      new SetWristCommand(m_wristSubsystem, "score"),
+      new ZeroWristCommand(m_wristSubsystem)
+    ),
     new ParallelDeadlineGroup(
       new AimNRangeCommand(m_swerveSubsystem),
       new SetElevatorCommand(m_elevatorSubsystem, "L2"),
@@ -234,7 +246,10 @@ public class RobotContainer {
 
   // Command Chain for Completely Automated L3
   SequentialCommandGroup AimNRangescoreL3Command = new SequentialCommandGroup(
-    LowerWristCommand,
+    new SequentialCommandGroup(
+      new SetWristCommand(m_wristSubsystem, "score"),
+      new ZeroWristCommand(m_wristSubsystem)
+    ),
     new ParallelDeadlineGroup(
       new AimNRangeCommand(m_swerveSubsystem),
       new SetElevatorCommand(m_elevatorSubsystem, "L3"),
@@ -247,7 +262,10 @@ public class RobotContainer {
 
   // Command Chain for Completely Automated L4
   SequentialCommandGroup AimNRangescoreL4Command = new SequentialCommandGroup(
-    LowerWristCommand,
+    new SequentialCommandGroup(
+      new SetWristCommand(m_wristSubsystem, "score"),
+      new ZeroWristCommand(m_wristSubsystem)
+    ),
     new ParallelDeadlineGroup(
       new AimNRangeCommand(m_swerveSubsystem),
       new SetElevatorCommand(m_elevatorSubsystem, "L4"),
