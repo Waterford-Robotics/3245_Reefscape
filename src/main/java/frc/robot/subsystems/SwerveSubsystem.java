@@ -159,16 +159,12 @@ public class SwerveSubsystem extends SubsystemBase {
   // angularRotationX - Angular velocity of the robot to set. Cubed for smoother controls.
   // Returns Drive command.
 
-  public Command driveCommandRobotRelative(double translationX, double translationY, double angularRotationX) {
-    return run(() -> {
-      // Make the robot move
-      swerveDrive.drive(SwerveMath.scaleTranslation(new Translation2d(
-        translationX * swerveDrive.getMaximumChassisVelocity(),
-        translationY * swerveDrive.getMaximumChassisVelocity()), 0.8),
-        Math.pow(angularRotationX, 3) * swerveDrive.getMaximumChassisAngularVelocity(),
-        false,
-        false);
-    });
+  public void driveCommandLimelight(double translationX, double translationY, double angularRotationX) {
+    swerveDrive.drive(
+      new Translation2d(translationX, translationY),
+      angularRotationX,
+      false,
+      false);
   }
 
   // Command to drive the robot using translative values and heading as a setpoint.

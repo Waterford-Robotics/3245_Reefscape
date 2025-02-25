@@ -5,6 +5,7 @@ import com.ctre.phoenix6.controls.NeutralOut;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.GravityTypeValue;
+import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.units.measure.Angle;
@@ -48,7 +49,9 @@ public class AlgaeSubsystem extends SubsystemBase{
     algaeWristConfig.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Units.Rotations.of(2).in(Units.Rotations); // Starting position
     algaeWristConfig.Slot0.GravityType = GravityTypeValue.Arm_Cosine;
 
-    algaeWristConfig.Feedback.SensorToMechanismRatio = 0.4545;
+    algaeWristConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+
+    // algaeWristConfig.Feedback.SensorToMechanismRatio = 0.4545;
 
     algaeIntakeConfig = new TalonFXConfiguration();
 
@@ -68,8 +71,6 @@ public class AlgaeSubsystem extends SubsystemBase{
 
     m_algaeWrist.getConfigurator().apply(algaeWristConfig, 0.05);
     m_algaeIntake.getConfigurator().apply(algaeIntakeConfig, 0.05);
-
-    m_algaeWrist.setInverted(true);
   }
 
     public Angle getWristPosition(){

@@ -39,8 +39,8 @@ public final class Constants {
 
     // YAGSL Swerve Stuff
     public static final double k_driveDeadBand = 0.1;
-    public static final double k_driveSpeed = -1;
-    public static final double k_turnRate = -1;
+    public static final double k_driveSpeed = -0.5;
+    public static final double k_turnRate = -0.55;
 
     // Driver Controls 
     public final static int k_rightbump = Button.kRightBumper.value; // Right Bump
@@ -89,7 +89,7 @@ public final class Constants {
   }
 
   // Constants for Wrist
-  public static final class WristConstants { // TODO: Change us!
+  public static final class WristConstants {
     public static final double k_shooterRampRate = 0.05;
     public static final double k_shooterClosedMaxSpeed = 0.4;
     public static final int k_supplyCurrentLimit = 40;
@@ -155,8 +155,6 @@ public final class Constants {
 
   // Constants for Autonomous
   public static final class AutoConstants { 
-    public static final double k_elevatorRaiseTime = 0.5;
-    public static final double k_elevatorLowerTime = 6.0;
   }
 
   public static final class VisionConstants {
@@ -167,16 +165,16 @@ public final class Constants {
     // Boolean for Left/Right Reef
     public static boolean k_isRightReef = true;
 
-    // PID for Tag Relative Control TODO: Maybe these numbers are too small?
+    // PID for Tag Relative Control TODO: Tune me
     public static final double kP_aim = 0.04;
     public static final double kI_aim = 0.000;
     public static final double kD_aim = 0.000;
 
-    public static final double kP_range = 0.13;
+    public static final double kP_range = 0.09;
     public static final double kI_range = 0.0;
     public static final double kD_range = 0.0;
 
-    public static final double kP_strafe = 0.13;
+    public static final double kP_strafe = 0.08;
     public static final double kI_strafe = 0.0;
     public static final double kD_strafe = 0.0;
 
@@ -192,7 +190,7 @@ public final class Constants {
 
     // public static final double k_rangeReefRightThresholdMax = -0.63;
     // public static final double k_rangeReefRightThresholdMin = -0.68;
-    public static final double k_rangeReefRightTarget = -0.43;
+    public static final double k_rangeReefRightTarget = -0.54;
 
     // public static final double k_strafeReefRightThresholdMax = 0.20;
     // public static final double k_strafeReefRightThresholdMin = 0.15;
@@ -205,7 +203,7 @@ public final class Constants {
 
     // public static final double k_rangeReefLeftThresholdMax = -0.63;
     // public static final double k_rangeReefLeftThresholdMin = -0.68;
-    public static final double k_rangeReefLeftTarget = -0.43;
+    public static final double k_rangeReefLeftTarget = -0.54;
 
     // public static final double k_strafeReefLeftThresholdMax = -0.15;
     // public static final double k_strafeReefLeftThresholdMin = -0.20;

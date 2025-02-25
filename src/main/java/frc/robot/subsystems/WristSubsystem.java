@@ -44,14 +44,12 @@ public class WristSubsystem extends SubsystemBase{
     wristConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
     wristConfig.CurrentLimits.SupplyCurrentLimit = WristConstants.k_supplyCurrentLimit;
     wristConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = true; 
-    wristConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold = Units.Rotations.of(5).in(Units.Rotations); // TODO: Check me
+    wristConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold = Units.Rotations.of(5).in(Units.Rotations);
     wristConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
     wristConfig.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Units.Rotations.of(0).in(Units.Rotations); // Starting position
     wristConfig.Slot0.GravityType = GravityTypeValue.Arm_Cosine;
 
     wristConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive; 
-
-    // wristConfig.Feedback.SensorToMechanismRatio = 0.4545;
 
     shooterConfig = new TalonFXConfiguration();
 

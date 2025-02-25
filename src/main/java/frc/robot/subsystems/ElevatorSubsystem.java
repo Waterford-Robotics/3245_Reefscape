@@ -27,8 +27,8 @@ public class ElevatorSubsystem extends SubsystemBase {
   private TalonFX m_elevatorKrakenLeft;
   private TalonFX m_elevatorKrakenRight;
   private TalonFXConfiguration krakenConfig;
-  Distance currentLeftPosition = Units.Inches.of(0);
-  Distance currentRightPosition = Units.Inches.of(0);
+  // Distance currentLeftPosition = Units.Inches.of(0);
+  // Distance currentRightPosition = Units.Inches.of(0);
   private Distance lastDesiredPosition;
 
   // Creates new elevator
