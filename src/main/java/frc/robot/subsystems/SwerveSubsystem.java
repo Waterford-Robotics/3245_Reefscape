@@ -154,10 +154,13 @@ public class SwerveSubsystem extends SubsystemBase {
   }
 
   // Command to drive the robot using translative values and heading as angular velocity.
-  // translationX - Translation in the X direction. Cubed for smoother controls.
-  // translationY - Translation in the Y direction. Cubed for smoother controls.
-  // angularRotationX - Angular velocity of the robot to set. Cubed for smoother controls.
+  // translationX - Translation in the X direction. 
+  // translationY - Translation in the Y direction. 
+  // angularRotationX - Angular velocity of the robot to set. 
   // Returns Drive command.
+
+  // What did the Kraken x60 say to the Programmer?
+  // "I take orders from the TalonFX. It's as CIMple as that"
 
   public void driveCommandLimelight(double translationX, double translationY, double angularRotationX) {
     swerveDrive.drive(
@@ -213,6 +216,9 @@ public class SwerveSubsystem extends SubsystemBase {
       if (alliance.get() == DriverStation.Alliance.Red) {
         AllianceYaw = 180;
       }
+
+      // What did the Limelight say to the robot?
+      // "You look really blue today"
       else if (alliance.get() == DriverStation.Alliance.Blue){
         AllianceYaw = 0;
       }
@@ -286,7 +292,7 @@ public class SwerveSubsystem extends SubsystemBase {
         // Create a path following command using AutoBuilder. This will also trigger event markers.
         AutoBuilder.followPath(path).schedule();;
     } catch (Exception e) {
-        DriverStation.reportError("Big oops: " + e.getMessage(), e.getStackTrace());
+        DriverStation.reportError("What did the AutoBuilder say to the programmer?: " + e.getMessage(), e.getStackTrace());
     }
   }
 
@@ -316,6 +322,8 @@ public class SwerveSubsystem extends SubsystemBase {
   }
 
   // Sets X Pose to modules
+  // What did YAGSL say to the modules?
+  // "Lock in"
   public void setx() {
     swerveDrive.lockPose();
   }

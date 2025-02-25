@@ -53,13 +53,6 @@ public class WristSubsystem extends SubsystemBase{
 
     shooterConfig = new TalonFXConfiguration();
 
-    // PID Stuff (Shooter)
-    shooterConfig.Slot0.kP = MotorPIDConstants.k_shooterkP;
-    shooterConfig.Slot0.kI = MotorPIDConstants.k_shooterkI;
-    shooterConfig.Slot0.kD = MotorPIDConstants.k_shooterkD;
-    shooterConfig.Slot0.kS = MotorPIDConstants.k_shooterkS;
-    shooterConfig.Slot0.kV = MotorPIDConstants.k_shooterkV;
-
     // Kraken Configs
     shooterConfig.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = WristConstants.k_shooterRampRate;
     shooterConfig.MotorOutput.PeakForwardDutyCycle = WristConstants.k_shooterClosedMaxSpeed;
@@ -117,8 +110,8 @@ public class WristSubsystem extends SubsystemBase{
     SmartDashboard.putNumber("Wrist/Output", m_wrist.get());
     SmartDashboard.putNumber("Wrist/Inverted", m_wrist.getAppliedRotorPolarity().getValueAsDouble());
     SmartDashboard.putNumber("Wrist/Current", m_wrist.getSupplyCurrent().getValueAsDouble());
-
-    SmartDashboard.putNumber("Wrist/Last Desired Position", lastDesiredPosition.magnitude());
     */
+    
+    SmartDashboard.putNumber("Wrist/Last Desired Position", lastDesiredPosition.magnitude());
   }
 }

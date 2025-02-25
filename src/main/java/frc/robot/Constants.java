@@ -17,13 +17,21 @@ public final class Constants {
     public static final double kDriveDeadband = 0.10;
 
     public final static int k_start = Button.kStart.value; // Start Button
+
     public static final int k_A = Button.kA.value; // A
     public static final int k_B = Button.kB.value; // B
     public static final int k_X = Button.kX.value; // X
     public static final int k_Y = Button.kY.value; // Y
-    public static final int k_dpadRight = 90; // D-Pad Right
-    public static final int k_dpadLeft = 270; // D-Pad Left
+
     public static final int k_dpadup = 0; // D-Pad Up
+    public static final int k_dpadRight = 90; // D-Pad Right
+    public static final int k_dpadDown = 180; // D-Pad Down
+    public static final int k_dpadLeft = 270; // D-Pad Left
+
+    public final static int k_rightbump = Button.kRightBumper.value; // Right Bump
+    public final static int k_leftbump = Button.kLeftBumper.value; // Left Bump
+    public final static int k_righttrig = Axis.kRightTrigger.value; // Right Trig
+    public final static int k_lefttrig = Axis.kLeftTrigger.value; // Left Trig
   }
 
   // Constants for Kraken Drivetrain!
@@ -41,17 +49,6 @@ public final class Constants {
     public static final double k_driveDeadBand = 0.1;
     public static final double k_driveSpeed = -0.5;
     public static final double k_turnRate = -0.65;
-
-    // Driver Controls 
-    public final static int k_rightbump = Button.kRightBumper.value; // Right Bump
-    public final static int k_leftbump = Button.kLeftBumper.value; // Right Bump
-    public final static int k_righttrig = Axis.kRightTrigger.value; // Right Trig
-    public final static int k_lefttrig = Axis.kLeftTrigger.value; // Left Trig
-    public final static int k_start = Button.kStart.value; // Start Button
-    public final static int k_A = Button.kA.value; // A
-    public final static int k_B = Button.kB.value; // B
-    public final static int k_X = Button.kX.value; // X
-    public final static int k_Y = Button.kY.value; // Y
   }
 
   // Constants for Motor IDs
@@ -65,7 +62,7 @@ public final class Constants {
     public static final int k_wristKrakenID = 31;
     public static final int k_shooterKrakenID = 32;
 
-    //Algae
+    // Algae
     public static final int k_algaeWristID = 41;
     public static final int k_algaeIntakeID = 42;
   }
@@ -128,13 +125,6 @@ public final class Constants {
     public static final double k_wristS = 0.4;
     public static final double k_wristV = 0.001;
     public static final double k_wristG = 0.5;
-    
-    public static final double k_shooterkP = 0.0;
-    public static final double k_shooterkI = 0.0;
-    public static final double k_shooterkD = 0.0;
-    public static final double k_shooterkS = 0.0;
-    public static final double k_shooterkV = 0.0;
-    public static final double k_shooterkG = 0.0;
 
     public static final double k_algaeWristkP = 0.0;
     public static final double k_algaeWristkI = 0.0;
@@ -143,15 +133,10 @@ public final class Constants {
     public static final double k_algaeWristkV = 0.0;
     public static final double k_algaeWristkA = 0.0;
     public static final double k_algaeWristkG = 0.0;
-
-    public static final double k_algaeIntakekP = 0.0;
-    public static final double k_algaeIntakekI = 0.0;
-    public static final double k_algaeIntakekD = 0.0;
-    public static final double k_algaeIntakekS = 0.0;
-    public static final double k_algaeIntakekV = 0.0;
-    public static final double k_algaeIntakekA = 0.0;
-    public static final double k_algaeIntakekG = 0.0;
   }
+
+  // Why did the duck cross the road?
+  // He wanted a quacker
 
   // Constants for Autonomous
   public static final class AutoConstants { 
@@ -178,40 +163,21 @@ public final class Constants {
     public static final double kI_strafe = 0.0;
     public static final double kD_strafe = 0.0;
 
-    // Aim/Range
-    // public static final double k_rangeThresholdMax = -3.8;
-    // public static final double k_rangeThresholdMin = -4.2;
-    public static final double k_rangeTarget = -4;
-
     // AimNRange Reef Right
-    // public static final double k_aimReefRightThresholdMax = 0.5;
-    // public static final double k_aimReefRightThresholdMin = -0.5;
     public static final double k_aimReefRightTarget = 0;
-
-    // public static final double k_rangeReefRightThresholdMax = -0.63;
-    // public static final double k_rangeReefRightThresholdMin = -0.68;
     public static final double k_rangeReefRightTarget = -0.54;
-
-    // public static final double k_strafeReefRightThresholdMax = 0.20;
-    // public static final double k_strafeReefRightThresholdMin = 0.15;
     public static final double k_strafeReefRightTarget = 0.16;
 
     // AimNRange Reef Left
-    // public static final double k_aimReefLeftThresholdMax = 0.5;
-    // public static final double k_aimReefLeftThresholdMin = -0.5;
     public static final double k_aimReefLeftTarget = 0;
-
-    // public static final double k_rangeReefLeftThresholdMax = -0.63;
-    // public static final double k_rangeReefLeftThresholdMin = -0.68;
     public static final double k_rangeReefLeftTarget = -0.54;
-
-    // public static final double k_strafeReefLeftThresholdMax = -0.15;
-    // public static final double k_strafeReefLeftThresholdMin = -0.20;
     public static final double k_strafeReefLeftTarget = -0.18;
 
+    // Prerequisites
     public static final double k_tzValidRange = -1.5;
     public static final double k_yawValidRange = 35;
 
+    // Thresholds
     public static final double k_rangeThreshold = 0.03;
     public static final double k_strafeThreshold = 0.03;
     public static final double k_aimThreshold = 0.5;

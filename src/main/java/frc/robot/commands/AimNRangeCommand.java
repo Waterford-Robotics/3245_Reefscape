@@ -117,12 +117,6 @@ public class AimNRangeCommand extends Command {
         && botPoseTargetSpace[2] > VisionConstants.k_tzValidRange;
       m_swerveSubsystem.driveCommandLimelight(limelight_range_PID(), limelight_strafe_PID(), limelight_aim_PID());
     }
-
-    // If tags are in view, drive right over!
-    // if (LimelightHelpers.getTV(VisionConstants.k_limelightName)) m_swerveSubsystem.driveCommand(() -> limelight_strafe_PID(), () -> limelight_range_PID(), () -> limelight_aim_PID());
-
-    // Otherwise we tell it to quit
-    // else tiv = false;
   }
 
   // Add stuff we do after to reset here (a.k.a tag filters)
@@ -139,6 +133,9 @@ public class AimNRangeCommand extends Command {
       Math.abs(botPoseTargetSpace[2] - m_rangeTarget) < VisionConstants.k_rangeThreshold &&
       // Aim (Angle)
       Math.abs(botPoseTargetSpace[4] - m_aimTarget)  < VisionConstants.k_aimThreshold
+
+      // What did the B say in the summertime?
+      // I do love to be beside the C
 
       // Other quit conditions
       || !tiv || timer.get() > 3;

@@ -55,13 +55,6 @@ public class AlgaeSubsystem extends SubsystemBase{
 
     algaeIntakeConfig = new TalonFXConfiguration();
 
-    // PID Stuff (Shooter)
-    algaeIntakeConfig.Slot0.kP = MotorPIDConstants.k_algaeIntakekP;
-    algaeIntakeConfig.Slot0.kI = MotorPIDConstants.k_algaeIntakekI;
-    algaeIntakeConfig.Slot0.kD = MotorPIDConstants.k_algaeIntakekD;
-    algaeIntakeConfig.Slot0.kS = MotorPIDConstants.k_algaeIntakekS;
-    algaeIntakeConfig.Slot0.kV = MotorPIDConstants.k_algaeIntakekV;
-
     // Kraken Configs
     algaeIntakeConfig.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = AlgaeConstants.k_algaeRampRate;
     algaeIntakeConfig.MotorOutput.PeakForwardDutyCycle = AlgaeConstants.k_algaeClosedMaxSpeed;
