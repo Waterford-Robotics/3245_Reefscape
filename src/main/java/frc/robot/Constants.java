@@ -40,7 +40,7 @@ public final class Constants {
     // YAGSL Swerve Stuff
     public static final double k_driveDeadBand = 0.1;
     public static final double k_driveSpeed = -0.5;
-    public static final double k_turnRate = -0.55;
+    public static final double k_turnRate = -0.65;
 
     // Driver Controls 
     public final static int k_rightbump = Button.kRightBumper.value; // Right Bump
@@ -165,7 +165,7 @@ public final class Constants {
     // Boolean for Left/Right Reef
     public static boolean k_isRightReef = true;
 
-    // PID for Tag Relative Control TODO: Tune me
+    // PID for Tag Relative Control
     public static final double kP_aim = 0.04;
     public static final double kI_aim = 0.000;
     public static final double kD_aim = 0.000;
