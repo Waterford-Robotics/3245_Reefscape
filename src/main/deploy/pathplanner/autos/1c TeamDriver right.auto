@@ -1,0 +1,50 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "1c (Team)BargeDriverWT"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "SetElevatorCommand"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AimNRangeReefRightCommand"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "RunShootForSecsCommand"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ZeroElevatorCommand"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "1c",
+  "choreoAuto": false
+}

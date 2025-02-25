@@ -1,0 +1,31 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "OppositeBargeCloseScore1c(right)"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ScoreOrSmth"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Opposite(right)CloseScore1.5c"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "z Old Autos",
+  "choreoAuto": false
+}

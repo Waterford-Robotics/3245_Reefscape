@@ -1,0 +1,56 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "1c (Team)BargeCloseWT"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "SetElevatorCommand"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AimNRangeReefLeftCommand"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "RunShootForSecsCommand"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Team(right)CloseScore1.5c"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ZeroElevatorCommand"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": null,
+  "choreoAuto": false
+}

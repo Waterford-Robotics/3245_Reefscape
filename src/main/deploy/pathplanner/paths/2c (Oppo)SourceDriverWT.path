@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.1175,
-        "y": 7.52525
+        "x": 1.7,
+        "y": 0.7
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.37225,
-        "y": 7.496
+        "x": 1.7000000000000002,
+        "y": 3.7
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "SourceOppo"
     },
     {
       "anchor": {
-        "x": 5.82075,
-        "y": 4.0445
+        "x": 2.9,
+        "y": 4.2
       },
       "prevControl": {
-        "x": 6.279000000000001,
-        "y": 3.9274999999999993
+        "x": 2.4,
+        "y": 4.2
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Driver"
     }
   ],
   "rotationTargets": [],
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -179.5225462226904
+    "rotation": 0.0
   },
   "reversed": false,
-  "folder": null,
+  "folder": "2c OppoWTag",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 179.69685055628585
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }

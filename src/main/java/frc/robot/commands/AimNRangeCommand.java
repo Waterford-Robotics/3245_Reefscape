@@ -19,7 +19,7 @@ public class AimNRangeCommand extends Command {
   // Timer for cancellation with failed robot adjustment
   Timer timer = new Timer();
 
-  // PID Controller stuff (woah so many so scary) TODO: TUNE MEEE
+  // PID Controller stuff (woah so many so scary) 
   PIDController m_aimController = new PIDController(VisionConstants.kP_aim, VisionConstants.kI_aim, VisionConstants.kD_aim);
   PIDController m_rangeController = new PIDController(VisionConstants.kP_range, VisionConstants.kI_range, VisionConstants.kD_range);
   PIDController m_strafeController = new PIDController(VisionConstants.kP_strafe, VisionConstants.kI_strafe, VisionConstants.kD_strafe);
@@ -113,7 +113,8 @@ public class AimNRangeCommand extends Command {
     botPoseTargetSpace = NetworkTableInstance.getDefault().getTable(VisionConstants.k_limelightName).getEntry("botpose_targetspace").getDoubleArray(new double[6]);
 
     if (tiv){
-      tiv = LimelightHelpers.getTV(VisionConstants.k_limelightName);
+      tiv = LimelightHelpers.getTV(VisionConstants.k_limelightName)
+        && botPoseTargetSpace[2] > VisionConstants.k_tzValidRange;
       m_swerveSubsystem.driveCommandLimelight(limelight_range_PID(), limelight_strafe_PID(), limelight_aim_PID());
     }
 

@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.1175,
-        "y": 7.52525
+        "x": 7.45,
+        "y": 7.9
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.37225,
-        "y": 7.496
+        "x": 4.495576740963376,
+        "y": 7.37905546699921
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "BargeTeam"
     },
     {
       "anchor": {
-        "x": 5.82075,
-        "y": 4.0445
+        "x": 3.8607618656864866,
+        "y": 5.510003063060619
       },
       "prevControl": {
-        "x": 6.279000000000001,
-        "y": 3.9274999999999993
+        "x": 4.310538750149906,
+        "y": 6.0460262809857275
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "FarTeam"
     }
   ],
   "rotationTargets": [],
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -179.5225462226904
+    "rotation": -59.99999999999999
   },
   "reversed": false,
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 179.69685055628585
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }
