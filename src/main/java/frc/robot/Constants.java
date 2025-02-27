@@ -191,4 +191,8 @@ public final class Constants {
     // For testing
     public static boolean k_positioning = false;
   }
+
+  public static final class LEDConstants {
+    public static final int blinkinPort = 0;
+  }
 }
