@@ -14,10 +14,11 @@ public class RunShootForSecsCommand extends Command {
   // Uses Elevator and Subsystems
   WristSubsystem m_wristSubsystem;
   double m_seconds;
+  boolean m_notPositioned;
   Timer m_timer = new Timer();
 
   // Constructor
-  public RunShootForSecsCommand(WristSubsystem wristSubsystem, double seconds) {
+  public RunShootForSecsCommand(WristSubsystem wristSubsystem, double seconds, boolean positioned) {
         
     // Definitions and setting parameters are equal to members!
     m_wristSubsystem = wristSubsystem;
@@ -25,6 +26,9 @@ public class RunShootForSecsCommand extends Command {
 
     // Level
     m_seconds = seconds;
+
+    // Position Status
+    m_notPositioned = !positioned;
   }
 
   // Reset timer when the command starts executing
@@ -50,6 +54,6 @@ public class RunShootForSecsCommand extends Command {
   public boolean isFinished() {
 
     // Am I done?  Am I done? Am I finally done?
-    return m_timer.get() > m_seconds;
+    return m_notPositioned || m_timer.get() > m_seconds;
   }
 }

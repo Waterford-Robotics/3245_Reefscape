@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.1,
-        "y": 4.05
+        "x": 7.550588503750888,
+        "y": 4.035634578358043
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.3441270414433815,
-        "y": 4.05
+        "x": 6.632472784601855,
+        "y": 4.052362985260299
       },
       "isLocked": false,
       "linkedName": "BargeCenter"
     },
     {
       "anchor": {
-        "x": 6.5,
-        "y": 4.2
+        "x": 6.373367188193581,
+        "y": 4.035634578358043
       },
       "prevControl": {
-        "x": 6.973058795525433,
-        "y": 4.2
+        "x": 6.773754035009289,
+        "y": 4.027772087232568
       },
       "nextControl": null,
       "isLocked": false,
@@ -45,10 +45,10 @@
     "rotation": 180.0
   },
   "reversed": false,
-  "folder": "0c leaves",
+  "folder": null,
   "idealStartingState": {
-    "velocity": 0,
-    "rotation": 0.0
+    "velocity": 0.0,
+    "rotation": 180.0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

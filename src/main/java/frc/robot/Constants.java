@@ -47,8 +47,8 @@ public final class Constants {
 
     // YAGSL Swerve Stuff
     public static final double k_driveDeadBand = 0.1;
-    public static final double k_driveSpeed = -0.5;
-    public static final double k_turnRate = -0.65;
+    public static final double k_driveSpeed = -0.8;
+    public static final double k_turnRate = -0.85;
   }
 
   // Constants for Motor IDs
@@ -150,16 +150,19 @@ public final class Constants {
     // Boolean for Left/Right Reef
     public static boolean k_isRightReef = true;
 
+    // Boolean for Committing to Shoot
+    public static boolean k_positioned = true;
+
     // PID for Tag Relative Control
-    public static final double kP_aim = 0.04;
+    public static final double kP_aim = 0.10;
     public static final double kI_aim = 0.000;
     public static final double kD_aim = 0.000;
 
-    public static final double kP_range = 0.09;
+    public static final double kP_range = 0.35;
     public static final double kI_range = 0.0;
     public static final double kD_range = 0.0;
 
-    public static final double kP_strafe = 0.08;
+    public static final double kP_strafe = 0.35;
     public static final double kI_strafe = 0.0;
     public static final double kD_strafe = 0.0;
 

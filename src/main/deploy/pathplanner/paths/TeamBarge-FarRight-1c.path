@@ -1,0 +1,54 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 7.1,
+        "y": 7.53
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 3.823391822844033,
+        "y": 5.235694254595815
+      },
+      "isLocked": false,
+      "linkedName": "BargeTeam"
+    },
+    {
+      "anchor": {
+        "x": 3.2438638947226788,
+        "y": 5.4763433629816225
+      },
+      "prevControl": {
+        "x": 3.051027611816717,
+        "y": 5.706156695917316
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "FarTeamRight"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 5.7,
+    "maxAcceleration": 5.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -59.99999999999999
+  },
+  "reversed": false,
+  "folder": "score1c",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 180.0
+  },
+  "useDefaultConstraints": true
+}

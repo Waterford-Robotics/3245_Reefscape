@@ -1,0 +1,54 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 1.65,
+        "y": 0.67
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 3.4464139344262295,
+        "y": 2.533129696038251
+      },
+      "isLocked": false,
+      "linkedName": "SourceOppo"
+    },
+    {
+      "anchor": {
+        "x": 3.65,
+        "y": 3.0
+      },
+      "prevControl": {
+        "x": 3.3719006147540984,
+        "y": 2.86143912226776
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "FarOppoLeft"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 5.7,
+    "maxAcceleration": 5.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 59.99999999999999
+  },
+  "reversed": false,
+  "folder": "score2c",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": -125.00000000000001
+  },
+  "useDefaultConstraints": true
+}

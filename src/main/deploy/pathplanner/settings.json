@@ -2,10 +2,20 @@
   "robotWidth": 0.914,
   "robotLength": 0.9144,
   "holonomicMode": true,
-  "pathFolders": [],
-  "autoFolders": [],
-  "defaultMaxVel": 3.0,
-  "defaultMaxAccel": 3.0,
+  "pathFolders": [
+    "UnbranchedPaths(incorrect)",
+    "WT(incorrect)",
+    "score1.5c",
+    "score1c",
+    "score2c"
+  ],
+  "autoFolders": [
+    "COMP 1.5C",
+    "COMP 1C",
+    "COMP 2C"
+  ],
+  "defaultMaxVel": 5.7,
+  "defaultMaxAccel": 5.0,
   "defaultMaxAngVel": 540.0,
   "defaultMaxAngAccel": 720.0,
   "defaultNominalVoltage": 12.0,

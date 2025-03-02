@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "OppositeBargeFarScore1c(left)"
+            "pathName": "OppoBarge-FarLeft-1c"
           }
         },
         {
@@ -20,6 +20,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "z Old Autos",
+  "folder": null,
   "choreoAuto": false
 }

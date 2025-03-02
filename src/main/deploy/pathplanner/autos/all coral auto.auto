@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "TeamBargeCloseScore1c(right)"
+            "pathName": "TeamBarge-CloseRight-1c"
           }
         },
         {
@@ -19,7 +19,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Team(right)CloseScore1.5c"
+            "pathName": "TeamCloseRight-TeamSource-1.5c"
           }
         },
         {
@@ -31,7 +31,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "TeamSourceFar(left)Score2c"
+            "pathName": "TeamSource-FarLeft-2c"
           }
         },
         {
@@ -43,7 +43,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Team(left)FarScore1.5c"
+            "pathName": "TeamFarLeft-TeamSource-1.5c"
           }
         },
         {
@@ -55,7 +55,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "TeamSourceFar(right)Score2c"
+            "pathName": "TeamSource-FarRight-2c"
           }
         },
         {
@@ -67,7 +67,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Team(right)FarScore1.5c"
+            "pathName": "TeamFarRight-TeamSource-1.5c"
           }
         },
         {
@@ -79,7 +79,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "TeamSourceDriver(left)Score2c"
+            "pathName": "TeamSource-DriverLeft-2c"
           }
         },
         {
@@ -92,6 +92,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "z Old Autos",
+  "folder": null,
   "choreoAuto": false
 }

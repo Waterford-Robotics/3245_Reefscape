@@ -75,6 +75,9 @@ public class AimNRangeCommand extends Command {
   // What we do to set up the command 
   public void initialize() {
 
+    // Reset the Shoot Commit Boolean
+    VisionConstants.k_positioned = true;
+
     // Adds condition that filters out undesired IDs
     LimelightHelpers.SetFiducialIDFiltersOverride(VisionConstants.k_limelightName, validIDs);
 
@@ -112,6 +115,9 @@ public class AimNRangeCommand extends Command {
     // Update the pose from NetworkTables (Limelight Readings)
     botPoseTargetSpace = NetworkTableInstance.getDefault().getTable(VisionConstants.k_limelightName).getEntry("botpose_targetspace").getDoubleArray(new double[6]);
 
+    if (timer.get() > 2 || !tiv) VisionConstants.k_positioned = false;
+
+    // Checks for a continued valid pose
     if (tiv){
       tiv = LimelightHelpers.getTV(VisionConstants.k_limelightName)
         && botPoseTargetSpace[2] > VisionConstants.k_tzValidRange;
@@ -138,7 +144,7 @@ public class AimNRangeCommand extends Command {
       // I do love to be beside the C
 
       // Other quit conditions
-      || !tiv || timer.get() > 3;
+      || !tiv || timer.get() > 2;
   }
 
    // Advanced PID-assisted ranging control with Limelight's TX value from target-relative data

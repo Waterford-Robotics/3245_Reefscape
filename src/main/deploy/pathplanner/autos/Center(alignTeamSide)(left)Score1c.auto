@@ -7,13 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "CenterScore1c(left)"
+            "pathName": "Center-CenterLeft-1c"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "z Old Autos",
+  "folder": null,
   "choreoAuto": false
 }

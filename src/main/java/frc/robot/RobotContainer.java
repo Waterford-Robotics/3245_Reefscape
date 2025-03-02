@@ -6,6 +6,7 @@ package frc.robot;
 
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.VisionConstants;
 import frc.robot.commands.SetElevatorCommand;
 import frc.robot.commands.SetReefCommand;
 import frc.robot.commands.SetWristCommand;
@@ -13,10 +14,14 @@ import frc.robot.commands.ZeroElevatorCommand;
 import frc.robot.commands.ZeroWristCommand;
 import frc.robot.commands.RunIntakeForSecsCommand;
 import frc.robot.commands.RunShootForSecsCommand;
+import frc.robot.commands.AimNRangeAutoCommand;
 import frc.robot.commands.AimNRangeCommand;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.WristSubsystem;
+
+import com.pathplanner.lib.auto.NamedCommands;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -24,6 +29,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -57,12 +63,21 @@ public class RobotContainer {
     m_swerveSubsystem.setDefaultCommand(driveFieldOrientedAngularVelocity);
 
     // Named Command Configuration
-    // NamedCommands.registerCommand("ExampleCommand", new ExampleCommand(m_exampleSubsystem);
+    NamedCommands.registerCommand("Score L4", AimNRangescoreL4Command);
+    NamedCommands.registerCommand("Score Left Reef", AimNRangeScoreAutoLeftCommand);
+    NamedCommands.registerCommand("Score Right Reef", AimNRangeScoreAutoRightCommand);
+    NamedCommands.registerCommand("Intake", IntakeAutoCommand);
 
     // Autos
-    // m_chooser.addOption("Test Auto", m_swerveSubsystem.getAutonomousCommand("Test Auto"));
-    // m_chooser.addOption("Example Auto RED", m_swerveSubsystem.getAutonomousCommand("Example Auto RED"));
-    // m_chooser.addOption("Example Auto BLUE", m_swerveSubsystem.getAutonomousCommand("Example Auto BLUE"));
+    m_chooser.addOption("Center Leave", m_swerveSubsystem.getAutonomousCommand("CenterLeave"));
+
+    m_chooser.addOption("1C: Back Center - Left Reef", m_swerveSubsystem.getAutonomousCommand("1c Center left"));
+    m_chooser.addOption("1C: Back Center - Right Reef", m_swerveSubsystem.getAutonomousCommand("1c Center right"));
+    m_chooser.addOption("1C: Back Left - Right Reef", m_swerveSubsystem.getAutonomousCommand("TeamClose(right)Score1c"));
+
+    m_chooser.addOption("1.5C: Back Left - Right Reef", m_swerveSubsystem.getAutonomousCommand("TeamClose(right)TeamScore1.5c"));
+
+    m_chooser.addOption("2C: BL-R, FL-R", m_swerveSubsystem.getAutonomousCommand("TeamClose(right)TeamScore2c"));
 
     // Puts a chooser on the SmartDashboard!
     SmartDashboard.putData("AutoMode", m_chooser);
@@ -95,13 +110,16 @@ public class RobotContainer {
         AimNRangescoreL4Command
       );
     
-    // Raise Wrist - Right Bumper
+    // Strafe Right - Right Bump
     new JoystickButton(m_driverController.getHID(), ControllerConstants.k_rightbump)
-      .onTrue(
-        RaiseWristCommand
+      .whileTrue(
+        new RunCommand(() -> m_swerveSubsystem.driveCommandLimelight(0, 0.15, 0))
+      )
+      .onFalse(
+        new InstantCommand(() -> m_swerveSubsystem.driveCommandLimelight(0, 0, 0))
       );
 
-    // Lower Wrist - Left Bumper
+    // Strafe Left - Left Bump
     new JoystickButton(m_driverController.getHID(), ControllerConstants.k_leftbump)
       .onTrue(
         LowerWristCommand
@@ -116,14 +134,20 @@ public class RobotContainer {
         new InstantCommand(() -> m_wristSubsystem.stopShooter(), m_wristSubsystem)
       );
 
-    // Shoot Manually - Left Trig
+    // Raise Wrist - Left Trig
     new Trigger(() -> m_driverController.getRawAxis(ControllerConstants.k_lefttrig) > 0.05)
+      .onTrue(
+        RaiseWristCommand
+      );
+
+      /*
       .whileTrue(
         new InstantCommand(() -> m_wristSubsystem.shoot(), m_wristSubsystem)
       )
       .whileFalse(
         new InstantCommand(() -> m_wristSubsystem.stopShooter(), m_wristSubsystem)
       );
+      */
 
     // Example Path yay - "start" Button
     /*
@@ -179,6 +203,16 @@ public class RobotContainer {
     new SetElevatorCommand(m_elevatorSubsystem, "zero"),
     new ZeroElevatorCommand(m_elevatorSubsystem)
   );
+  
+  // Command Chain for Intake Auto
+  SequentialCommandGroup IntakeAutoCommand = new SequentialCommandGroup(
+    new ZeroWristCommand(m_wristSubsystem),
+    new SetWristCommand(m_wristSubsystem, "intake"),
+    new ParallelDeadlineGroup(
+      new RunIntakeForSecsCommand(m_wristSubsystem, 1.0),
+      new RunCommand(() -> m_swerveSubsystem.driveCommandLimelight(0, 0.15, 0))
+    )
+  );
 
   // Command Chain for Scoring on L2
   SequentialCommandGroup ScoreL2Command = new SequentialCommandGroup(
@@ -191,7 +225,7 @@ public class RobotContainer {
       new SetElevatorCommand(m_elevatorSubsystem, "L2"),
       new RunIntakeForSecsCommand(m_wristSubsystem, 1.5)
     ),
-    new RunShootForSecsCommand(m_wristSubsystem, 1),
+    new RunShootForSecsCommand(m_wristSubsystem, 1.0, VisionConstants.k_positioned),
     new SetElevatorCommand(m_elevatorSubsystem, "zero"),
     new ZeroElevatorCommand(m_elevatorSubsystem)
   );
@@ -207,7 +241,7 @@ public class RobotContainer {
       new SetElevatorCommand(m_elevatorSubsystem, "L3"),
       new RunIntakeForSecsCommand(m_wristSubsystem, 1.8)
     ),
-    new RunShootForSecsCommand(m_wristSubsystem, 1),
+    new RunShootForSecsCommand(m_wristSubsystem, 1.0, VisionConstants.k_positioned),
     new SetElevatorCommand(m_elevatorSubsystem, "zero"),
     new ZeroElevatorCommand(m_elevatorSubsystem)
   );
@@ -223,7 +257,7 @@ public class RobotContainer {
       new SetElevatorCommand(m_elevatorSubsystem, "L4"),
       new RunIntakeForSecsCommand(m_wristSubsystem, 1.5)
     ),
-    new RunShootForSecsCommand(m_wristSubsystem, 1),
+    new RunShootForSecsCommand(m_wristSubsystem, 1, VisionConstants.k_positioned),
     new SetElevatorCommand(m_elevatorSubsystem, "zero"),
     new ZeroElevatorCommand(m_elevatorSubsystem)
   );
@@ -239,7 +273,7 @@ public class RobotContainer {
       new SetElevatorCommand(m_elevatorSubsystem, "L2"),
       new RunIntakeForSecsCommand(m_wristSubsystem, 3.0)
     ),
-    new RunShootForSecsCommand(m_wristSubsystem, 1.0),
+    new RunShootForSecsCommand(m_wristSubsystem, 0.7, VisionConstants.k_positioned),
     new SetElevatorCommand(m_elevatorSubsystem, "zero"),
     new ZeroElevatorCommand(m_elevatorSubsystem)
   );
@@ -255,7 +289,7 @@ public class RobotContainer {
       new SetElevatorCommand(m_elevatorSubsystem, "L3"),
       new RunIntakeForSecsCommand(m_wristSubsystem, 3.0)
     ),
-    new RunShootForSecsCommand(m_wristSubsystem, 1.0),
+    new RunShootForSecsCommand(m_wristSubsystem, 0.7, VisionConstants.k_positioned),
     new SetElevatorCommand(m_elevatorSubsystem, "zero"),
     new ZeroElevatorCommand(m_elevatorSubsystem)
   );
@@ -271,7 +305,39 @@ public class RobotContainer {
       new SetElevatorCommand(m_elevatorSubsystem, "L4"),
       new RunIntakeForSecsCommand(m_wristSubsystem, 3.0)
     ),
-    new RunShootForSecsCommand(m_wristSubsystem, 1.0),
+    new RunShootForSecsCommand(m_wristSubsystem, 0.7, VisionConstants.k_positioned),
+    new SetElevatorCommand(m_elevatorSubsystem, "zero"),
+    new ZeroElevatorCommand(m_elevatorSubsystem)
+  );
+
+  // Command Chain for Completely Automated L4 in Auto - RIGHT REEF
+  SequentialCommandGroup AimNRangeScoreAutoRightCommand = new SequentialCommandGroup(
+    new SequentialCommandGroup(
+      new SetWristCommand(m_wristSubsystem, "score"),
+      new ZeroWristCommand(m_wristSubsystem)
+    ),
+    new ParallelDeadlineGroup(
+      new AimNRangeAutoCommand(m_swerveSubsystem, true),
+      new SetElevatorCommand(m_elevatorSubsystem, "L4"),
+      new RunIntakeForSecsCommand(m_wristSubsystem, 3.0)
+    ),
+    new RunShootForSecsCommand(m_wristSubsystem, 0.7, VisionConstants.k_positioned),
+    new SetElevatorCommand(m_elevatorSubsystem, "zero"),
+    new ZeroElevatorCommand(m_elevatorSubsystem)
+  );
+
+  // Command Chain for Completely Automated L4 in Auto - LEFT REEF
+  SequentialCommandGroup AimNRangeScoreAutoLeftCommand = new SequentialCommandGroup(
+    new SequentialCommandGroup(
+      new SetWristCommand(m_wristSubsystem, "score"),
+      new ZeroWristCommand(m_wristSubsystem)
+    ),
+    new ParallelDeadlineGroup(
+      new AimNRangeAutoCommand(m_swerveSubsystem, false),
+      new SetElevatorCommand(m_elevatorSubsystem, "L4"),
+      new RunIntakeForSecsCommand(m_wristSubsystem, 3.0)
+    ),
+    new RunShootForSecsCommand(m_wristSubsystem, 0.7, VisionConstants.k_positioned),
     new SetElevatorCommand(m_elevatorSubsystem, "zero"),
     new ZeroElevatorCommand(m_elevatorSubsystem)
   );

@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "OppositeBargeCloseScore1c(left)"
+            "pathName": "OppoBarge-CloseLeft-1c"
           }
         },
         {
@@ -19,13 +19,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Opposite(left)CloseScore1.5c"
+            "pathName": "OppoCloseLeft-OppoSource-1.5c"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "z Old Autos",
+  "folder": null,
   "choreoAuto": false
 }

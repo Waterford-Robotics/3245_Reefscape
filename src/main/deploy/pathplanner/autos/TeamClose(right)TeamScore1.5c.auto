@@ -7,25 +7,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": "TeamBargeCloseScore1c(right)"
+            "pathName": "TeamBarge-CloseRight-1c"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "ScoreOrSmth"
+            "name": "Score Right Reef"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Team(right)CloseScore1.5c"
+            "pathName": "TeamCloseRight-TeamSource-1.5c"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "z Old Autos",
+  "folder": "COMP 1.5C",
   "choreoAuto": false
 }

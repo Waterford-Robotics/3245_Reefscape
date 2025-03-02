@@ -5,46 +5,21 @@
     "data": {
       "commands": [
         {
-          "type": "parallel",
+          "type": "path",
           "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "CenterLeave0c"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "SetElevatorCommand"
-                }
-              }
-            ]
+            "pathName": "CenterLeave0c"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "AimNRangeReefLeftCommand"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "RunShootForSecsCommand"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ZeroElevatorCommand"
+            "name": "Score Left Reef"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "1c",
+  "folder": "COMP 1C",
   "choreoAuto": false
 }

@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "OppositeBargeDriverScore1c(right)"
+            "pathName": "OppoBarge-DriverRight-1c"
           }
         },
         {
@@ -19,13 +19,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Driver(right)(Opposite)Score1.5c"
+            "pathName": "DriverRight-OppoSource-1.5c"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "z Old Autos",
+  "folder": null,
   "choreoAuto": false
 }

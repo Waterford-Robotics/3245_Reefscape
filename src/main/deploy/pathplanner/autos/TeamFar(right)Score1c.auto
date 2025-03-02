@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "TeamBargeFarScore1c(right)"
+            "pathName": "TeamBarge-FarRight-1c"
           }
         },
         {
@@ -20,6 +20,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "z Old Autos",
+  "folder": null,
   "choreoAuto": false
 }

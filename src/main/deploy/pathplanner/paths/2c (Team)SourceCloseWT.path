@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.6674704262062343,
-        "y": 7.39000761102747
+        "x": 1.1771756692366167,
+        "y": 6.897176725214178
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.114297561748962,
-        "y": 6.782238989193214
+        "x": 4.624002804779341,
+        "y": 6.289408103379921
       },
       "isLocked": false,
       "linkedName": "SourceTeam"
@@ -33,8 +33,8 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 3.0,
+    "maxVelocity": 5.7,
+    "maxAcceleration": 5.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -45,7 +45,7 @@
     "rotation": -119.99999999999999
   },
   "reversed": false,
-  "folder": null,
+  "folder": "WT(incorrect)",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 125.00000000000001
