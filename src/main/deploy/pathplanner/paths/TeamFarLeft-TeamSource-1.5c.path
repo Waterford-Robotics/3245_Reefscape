@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 4.0,
-        "y": 5.25
+        "x": 3.469939639351585,
+        "y": 5.540806111422452
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.6098232581967205,
-        "y": 7.220750085382515
+        "x": 2.0797628975483056,
+        "y": 7.511556196804967
       },
       "isLocked": false,
       "linkedName": "farTeamLeft"
     },
     {
       "anchor": {
-        "x": 1.1771756692366167,
-        "y": 6.897176725214178
+        "x": 1.177,
+        "y": 6.897
       },
       "prevControl": {
-        "x": 1.5892530257939932,
-        "y": 6.709868835869916
+        "x": 1.5890773565573761,
+        "y": 6.709692110655738
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 125.00000000000001
+    "rotation": 128.28694406704628
   },
   "reversed": false,
   "folder": "score1.5c",

@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.15,
-        "y": 3.85
+        "x": 2.596787400679155,
+        "y": 4.093322736566717
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.6726045300357217,
-        "y": 5.089681993950011
+        "x": 1.119391930714877,
+        "y": 5.333004730516727
       },
       "isLocked": false,
       "linkedName": "DriverRight"
     },
     {
       "anchor": {
-        "x": 1.1771756692366167,
-        "y": 6.897176725214178
+        "x": 1.177,
+        "y": 6.897
       },
       "prevControl": {
-        "x": 1.1337636248198841,
-        "y": 6.650974786961125
+        "x": 1.133587955583267,
+        "y": 6.650798061746948
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 125.00000000000001
+    "rotation": 128.28694406704628
   },
   "reversed": false,
   "folder": "score1.5c",

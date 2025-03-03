@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.3,
-        "y": 5.1
+        "x": 5.397612502358177,
+        "y": 5.233206714283336
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.8669774590206822,
-        "y": 7.4328274419464
+        "x": 4.347787024758079,
+        "y": 6.179735244404187
       },
       "isLocked": false,
-      "linkedName": "CloseTeamLeft"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.1771756692366167,
-        "y": 6.897176725214178
+        "x": 1.177,
+        "y": 6.897
       },
       "prevControl": {
-        "x": 1.6766633741589383,
-        "y": 6.834740762105933
+        "x": 2.2184057601581912,
+        "y": 6.712428256988526
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 125.00000000000001
+    "rotation": 128.28694406704628
   },
   "reversed": false,
   "folder": "score1.5c",

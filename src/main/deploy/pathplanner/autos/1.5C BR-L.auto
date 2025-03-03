@@ -1,0 +1,31 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "OppoBarge-CloseLeft-1c"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Score Left Reef"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "OppoCloseLeft-OppoSource-1.5c"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "COMP 1.5C",
+  "choreoAuto": false
+}

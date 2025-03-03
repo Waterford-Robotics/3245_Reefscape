@@ -1,0 +1,54 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 7.127326063676314,
+        "y": 1.8822724429043853
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 5.7712527729853615,
+        "y": 2.136305351504167
+      },
+      "isLocked": false,
+      "linkedName": "BargeOppo"
+    },
+    {
+      "anchor": {
+        "x": 5.49773058855975,
+        "y": 2.371498831289786
+      },
+      "prevControl": {
+        "x": 6.803238369231579,
+        "y": 1.8901173949772894
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "CloseOppoRight"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 5.7,
+    "maxAcceleration": 5.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 119.99999999999999
+  },
+  "reversed": false,
+  "folder": "score1c",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 180.0
+  },
+  "useDefaultConstraints": true
+}

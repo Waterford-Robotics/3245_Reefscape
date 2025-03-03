@@ -4,24 +4,24 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.WristSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 
-// Raises Elevator
+// Runs Intake
 public class RunIntakeForSecsCommand extends Command {
 
-  // Uses Elevator and Subsystems
-  WristSubsystem m_wristSubsystem;
+  // Uses Intake
+  IntakeSubsystem m_intakeSubsystem;
   double m_seconds;
   Timer m_timer = new Timer();
 
   // Constructor
-  public RunIntakeForSecsCommand(WristSubsystem wristSubsystem, double seconds) {
+  public RunIntakeForSecsCommand(IntakeSubsystem intakeSubsystem, double seconds) {
         
     // Definitions and setting parameters are equal to members!
-    m_wristSubsystem = wristSubsystem;
-    addRequirements(wristSubsystem);
+    m_intakeSubsystem = intakeSubsystem;
+    addRequirements(intakeSubsystem);
 
     // Level
     m_seconds = seconds;
@@ -37,13 +37,13 @@ public class RunIntakeForSecsCommand extends Command {
   public void execute() {
 
     if(m_timer.get() < m_seconds) {
-      m_wristSubsystem.intake();
+      m_intakeSubsystem.intake();
     }
   }
 
   // Stuff that happens when command is over
   public void end(boolean interrupted) {
-    m_wristSubsystem.stopShooter();
+    m_intakeSubsystem.stopShooter();
   }
 
   // Checks if the command is done

@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.632472784601855,
-        "y": 4.052362985260299
+        "x": 6.605910073417993,
+        "y": 4.035277397760428
       },
       "isLocked": false,
       "linkedName": "BargeCenter"
@@ -20,8 +20,8 @@
         "y": 4.035634578358043
       },
       "prevControl": {
-        "x": 6.773754035009289,
-        "y": 4.027772087232568
+        "x": 6.76887356231274,
+        "y": 4.018484680344721
       },
       "nextControl": null,
       "isLocked": false,
@@ -41,7 +41,7 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 0,
+    "velocity": 0.0,
     "rotation": 180.0
   },
   "reversed": false,

@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.1771756692366167,
-        "y": 6.897176725214178
+        "x": 1.177,
+        "y": 6.897
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.70930937825301,
-        "y": 5.269207548301608
+        "x": 4.709133709016394,
+        "y": 5.269030823087431
       },
       "isLocked": false,
       "linkedName": "SourceTeam"
@@ -48,7 +48,7 @@
   "folder": "score2c",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 125.00000000000001
+    "rotation": 128.28694406704628
   },
   "useDefaultConstraints": true
 }

@@ -7,19 +7,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": "TeamBarge-FarLeft-1c"
+            "pathName": "TeamBarge-CloseRight-1c"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "ScoreOrSmth"
+            "name": "Score Left Reef"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "TeamCloseLeft-TeamSource-1.5c"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": null,
+  "folder": "COMP 1.5C",
   "choreoAuto": false
 }

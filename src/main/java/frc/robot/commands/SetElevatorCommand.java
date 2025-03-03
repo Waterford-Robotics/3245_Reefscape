@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import frc.robot.Constants.ElevatorConstants;
+import frc.robot.Constants.VisionConstants;
 import frc.robot.subsystems.ElevatorSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -51,6 +52,11 @@ public class SetElevatorCommand extends Command {
     // Raise to L4
     if(m_level == "L4") {
       m_elevatorSubsystem.setPosition(ElevatorConstants.k_coralL4Height);
+    }
+
+    // Raise to Algae
+    if(m_level == "algae" && VisionConstants.k_isAlgaeL3) {
+      m_elevatorSubsystem.setPosition(ElevatorConstants.k_algaeHeight);
     }
   }
 

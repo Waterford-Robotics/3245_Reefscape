@@ -1,0 +1,62 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "TeamBarge-CloseRight-1c"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Score Left Reef"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "TeamCloseLeft-TeamSource-1.5c"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Raise Wrist"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Intake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "TeamSource-FarRight-2c"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Score Left Reef"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "COMP 2C",
+  "choreoAuto": false
+}

@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.1,
-        "y": 7.53
+        "x": 7.12117226340554,
+        "y": 6.170253658294678
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.92635182233307,
-        "y": 6.545192246987792
+        "x": 6.94752408573861,
+        "y": 5.18544590528247
       },
       "isLocked": false,
       "linkedName": "BargeTeam"

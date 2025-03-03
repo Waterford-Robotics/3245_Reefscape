@@ -16,20 +16,20 @@ import frc.robot.Constants.WristConstants;
 import frc.robot.Constants.MotorIDConstants;
 import frc.robot.Constants.MotorPIDConstants;
 
+// TODO: Split out Intake
+// TODO: Ease into Scoring Command
+// TODO: Pre-load autos before testing
 public class WristSubsystem extends SubsystemBase{
 
   private TalonFX m_wrist;
-  private TalonFX m_shooter;
 
   private TalonFXConfiguration wristConfig;
-  private TalonFXConfiguration shooterConfig;
 
   private Angle lastDesiredPosition;
 
   public WristSubsystem() {
     
     m_wrist = new TalonFX(MotorIDConstants.k_wristKrakenID, "Elevator/Coral");
-    m_shooter = new TalonFX(MotorIDConstants.k_shooterKrakenID, "Elevator/Coral");
 
     lastDesiredPosition = Units.Rotations.of(0);
 
@@ -51,17 +51,7 @@ public class WristSubsystem extends SubsystemBase{
 
     wristConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive; 
 
-    shooterConfig = new TalonFXConfiguration();
-
-    // Kraken Configs
-    shooterConfig.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = WristConstants.k_shooterRampRate;
-    shooterConfig.MotorOutput.PeakForwardDutyCycle = WristConstants.k_shooterClosedMaxSpeed;
-    shooterConfig.MotorOutput.PeakReverseDutyCycle = -WristConstants.k_shooterClosedMaxSpeed;
-    shooterConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-    shooterConfig.CurrentLimits.SupplyCurrentLimit = WristConstants.k_supplyCurrentLimit;
-
     m_wrist.getConfigurator().apply(wristConfig, 0.05);
-    m_shooter.getConfigurator().apply(shooterConfig, 0.05);
   }
 
   public Angle getWristPosition(){
@@ -87,18 +77,6 @@ public class WristSubsystem extends SubsystemBase{
 
   public double getCurrentVelocity() {
     return m_wrist.getVelocity().getValueAsDouble();
-  }
-
-  public void shoot(){
-    m_shooter.set(WristConstants.k_shootSpeed);
-  }
-
-  public void stopShooter(){
-    m_shooter.set(0);
-  }
-
-  public void intake(){
-    m_shooter.set(-WristConstants.k_intakeSpeed);
   }
 
   public void periodic() {

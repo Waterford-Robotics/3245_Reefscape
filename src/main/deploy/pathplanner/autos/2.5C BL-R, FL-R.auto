@@ -5,19 +5,31 @@
     "data": {
       "commands": [
         {
+          "type": "path",
+          "data": {
+            "pathName": "TeamBarge-CloseRight-1c"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Score Right Reef"
+          }
+        },
+        {
           "type": "parallel",
           "data": {
             "commands": [
               {
                 "type": "path",
                 "data": {
-                  "pathName": "1c (Oppo)BargeFarWT"
+                  "pathName": "TeamCloseRight-TeamSource-1.5c"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "SetElevatorCommand"
+                  "name": "Raise Wrist"
                 }
               }
             ]
@@ -26,25 +38,31 @@
         {
           "type": "named",
           "data": {
-            "name": "AimNRangeReefRightCommand"
+            "name": "Intake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "TeamSource-FarRight-2c"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "RunShootForSecsCommand"
+            "name": "Score Right Reef"
           }
         },
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "ZeroElevatorCommand"
+            "pathName": "TeamSource-FarRight-2.5c"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": null,
+  "folder": "COMP 2.5C",
   "choreoAuto": false
 }

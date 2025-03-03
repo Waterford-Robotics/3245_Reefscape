@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.65,
-        "y": 0.67
+        "x": 1.085,
+        "y": 1.202
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.6500000000000001,
-        "y": 3.6700000000000004
+        "x": 1.0850000000000002,
+        "y": 4.202000000000001
       },
       "isLocked": false,
       "linkedName": "SourceOppo"

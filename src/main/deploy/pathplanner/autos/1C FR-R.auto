@@ -7,19 +7,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "OppoBarge-CloseLeft-1c"
+            "pathName": "1c (Oppo)BargeFarWT"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "ScoreOrSmth"
+            "name": "Score Right Reef"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": null,
+  "folder": "COMP 1C",
   "choreoAuto": false
 }

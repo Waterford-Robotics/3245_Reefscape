@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.1,
-        "y": 7.53
+        "x": 7.12117226340554,
+        "y": 6.170253658294678
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.823391822844033,
-        "y": 5.235694254595815
+        "x": 6.317661629133726,
+        "y": 6.2692451527888435
       },
       "isLocked": false,
       "linkedName": "BargeTeam"
     },
     {
       "anchor": {
-        "x": 3.2438638947226788,
-        "y": 5.4763433629816225
+        "x": 3.244,
+        "y": 5.476
       },
       "prevControl": {
-        "x": 3.051027611816717,
-        "y": 5.706156695917316
+        "x": 2.1840567618283355,
+        "y": 6.870032547690651
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -59.99999999999999
+    "rotation": -59.22738509098667
   },
   "reversed": false,
   "folder": "score1c",

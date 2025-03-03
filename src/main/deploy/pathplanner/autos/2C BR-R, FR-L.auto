@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "TeamBarge-CloseRight-1c"
+            "pathName": "OppoBarge-CloseLeft-1c"
           }
         },
         {
@@ -17,9 +17,22 @@
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "TeamCloseRight-TeamSource-1.5c"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "OppoCloseRight-OppoSource-1.5c"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Raise Wrist"
+                }
+              }
+            ]
           }
         },
         {
@@ -31,7 +44,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "TeamSource-FarRight-2c"
+            "pathName": "OppoSource-FarRight-2c"
           }
         },
         {

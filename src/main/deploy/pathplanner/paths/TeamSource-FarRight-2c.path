@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.1771756692366167,
-        "y": 6.897176725214178
+        "x": 1.177,
+        "y": 6.897
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.326757558774211,
-        "y": 4.892772077965063
+        "x": 2.0286685967555744,
+        "y": 6.090844089148608
       },
       "isLocked": false,
       "linkedName": "SourceTeam"
     },
     {
       "anchor": {
-        "x": 3.2438638947226788,
-        "y": 5.4763433629816225
+        "x": 3.244,
+        "y": 5.476
       },
       "prevControl": {
-        "x": 2.3811607979917064,
-        "y": 6.037239836587391
+        "x": 2.7854210142900824,
+        "y": 5.818291236271898
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -59.99999999999999
+    "rotation": -59.22738509098667
   },
   "reversed": false,
   "folder": "score2c",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 125.00000000000001
+    "rotation": 128.28694406704628
   },
   "useDefaultConstraints": true
 }

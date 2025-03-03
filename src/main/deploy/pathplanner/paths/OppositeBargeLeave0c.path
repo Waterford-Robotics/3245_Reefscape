@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.1,
-        "y": 0.5
+        "x": 7.127326063676314,
+        "y": 1.8822724429043853
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.0999999999999996,
-        "y": 0.5000000000000007
+        "x": 4.532545365864776,
+        "y": 1.611583906997906
       },
       "isLocked": false,
       "linkedName": "BargeOppo"
     },
     {
       "anchor": {
-        "x": 2.3,
-        "y": 0.5
+        "x": 1.3569619872353293,
+        "y": 0.9828708648681641
       },
       "prevControl": {
-        "x": 2.5999999999999996,
-        "y": 0.5
+        "x": 2.9037024296995093,
+        "y": 1.2103584467220891
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": -124.95422317995387
   },
   "reversed": false,
   "folder": null,

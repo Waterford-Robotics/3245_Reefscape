@@ -7,25 +7,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "OppisiteBargeCloseScore1"
+            "pathName": "TeamBarge-CloseRight-1c"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "ScoreOrSmth"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "OppisiteCloseScore1.5"
+            "name": "Score Left Reef"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": null,
+  "folder": "COMP 1C",
   "choreoAuto": false
 }

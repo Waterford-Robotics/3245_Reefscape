@@ -7,13 +7,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "TeamBargeLeave0c"
+            "pathName": "TeamBarge-FarLeft-1c"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Score Left Reef"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": null,
+  "folder": "COMP 1C",
   "choreoAuto": false
 }

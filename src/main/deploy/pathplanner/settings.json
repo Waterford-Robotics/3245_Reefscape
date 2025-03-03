@@ -3,6 +3,7 @@
   "robotLength": 0.9144,
   "holonomicMode": true,
   "pathFolders": [
+    "score2.5c",
     "UnbranchedPaths(incorrect)",
     "WT(incorrect)",
     "score1.5c",
@@ -10,9 +11,11 @@
     "score2c"
   ],
   "autoFolders": [
+    "COMP 0C",
     "COMP 1.5C",
     "COMP 1C",
-    "COMP 2C"
+    "COMP 2C",
+    "COMP 2.5C"
   ],
   "defaultMaxVel": 5.7,
   "defaultMaxAccel": 5.0,
