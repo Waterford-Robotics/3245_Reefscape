@@ -16,9 +16,6 @@ import frc.robot.Constants.WristConstants;
 import frc.robot.Constants.MotorIDConstants;
 import frc.robot.Constants.MotorPIDConstants;
 
-// TODO: Split out Intake
-// TODO: Ease into Scoring Command
-// TODO: Pre-load autos before testing
 public class WristSubsystem extends SubsystemBase{
 
   private TalonFX m_wrist;

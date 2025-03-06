@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.085,
-        "y": 1.202
+        "x": 0.621,
+        "y": 1.0646596041592682
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.88141393442623,
-        "y": 3.0651296960382513
+        "x": 2.4174139344262295,
+        "y": 2.92778930019752
       },
       "isLocked": false,
       "linkedName": "SourceOppo"
@@ -48,7 +48,7 @@
   "folder": "score2c",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -125.00000000000001
+    "rotation": -124.43934562257046
   },
   "useDefaultConstraints": true
 }

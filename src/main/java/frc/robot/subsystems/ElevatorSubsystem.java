@@ -130,8 +130,10 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     // What did Shuffleboard say to the Programmer?
     // I'm drowning in numbers!
+    */
 
     SmartDashboard.putNumber("Elevator/Right/Pos", m_elevatorKrakenRight.getPosition().getValueAsDouble());
+    /*
     SmartDashboard.putNumber("Elevator/Right/CLO", m_elevatorKrakenRight.getClosedLoopOutput().getValueAsDouble());
     SmartDashboard.putNumber("Elevator/Right/Output", m_elevatorKrakenRight.get());
     SmartDashboard.putNumber("Elevator/Right/Inverted", m_elevatorKrakenRight.getAppliedRotorPolarity().getValueAsDouble());

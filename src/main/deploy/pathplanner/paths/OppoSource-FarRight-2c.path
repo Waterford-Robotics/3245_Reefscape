@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.085,
-        "y": 1.202
+        "x": 0.621,
+        "y": 1.0646596041592682
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.506082140499629,
-        "y": 3.1106859070806516
+        "x": 2.0420821404996286,
+        "y": 2.97334551123992
       },
       "isLocked": false,
       "linkedName": "SourceOppo"
     },
     {
       "anchor": {
-        "x": 3.4186057871038265,
-        "y": 2.4406993865966795
+        "x": 3.0767834836786445,
+        "y": 2.584840323708274
       },
       "prevControl": {
-        "x": 2.695149587254208,
-        "y": 1.7399370369704068
+        "x": 2.3533272838290262,
+        "y": 1.8840779740820015
       },
       "nextControl": null,
       "isLocked": false,
@@ -48,7 +48,7 @@
   "folder": "score2c",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -125.00000000000001
+    "rotation": -124.43934562257046
   },
   "useDefaultConstraints": true
 }

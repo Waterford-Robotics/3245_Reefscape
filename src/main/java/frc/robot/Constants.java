@@ -64,7 +64,7 @@ public final class Constants {
 
     // Algae
     public static final int k_algaeWristID = 41;
-    public static final int k_algaeIntakeID = 42;
+    public static final int k_algaeIntakeID = 40;
   }
 
   // Constants for Sensor IDs
@@ -84,7 +84,7 @@ public final class Constants {
     public static final Distance k_coralL3Height = Units.Inches.of(21);
     public static final Distance k_coralL4Height = Units.Inches.of(48.6);
 
-    public static final Distance k_algaeHeight = Units.Inches.of(17); // TODO: FIX ME
+    public static final Distance k_algaeHeight = Units.Inches.of(25); // TODO: FIX ME
   }
 
   // Constants for Wrist
@@ -156,7 +156,7 @@ public final class Constants {
     // Boolean for Algae Elevator Raise
     public static boolean k_isAlgaeL3 = false;
 
-    // PID for Tag Relative Control
+    // PID for Tag Relative Control for Scoring
     public static final double kP_aim = 0.10;
     public static final double kI_aim = 0.000;
     public static final double kD_aim = 0.000;
@@ -169,6 +169,19 @@ public final class Constants {
     public static final double kI_strafe = 0.0;
     public static final double kD_strafe = 0.0;
 
+    // PID for Tag Relative Control for Algae Removal
+    public static final double kP_aimAlgae = 0.04;
+    public static final double kI_aimAlgae = 0.000;
+    public static final double kD_aimAlgae = 0.000;
+
+    public static final double kP_rangeAlgae = 0.35;
+    public static final double kI_rangeAlgae = 0.0;
+    public static final double kD_rangeAlgae = 0.0;
+
+    public static final double kP_strafeAlgae = 0.35;
+    public static final double kI_strafeAlgae = 0.0;
+    public static final double kD_strafeAlgae = 0.0;
+
     // AimNRange Reef Right
     public static final double k_aimReefRightTarget = 0;
     public static final double k_rangeReefRightTarget = -0.54;
@@ -179,14 +192,14 @@ public final class Constants {
     public static final double k_rangeReefLeftTarget = -0.54;
     public static final double k_strafeReefLeftTarget = -0.18;
 
-    // AimNRange Algae Removal Positioning TODO: Change
+    // AimNRange Algae Removal Positioning 
     public static final double k_aimAlgaePositionTarget = 0;
-    public static final double k_rangeAlgaePositionTarget = -0.54;
+    public static final double k_rangeAlgaePositionTarget = -0.46;
     public static final double k_strafeAlgaePositionTarget = 0;
 
-    // AimNRange Algae Removal Removing TODO: Change
+    // AimNRange Algae Removal Removing 
     public static final double k_aimAlgaeRemoveTarget = 0;
-    public static final double k_rangeAlgaeRemoveTarget = -0.54;
+    public static final double k_rangeAlgaeRemoveTarget = -0.96;
     public static final double k_strafeAlgaeRemoveTarget = 0;
 
     // Prerequisites

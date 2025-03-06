@@ -17,6 +17,7 @@ import frc.robot.commands.RunShootForSecsCommand;
 import frc.robot.commands.AimNRangeAlgaeRemovalCommand;
 import frc.robot.commands.AimNRangeAutoCommand;
 import frc.robot.commands.AimNRangeCommand;
+import frc.robot.subsystems.AlgaeSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
@@ -49,6 +50,7 @@ public class RobotContainer {
   private final ElevatorSubsystem m_elevatorSubsystem = new ElevatorSubsystem();
   private final WristSubsystem m_wristSubsystem = new WristSubsystem();
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
+  private final AlgaeSubsystem m_algaeSubsystem = new AlgaeSubsystem();
 
   // Create New Choosing Option in SmartDashboard for Autos
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -226,6 +228,17 @@ public class RobotContainer {
       .onTrue(
         RemoveAlgaeCommand
       );
+
+    // Alg Intake
+    /*
+    new POVButton(m_driverController.getHID(), ControllerConstants.k_dpadDown)
+      .whileTrue(
+        new InstantCommand(() -> m_algaeSubsystem.intake())
+      )
+      .onFalse(
+        new InstantCommand(() -> m_algaeSubsystem.stopShooter())
+      );
+    */
   }
   
   // Commands!
@@ -272,8 +285,13 @@ public class RobotContainer {
 
   // Command Chain for Removing Algae
   SequentialCommandGroup RemoveAlgaeCommand = new SequentialCommandGroup(
+    new SetWristCommand(m_wristSubsystem, "score"),
+    new ZeroWristCommand(m_wristSubsystem),
     new AimNRangeAlgaeRemovalCommand(m_swerveSubsystem, "position"),
-    new SetElevatorCommand(m_elevatorSubsystem, "algae"),
+    new ParallelCommandGroup(
+      new SetElevatorCommand(m_elevatorSubsystem, "algae"),
+      new RunIntakeForSecsCommand(m_intakeSubsystem, 1)
+    ),
     new ZeroWristCommand(m_wristSubsystem),
     new SetWristCommand(m_wristSubsystem, "intake"),
     new AimNRangeAlgaeRemovalCommand(m_swerveSubsystem, "remove"),
@@ -283,16 +301,17 @@ public class RobotContainer {
 
   // Command Chain for Scoring on L2
   SequentialCommandGroup ScoreL2Command = new SequentialCommandGroup(
-    new ZeroElevatorCommand(m_elevatorSubsystem),
-    new ParallelCommandGroup(
-      new SetElevatorCommand(m_elevatorSubsystem, "L2"),
-      new RunIntakeForSecsCommand(m_intakeSubsystem, 1.5),
-      new SequentialCommandGroup(
-        new SetWristCommand(m_wristSubsystem, "score"),
-        new ZeroWristCommand(m_wristSubsystem)
-      )
+    new ParallelDeadlineGroup(
+      new ParallelCommandGroup(
+        new SetElevatorCommand(m_elevatorSubsystem, "L2"),
+        new SequentialCommandGroup(
+          new SetWristCommand(m_wristSubsystem, "score"),
+          new ZeroWristCommand(m_wristSubsystem)
+        ) 
+      ),
+      new RunIntakeForSecsCommand(m_intakeSubsystem, 3.0)
     ),
-    new RunShootForSecsCommand(m_intakeSubsystem, 1.0, VisionConstants.k_positioned),
+    new RunShootForSecsCommand(m_intakeSubsystem, 1.0, true),
     new ZeroWristCommand(m_wristSubsystem),
     new SetElevatorCommand(m_elevatorSubsystem, "zero"),
     new ZeroElevatorCommand(m_elevatorSubsystem)
@@ -300,16 +319,17 @@ public class RobotContainer {
 
   // Command Chain for Scoring on L3
   SequentialCommandGroup ScoreL3Command = new SequentialCommandGroup(
-    new ZeroElevatorCommand(m_elevatorSubsystem),
-    new ParallelCommandGroup(
-      new SetElevatorCommand(m_elevatorSubsystem, "L3"),
-      new RunIntakeForSecsCommand(m_intakeSubsystem, 1.8),
-      new SequentialCommandGroup(
-        new SetWristCommand(m_wristSubsystem, "score"),
-        new ZeroWristCommand(m_wristSubsystem)
-      )
+    new ParallelDeadlineGroup(
+      new ParallelCommandGroup(
+        new SetElevatorCommand(m_elevatorSubsystem, "L3"),
+        new SequentialCommandGroup(
+          new SetWristCommand(m_wristSubsystem, "score"),
+          new ZeroWristCommand(m_wristSubsystem)
+        ) 
+      ),
+      new RunIntakeForSecsCommand(m_intakeSubsystem, 3.0)
     ),
-    new RunShootForSecsCommand(m_intakeSubsystem, 1.0, VisionConstants.k_positioned),
+    new RunShootForSecsCommand(m_intakeSubsystem, 1.0, true),
     new ZeroWristCommand(m_wristSubsystem),
     new SetElevatorCommand(m_elevatorSubsystem, "zero"),
     new ZeroElevatorCommand(m_elevatorSubsystem)
@@ -317,16 +337,17 @@ public class RobotContainer {
 
   // Command Chain for Scoring on L4
   SequentialCommandGroup ScoreL4Command = new SequentialCommandGroup(
-    new ZeroElevatorCommand(m_elevatorSubsystem),
-    new ParallelCommandGroup(
-      new SetElevatorCommand(m_elevatorSubsystem, "L4"),
-      new RunIntakeForSecsCommand(m_intakeSubsystem, 1.5),
-      new SequentialCommandGroup(
-        new SetWristCommand(m_wristSubsystem, "score"),
-        new ZeroWristCommand(m_wristSubsystem)
-      )
+    new ParallelDeadlineGroup(
+      new ParallelCommandGroup(
+        new SetElevatorCommand(m_elevatorSubsystem, "L4"),
+        new SequentialCommandGroup(
+          new SetWristCommand(m_wristSubsystem, "score"),
+          new ZeroWristCommand(m_wristSubsystem)
+        ) 
+      ),
+      new RunIntakeForSecsCommand(m_intakeSubsystem, 3.0)
     ),
-    new RunShootForSecsCommand(m_intakeSubsystem, 1.0, VisionConstants.k_positioned),
+    new RunShootForSecsCommand(m_intakeSubsystem, 1.0, true),
     new ZeroWristCommand(m_wristSubsystem),
     new SetElevatorCommand(m_elevatorSubsystem, "zero"),
     new ZeroElevatorCommand(m_elevatorSubsystem)
@@ -334,12 +355,15 @@ public class RobotContainer {
 
   // Command Chain for Completely Automated L2
   SequentialCommandGroup AimNRangescoreL2Command = new SequentialCommandGroup(
+    new ZeroElevatorCommand(m_elevatorSubsystem),
     new ParallelDeadlineGroup(
-      new AimNRangeCommand(m_swerveSubsystem),
-      new SetElevatorCommand(m_elevatorSubsystem, "L2"),
-      new SequentialCommandGroup(
-        new SetWristCommand(m_wristSubsystem, "score"),
-        new ZeroWristCommand(m_wristSubsystem)
+      new ParallelCommandGroup(
+        new AimNRangeCommand(m_swerveSubsystem),
+        new SetElevatorCommand(m_elevatorSubsystem, "L2"),
+        new SequentialCommandGroup(
+          new SetWristCommand(m_wristSubsystem, "score"),
+          new ZeroWristCommand(m_wristSubsystem)
+        ) 
       ),
       new RunIntakeForSecsCommand(m_intakeSubsystem, 3.0)
     ),
@@ -351,12 +375,15 @@ public class RobotContainer {
 
   // Command Chain for Completely Automated L3
   SequentialCommandGroup AimNRangescoreL3Command = new SequentialCommandGroup(
+    new ZeroElevatorCommand(m_elevatorSubsystem),
     new ParallelDeadlineGroup(
-      new AimNRangeCommand(m_swerveSubsystem),
-      new SetElevatorCommand(m_elevatorSubsystem, "L3"),
-      new SequentialCommandGroup(
-        new SetWristCommand(m_wristSubsystem, "score"),
-        new ZeroWristCommand(m_wristSubsystem)
+      new ParallelCommandGroup(
+        new AimNRangeCommand(m_swerveSubsystem),
+        new SetElevatorCommand(m_elevatorSubsystem, "L3"),
+        new SequentialCommandGroup(
+          new SetWristCommand(m_wristSubsystem, "score"),
+          new ZeroWristCommand(m_wristSubsystem)
+        ) 
       ),
       new RunIntakeForSecsCommand(m_intakeSubsystem, 3.0)
     ),
@@ -368,12 +395,15 @@ public class RobotContainer {
 
   // Command Chain for Completely Automated L4
   SequentialCommandGroup AimNRangescoreL4Command = new SequentialCommandGroup(
+    new ZeroElevatorCommand(m_elevatorSubsystem),
     new ParallelDeadlineGroup(
-      new AimNRangeCommand(m_swerveSubsystem),
-      new SetElevatorCommand(m_elevatorSubsystem, "L4"),
-      new SequentialCommandGroup(
-        new SetWristCommand(m_wristSubsystem, "score"),
-        new ZeroWristCommand(m_wristSubsystem)
+      new ParallelCommandGroup(
+        new AimNRangeCommand(m_swerveSubsystem),
+        new SetElevatorCommand(m_elevatorSubsystem, "L4"),
+        new SequentialCommandGroup(
+          new SetWristCommand(m_wristSubsystem, "score"),
+          new ZeroWristCommand(m_wristSubsystem)
+        ) 
       ),
       new RunIntakeForSecsCommand(m_intakeSubsystem, 3.0)
     ),
@@ -385,14 +415,17 @@ public class RobotContainer {
 
   // Command Chain for Completely Automated L4 in Auto - RIGHT REEF
   SequentialCommandGroup AimNRangeScoreAutoRightCommand = new SequentialCommandGroup(
+    new ZeroElevatorCommand(m_elevatorSubsystem),
     new ParallelDeadlineGroup(
-      new AimNRangeAutoCommand(m_swerveSubsystem, true),
-      new SetElevatorCommand(m_elevatorSubsystem, "L4"),
-      new SequentialCommandGroup(
-        new SetWristCommand(m_wristSubsystem, "score"),
-        new ZeroWristCommand(m_wristSubsystem)
+      new ParallelCommandGroup(
+        new AimNRangeAutoCommand(m_swerveSubsystem, false),
+        new SetElevatorCommand(m_elevatorSubsystem, "L4"),
+        new SequentialCommandGroup(
+          new SetWristCommand(m_wristSubsystem, "score"),
+          new ZeroWristCommand(m_wristSubsystem)
+        ) 
       ),
-      new RunIntakeForSecsCommand(m_intakeSubsystem, 1.8)
+      new RunIntakeForSecsCommand(m_intakeSubsystem, 3.0)
     ),
     new RunShootForSecsCommand(m_intakeSubsystem, 0.7, VisionConstants.k_positioned),
     new ZeroWristCommand(m_wristSubsystem),
@@ -402,14 +435,17 @@ public class RobotContainer {
 
   // Command Chain for Completely Automated L4 in Auto - LEFT REEF
   SequentialCommandGroup AimNRangeScoreAutoLeftCommand = new SequentialCommandGroup(
+    new ZeroElevatorCommand(m_elevatorSubsystem),
     new ParallelDeadlineGroup(
-      new AimNRangeAutoCommand(m_swerveSubsystem, false),
-      new SetElevatorCommand(m_elevatorSubsystem, "L4"),
-      new SequentialCommandGroup(
-        new SetWristCommand(m_wristSubsystem, "score"),
-        new ZeroWristCommand(m_wristSubsystem)
+      new ParallelCommandGroup(
+        new AimNRangeAutoCommand(m_swerveSubsystem, false),
+        new SetElevatorCommand(m_elevatorSubsystem, "L4"),
+        new SequentialCommandGroup(
+          new SetWristCommand(m_wristSubsystem, "score"),
+          new ZeroWristCommand(m_wristSubsystem)
+        ) 
       ),
-      new RunIntakeForSecsCommand(m_intakeSubsystem, 1.8)
+      new RunIntakeForSecsCommand(m_intakeSubsystem, 3.0)
     ),
     new RunShootForSecsCommand(m_intakeSubsystem, 0.7, VisionConstants.k_positioned),
     new ZeroWristCommand(m_wristSubsystem),

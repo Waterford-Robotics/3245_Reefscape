@@ -9,6 +9,7 @@ import frc.robot.Constants.VisionConstants;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.Limelight.LimelightHelpers;
 
+// TODO: Add algae PID
 
 // Positions Robot at the Nearest Valid Target
 public class AimNRangeAlgaeRemovalCommand extends Command {
@@ -20,9 +21,9 @@ public class AimNRangeAlgaeRemovalCommand extends Command {
   Timer timer = new Timer();
 
   // PID Controller stuff (woah so many so scary) 
-  PIDController m_aimController = new PIDController(VisionConstants.kP_aim, VisionConstants.kI_aim, VisionConstants.kD_aim);
-  PIDController m_rangeController = new PIDController(VisionConstants.kP_range, VisionConstants.kI_range, VisionConstants.kD_range);
-  PIDController m_strafeController = new PIDController(VisionConstants.kP_strafe, VisionConstants.kI_strafe, VisionConstants.kD_strafe);
+  PIDController m_aimController = new PIDController(VisionConstants.kP_aimAlgae, VisionConstants.kI_aimAlgae, VisionConstants.kD_aimAlgae);
+  PIDController m_rangeController = new PIDController(VisionConstants.kP_rangeAlgae, VisionConstants.kI_rangeAlgae, VisionConstants.kD_rangeAlgae);
+  PIDController m_strafeController = new PIDController(VisionConstants.kP_strafeAlgae, VisionConstants.kI_strafeAlgae, VisionConstants.kD_strafeAlgae);
 
   // Bot Pose Target Space Relative [TX, TY, TZ, Pitch, Yaw, Roll]
   private double[] botPoseTargetSpace = new double[6];

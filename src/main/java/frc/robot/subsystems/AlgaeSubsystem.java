@@ -28,8 +28,8 @@ public class AlgaeSubsystem extends SubsystemBase{
 
   public AlgaeSubsystem() {
     
-    m_algaeWrist = new TalonFX(MotorIDConstants.k_algaeWristID, "Elevator/Coral");
-    m_algaeIntake = new TalonFX(MotorIDConstants.k_algaeIntakeID, "Elevator/Coral");
+    m_algaeWrist = new TalonFX(MotorIDConstants.k_algaeWristID);
+    m_algaeIntake = new TalonFX(MotorIDConstants.k_algaeIntakeID);
 
     lastDesiredPosition = Units.Rotations.of(0);
 
@@ -92,7 +92,7 @@ public class AlgaeSubsystem extends SubsystemBase{
     }
 
     public void intake(){
-      m_algaeIntake.set(-0.1);
+      m_algaeIntake.set(-0.5);
     }
 
     public void periodic() {
