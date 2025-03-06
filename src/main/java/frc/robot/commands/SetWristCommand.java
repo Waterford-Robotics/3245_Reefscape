@@ -34,12 +34,12 @@ public class SetWristCommand extends Command {
   public void execute() {
 
     // Raise to Intake Position
-    if (m_level == "intake") {
+    if (m_level.equals("intake")) {
       m_WristSubsystem.setPosition(WristConstants.k_wristIntakeAngle);
     }
 
     // Lower to Scoring Position
-    if(m_level == "score") {
+    if(m_level.equals("score")) {
       m_WristSubsystem.setPosition(WristConstants.k_wristScoreAngle);
     }
   }

@@ -28,12 +28,12 @@ public class SetReefCommand extends Command {
   public void execute() {
 
     // Set to Left Reef
-    if (m_reef == "left") {
+    if (m_reef.equals("left")) {
       VisionConstants.k_isRightReef = false;
     }
 
     // Set to Right Reef
-    if(m_reef == "right") {
+    if(m_reef.equals("right")) {
       VisionConstants.k_isRightReef  = true;
     }
   }
