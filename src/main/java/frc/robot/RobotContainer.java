@@ -6,6 +6,7 @@ package frc.robot;
 
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.ElevatorConstants;
 import frc.robot.Constants.VisionConstants;
 import frc.robot.commands.SetElevatorCommand;
 import frc.robot.commands.SetReefCommand;
@@ -56,7 +57,8 @@ public class RobotContainer {
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  private final CommandXboxController m_driverController = new CommandXboxController(ControllerConstants.kDriverControllerPort);
+  private final CommandXboxController m_driverController = new CommandXboxController(ControllerConstants.k_driverControllerPort);
+  private final CommandXboxController m_operatorController = new CommandXboxController(ControllerConstants.k_operatorControllerPort);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -73,6 +75,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("Score Right Reef", AimNRangeScoreAutoRightCommand);
     NamedCommands.registerCommand("Raise Wrist", RaiseWristCommand);
     NamedCommands.registerCommand("Intake", IntakeAutoCommand);
+    NamedCommands.registerCommand("Zero Gyro", new InstantCommand(() -> m_swerveSubsystem.zeroGyro(), m_swerveSubsystem));
 
     /* 
      * KEY:
@@ -142,74 +145,92 @@ public class RobotContainer {
   // Trigger & Button Bindings!
   private void configureBindings() {
     
-    // Lower Elevator Manually - "A" Button
+    /*
+     * DRIVER CONTROLLER
+     * A - 
+     * B - AimNRangeL2
+     * X - AimNRangeL3
+     * Y - AimNRangeL4
+     * Right Bump - Raise Wrist
+     * Left Bump - Intake Algae [TBD!!!!!]
+     * Right Trig - Strafe and Intake
+     * Left Trig - Eject Algae [TBD!!!!!]
+     * Start - Reset Gyro
+     * Back - Reset Elevator
+     * POV UP - Automated De-Algae
+     * POV DOWN - 
+     * POV LEFT - Set Destination to Left Branch
+     * POV RIGHT - Set Destination to Right Branch
+     */
+    
+    // Automatic Reset Elevator - "A" Button
     new JoystickButton(m_driverController.getHID(), ControllerConstants.k_A)
       .onTrue(
         ResetElevatorCommand
       );
     
-    // Score Coral on L2 and Zero Elevator - "B" Button
+    // Automated Coral L2 - "B" Button
     new JoystickButton(m_driverController.getHID(), ControllerConstants.k_B)
       .onTrue(
         AimNRangescoreL2Command
       );
 
-    // Score Coral on L3 and Zero Elevator - "X" Button
+    // Automated Coral L3 - "X" Button
     new JoystickButton(m_driverController.getHID(), ControllerConstants.k_X)
       .onTrue(
         AimNRangescoreL3Command
       );
 
-    // Score Coral on L4 and Zero Elevator - "Y" Button
+    // Automated Coral L4 - "Y" Button
     new JoystickButton(m_driverController.getHID(), ControllerConstants.k_Y)
       .onTrue(
         AimNRangescoreL4Command
       );
     
-    // Strafe Right - Right Bump
+    // Raise Wrist - Right Bump
     new JoystickButton(m_driverController.getHID(), ControllerConstants.k_rightbump)
-      .whileTrue(
-        new RunCommand(() -> m_swerveSubsystem.driveCommandLimelight(0, 0.15, 0))
-      )
-      .onFalse(
-        new InstantCommand(() -> m_swerveSubsystem.driveCommandLimelight(0, 0, 0))
-      );
-
-    // Strafe Left - Left Bump
-    new JoystickButton(m_driverController.getHID(), ControllerConstants.k_leftbump)
-      .onTrue(
-        LowerWristCommand
-      );
-
-    // Intake Manually - Right Trig
-    new Trigger(() -> m_driverController.getRawAxis(ControllerConstants.k_righttrig) > 0.05)
-      .whileTrue(
-        new InstantCommand(() -> m_intakeSubsystem.intake(), m_wristSubsystem)
-      )
-      .whileFalse(
-        new InstantCommand(() -> m_intakeSubsystem.stopShooter(), m_wristSubsystem)
-      );
-
-    // Raise Wrist - Left Trig
-    new Trigger(() -> m_driverController.getRawAxis(ControllerConstants.k_lefttrig) > 0.05)
       .onTrue(
         RaiseWristCommand
       );
 
-      /*
-      .whileTrue(
-        new InstantCommand(() -> m_wristSubsystem.shoot(), m_wristSubsystem)
-      )
-      .whileFalse(
-        new InstantCommand(() -> m_wristSubsystem.stopShooter(), m_wristSubsystem)
+    // Intake Algae - Left Bump
+    /*
+    new JoystickButton(m_driverController.getHID(), ControllerConstants.k_leftbump)
+      .onTrue(
+        LowerWristCommand
       );
-      */
+    */
 
-    // Reset Gyro
+    // Intake and Strafe Together - Right Trig
+    new Trigger(() -> m_driverController.getRawAxis(ControllerConstants.k_righttrig) > 0.05)
+      .whileTrue(
+        new InstantCommand(() -> m_intakeSubsystem.intake(), m_intakeSubsystem).alongWith(
+        new RunCommand(() -> m_swerveSubsystem.driveCommandLimelight(0, 0.15, 0), m_swerveSubsystem))
+      )
+      .onFalse(
+        new InstantCommand(() -> m_intakeSubsystem.stopShooter(), m_intakeSubsystem).alongWith(
+        new InstantCommand(() -> m_swerveSubsystem.driveCommandLimelight(0, 0, 0), m_swerveSubsystem))
+      );
+
+    // Eject Algae - Left Trig
+    /* 
+    new Trigger(() -> m_driverController.getRawAxis(ControllerConstants.k_lefttrig) > 0.05)
+      .onTrue(
+        RaiseWristCommand
+      );
+    */
+
+    // Reset Gyro - Start Button
     new JoystickButton(m_driverController.getHID(), ControllerConstants.k_start)
       .onTrue(
         new InstantCommand(() -> m_swerveSubsystem.zeroGyro(), m_swerveSubsystem)
       );
+    
+    // Reset Elevator - Back Button
+    new JoystickButton(m_driverController.getHID(), ControllerConstants.k_back)
+    .onTrue(
+      ResetElevatorCommand
+    );
 
     // Set AimNRange Destination to "Right"
     new POVButton(m_driverController.getHID(), ControllerConstants.k_dpadRight)
@@ -233,10 +254,123 @@ public class RobotContainer {
     /*
     new POVButton(m_driverController.getHID(), ControllerConstants.k_dpadDown)
       .whileTrue(
-        new InstantCommand(() -> m_algaeSubsystem.intake())
+        new InstantCommand(() -> m_algaeSubsystem.intake(), m_algaeSubsystem)
       )
       .onFalse(
-        new InstantCommand(() -> m_algaeSubsystem.stopShooter())
+        new InstantCommand(() -> m_algaeSubsystem.stopShooter(), m_algaeSubsystem)
+      );
+    */
+
+    /*
+     * OPERATOR CONTROLLER
+     * A - Lower Elevator
+     * B - Raise L2
+     * X - Raise L3
+     * Y - Raise L4
+     * Right Bump - Raise Wrist
+     * Left Bump - Lower Wrist
+     * Right Trig - Intake Coral
+     * Left Trig - Shoot Coral
+     * Start - Neutral Elevator Manual
+     * Back - Zero Elevator Manual
+     * TODO: POV UP - Algae Intake [TBD!!!!!!]
+     * TODO: POV DOWN - Algae Eject [TBD!!!!!!]
+     * POV LEFT - Set Destination to Left Branch
+     * POV RIGHT - Set Destination to Right Branch
+     */
+    
+    // Lower Elevator - "A" Button
+    new JoystickButton(m_operatorController.getHID(), ControllerConstants.k_A)
+      .onTrue(
+        ResetElevatorCommand
+      );
+    
+    // Raise Elevator to L2 - "B" Button
+    new JoystickButton(m_operatorController.getHID(), ControllerConstants.k_B)
+      .onTrue(
+        RaiseL2Command
+      );
+
+    // Raise Elevator to L3 - "X" Button
+    new JoystickButton(m_operatorController.getHID(), ControllerConstants.k_X)
+      .onTrue(
+        RaiseL3Command
+      );
+
+    // Raise Elevator to L4 - "Y" Button
+    new JoystickButton(m_operatorController.getHID(), ControllerConstants.k_Y)
+      .onTrue(
+        RaiseL4Command
+      );
+    
+    // Raise Wrist - Right Bump
+    new JoystickButton(m_operatorController.getHID(), ControllerConstants.k_rightbump)
+      .onTrue(
+        RaiseWristCommand
+      );
+
+    // Lower Wrist - Left Bump
+    new JoystickButton(m_operatorController.getHID(), ControllerConstants.k_leftbump)
+      .onTrue(
+        LowerWristCommand
+      );
+
+    // Intake - Right Trig
+    new Trigger(() -> m_operatorController.getRawAxis(ControllerConstants.k_righttrig) > 0.05)
+      .whileTrue(
+        new InstantCommand(() -> m_intakeSubsystem.intake(), m_intakeSubsystem)
+      )
+      .onFalse(
+        new InstantCommand(() -> m_intakeSubsystem.stopShooter(), m_intakeSubsystem)
+      );
+
+    // Eject Algae - Left Trig
+    new Trigger(() -> m_operatorController.getRawAxis(ControllerConstants.k_lefttrig) > 0.05)
+      .whileTrue(
+        new InstantCommand(() -> m_intakeSubsystem.shoot(), m_intakeSubsystem)
+      )
+      .onFalse(
+        new InstantCommand(() -> m_intakeSubsystem.stopShooter(), m_intakeSubsystem)
+      );
+
+    // Neutral Elevator - Start Button
+    new JoystickButton(m_operatorController.getHID(), ControllerConstants.k_start)
+      .onTrue(
+        new InstantCommand(() -> m_elevatorSubsystem.setNeutral(), m_elevatorSubsystem)
+      );
+    
+    // Reset Elevator Manually - Back Button
+    new JoystickButton(m_operatorController.getHID(), ControllerConstants.k_back)
+    .onTrue(
+      new InstantCommand(() -> m_elevatorSubsystem.resetSensorPosition(ElevatorConstants.k_zeroHeight), m_elevatorSubsystem)
+    );
+
+    // Set AimNRange Destination to "Right"
+    new POVButton(m_operatorController.getHID(), ControllerConstants.k_dpadRight)
+      .onTrue(
+        new SetReefCommand("right")
+      );
+
+    // Set AimNRange Destination to "Left"
+    new POVButton(m_operatorController.getHID(), ControllerConstants.k_dpadLeft)
+      .onTrue(
+        new SetReefCommand("left")
+      );
+
+    /*
+    // Algae Intake
+    new POVButton(m_operatorController.getHID(), ControllerConstants.k_dpadup)
+      .onTrue(
+        RemoveAlgaeCommand
+      );
+
+    // Algae Eject
+    new POVButton(m_driverController.getHID(), ControllerConstants.k_dpadDown)
+      .whileTrue(
+        new InstantCommand(() -> m_algaeSubsystem.intake(), m_algaeSubsystem)
+      )
+      .onFalse(
+        new InstantCommand(() -> m_algaeSubsystem.stopShooter(), m_algaeSubsystem)
       );
     */
   }
@@ -277,10 +411,7 @@ public class RobotContainer {
   
   // Command Chain for Intake Auto
   SequentialCommandGroup IntakeAutoCommand = new SequentialCommandGroup(
-    new ParallelDeadlineGroup(
-      new RunIntakeForSecsCommand(m_intakeSubsystem, 1.0),
-      new RunCommand(() -> m_swerveSubsystem.driveCommandLimelight(0, 0.15, 0))
-    )
+    new RunIntakeForSecsCommand(m_intakeSubsystem, 1.0)
   );
 
   // Command Chain for Removing Algae
@@ -299,8 +430,8 @@ public class RobotContainer {
     new ZeroElevatorCommand(m_elevatorSubsystem)
   );
 
-  // Command Chain for Scoring on L2
-  SequentialCommandGroup ScoreL2Command = new SequentialCommandGroup(
+  // Command Chain for Raising to L2
+  SequentialCommandGroup RaiseL2Command = new SequentialCommandGroup(
     new ParallelDeadlineGroup(
       new ParallelCommandGroup(
         new SetElevatorCommand(m_elevatorSubsystem, "L2"),
@@ -310,15 +441,17 @@ public class RobotContainer {
         ) 
       ),
       new RunIntakeForSecsCommand(m_intakeSubsystem, 3.0)
-    ),
+    )
+    /* 
     new RunShootForSecsCommand(m_intakeSubsystem, 1.0, true),
     new ZeroWristCommand(m_wristSubsystem),
     new SetElevatorCommand(m_elevatorSubsystem, "zero"),
     new ZeroElevatorCommand(m_elevatorSubsystem)
+    */
   );
 
-  // Command Chain for Scoring on L3
-  SequentialCommandGroup ScoreL3Command = new SequentialCommandGroup(
+  // Command Chain for Raising to L3
+  SequentialCommandGroup RaiseL3Command = new SequentialCommandGroup(
     new ParallelDeadlineGroup(
       new ParallelCommandGroup(
         new SetElevatorCommand(m_elevatorSubsystem, "L3"),
@@ -328,15 +461,17 @@ public class RobotContainer {
         ) 
       ),
       new RunIntakeForSecsCommand(m_intakeSubsystem, 3.0)
-    ),
+    )
+    /*
     new RunShootForSecsCommand(m_intakeSubsystem, 1.0, true),
     new ZeroWristCommand(m_wristSubsystem),
     new SetElevatorCommand(m_elevatorSubsystem, "zero"),
     new ZeroElevatorCommand(m_elevatorSubsystem)
+    */
   );
 
-  // Command Chain for Scoring on L4
-  SequentialCommandGroup ScoreL4Command = new SequentialCommandGroup(
+  // Command Chain for Raising to L4
+  SequentialCommandGroup RaiseL4Command = new SequentialCommandGroup(
     new ParallelDeadlineGroup(
       new ParallelCommandGroup(
         new SetElevatorCommand(m_elevatorSubsystem, "L4"),
@@ -346,11 +481,13 @@ public class RobotContainer {
         ) 
       ),
       new RunIntakeForSecsCommand(m_intakeSubsystem, 3.0)
-    ),
+    )
+    /* 
     new RunShootForSecsCommand(m_intakeSubsystem, 1.0, true),
     new ZeroWristCommand(m_wristSubsystem),
     new SetElevatorCommand(m_elevatorSubsystem, "zero"),
     new ZeroElevatorCommand(m_elevatorSubsystem)
+    */
   );
 
   // Command Chain for Completely Automated L2
@@ -370,7 +507,10 @@ public class RobotContainer {
     new RunShootForSecsCommand(m_intakeSubsystem, 0.7, VisionConstants.k_positioned),
     new ZeroWristCommand(m_wristSubsystem),
     new SetElevatorCommand(m_elevatorSubsystem, "zero"),
-    new ZeroElevatorCommand(m_elevatorSubsystem)
+    new ParallelCommandGroup(
+      new ZeroElevatorCommand(m_elevatorSubsystem),
+      new SetWristCommand(m_wristSubsystem, "intake")
+    )
   );
 
   // Command Chain for Completely Automated L3
@@ -390,7 +530,10 @@ public class RobotContainer {
     new RunShootForSecsCommand(m_intakeSubsystem, 0.7, VisionConstants.k_positioned),
     new ZeroWristCommand(m_wristSubsystem),
     new SetElevatorCommand(m_elevatorSubsystem, "zero"),
-    new ZeroElevatorCommand(m_elevatorSubsystem)
+    new ParallelCommandGroup(
+      new ZeroElevatorCommand(m_elevatorSubsystem),
+      new SetWristCommand(m_wristSubsystem, "intake")
+    )
   );
 
   // Command Chain for Completely Automated L4
@@ -410,7 +553,10 @@ public class RobotContainer {
     new RunShootForSecsCommand(m_intakeSubsystem, 0.7, VisionConstants.k_positioned),
     new ZeroWristCommand(m_wristSubsystem),
     new SetElevatorCommand(m_elevatorSubsystem, "zero"),
-    new ZeroElevatorCommand(m_elevatorSubsystem)
+    new ParallelCommandGroup(
+      new ZeroElevatorCommand(m_elevatorSubsystem),
+      new SetWristCommand(m_wristSubsystem, "intake")
+    )
   );
 
   // Command Chain for Completely Automated L4 in Auto - RIGHT REEF
@@ -418,7 +564,7 @@ public class RobotContainer {
     new ZeroElevatorCommand(m_elevatorSubsystem),
     new ParallelDeadlineGroup(
       new ParallelCommandGroup(
-        new AimNRangeAutoCommand(m_swerveSubsystem, false),
+        new AimNRangeAutoCommand(m_swerveSubsystem, true),
         new SetElevatorCommand(m_elevatorSubsystem, "L4"),
         new SequentialCommandGroup(
           new SetWristCommand(m_wristSubsystem, "score"),

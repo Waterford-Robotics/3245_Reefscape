@@ -58,6 +58,12 @@
           "data": {
             "pathName": "TeamSource-FarRight-2.5c"
           }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Zero Gyro"
+          }
         }
       ]
     }

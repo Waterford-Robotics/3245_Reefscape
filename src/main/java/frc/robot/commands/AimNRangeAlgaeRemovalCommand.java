@@ -9,8 +9,6 @@ import frc.robot.Constants.VisionConstants;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.Limelight.LimelightHelpers;
 
-// TODO: Add algae PID
-
 // Positions Robot at the Nearest Valid Target
 public class AimNRangeAlgaeRemovalCommand extends Command {
     

@@ -115,8 +115,6 @@ public class AimNRangeCommand extends Command {
     // Update the pose from NetworkTables (Limelight Readings)
     botPoseTargetSpace = NetworkTableInstance.getDefault().getTable(VisionConstants.k_limelightName).getEntry("botpose_targetspace").getDoubleArray(new double[6]);
 
-    if (timer.get() > 2 || !tiv) VisionConstants.k_positioned = false;
-
     // Checks for a continued valid pose
     if (tiv){
       tiv = LimelightHelpers.getTV(VisionConstants.k_limelightName)
@@ -128,17 +126,28 @@ public class AimNRangeCommand extends Command {
   // Add stuff we do after to reset here (a.k.a tag filters)
   public void end(boolean interrupted) {
     VisionConstants.k_positioning = false;
+
+    if (timer.get() > 2 || 
+      // Strafe (Right Right Positioning)
+      Math.abs(botPoseTargetSpace[0] - m_strafeTarget) > VisionConstants.k_strafeThreshold ||
+      // Range (Distance to Tag)
+      Math.abs(botPoseTargetSpace[2] - m_rangeTarget) > VisionConstants.k_rangeThreshold ||
+      // Aim (Angle)
+      Math.abs(botPoseTargetSpace[4] - m_aimTarget) > VisionConstants.k_aimThreshold) {
+        
+        VisionConstants.k_positioned = false;
+    }
   }
 
   // Are we done yet? Finishes when threshold is reached or if no tag in view or if timer is reached 
   public boolean isFinished() {
     return (
       // Strafe (Right Right Positioning)
-      Math.abs(botPoseTargetSpace[0] - m_strafeTarget)  < VisionConstants.k_strafeThreshold) &&
+      Math.abs(botPoseTargetSpace[0] - m_strafeTarget) < VisionConstants.k_strafeThreshold) &&
       // Range (Distance to Tag)
       Math.abs(botPoseTargetSpace[2] - m_rangeTarget) < VisionConstants.k_rangeThreshold &&
       // Aim (Angle)
-      Math.abs(botPoseTargetSpace[4] - m_aimTarget)  < VisionConstants.k_aimThreshold
+      Math.abs(botPoseTargetSpace[4] - m_aimTarget) < VisionConstants.k_aimThreshold
 
       // What did the B say in the summertime?
       // I do love to be beside the C

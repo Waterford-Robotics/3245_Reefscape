@@ -13,10 +13,13 @@ import edu.wpi.first.wpilibj.XboxController.Button;
 public final class Constants {
 
   public static final class ControllerConstants {
-    public static final int kDriverControllerPort = 0;
-    public static final double kDriveDeadband = 0.10;
+    public static final int k_driverControllerPort = 0; // Driver
+    public static final int k_operatorControllerPort = 1; // Operator
+
+    // public static final double k_driveDeadband = 0.10; // Increase to combat larger stick drift
 
     public final static int k_start = Button.kStart.value; // Start Button
+    public final static int k_back = Button.kBack.value; // Back Button
 
     public static final int k_A = Button.kA.value; // A
     public static final int k_B = Button.kB.value; // B
@@ -30,6 +33,7 @@ public final class Constants {
 
     public final static int k_rightbump = Button.kRightBumper.value; // Right Bump
     public final static int k_leftbump = Button.kLeftBumper.value; // Left Bump
+
     public final static int k_righttrig = Axis.kRightTrigger.value; // Right Trig
     public final static int k_lefttrig = Axis.kLeftTrigger.value; // Left Trig
   }
@@ -38,7 +42,7 @@ public final class Constants {
   public static final class SwerveConstants {
 
     // Must be max physically possible speed
-    public static final double k_maxSpeed = edu.wpi.first.math.util.Units.feetToMeters(18.9);
+    public static final double k_maxSpeed = edu.wpi.first.math.util.Units.feetToMeters(18.9); // Meters per second
     public static final double k_maxAngularSpeed = 1.5 * Math.PI; // Radians per second
   }
 
@@ -84,7 +88,7 @@ public final class Constants {
     public static final Distance k_coralL3Height = Units.Inches.of(21);
     public static final Distance k_coralL4Height = Units.Inches.of(48.6);
 
-    public static final Distance k_algaeHeight = Units.Inches.of(25); // TODO: FIX ME
+    public static final Distance k_algaeHeight = Units.Inches.of(25);
   }
 
   // Constants for Wrist
@@ -212,10 +216,10 @@ public final class Constants {
     public static final double k_aimThreshold = 0.5;
 
     // Tag Reject Distance
-    public static final int rejectionDistance = 3;
+    public static final int k_rejectionDistance = 3;
 
     // Tag Reject Rotation Rate
-    public static final int rejectionRotationRate = 720;
+    public static final int k_rejectionRotationRate = 720;
 
     // For testing
     public static boolean k_positioning = false;

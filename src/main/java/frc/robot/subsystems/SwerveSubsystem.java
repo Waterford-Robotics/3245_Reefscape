@@ -247,8 +247,8 @@ public class SwerveSubsystem extends SubsystemBase {
 
   // Check if pose estimate is valid
   private boolean poseEstimateIsValid(LimelightHelpers.PoseEstimate estimate) {
-    return Math.abs(swerveDrive.getGyro().getYawAngularVelocity().magnitude()) < VisionConstants.rejectionRotationRate
-      && estimate.avgTagDist < VisionConstants.rejectionDistance;
+    return Math.abs(swerveDrive.getGyro().getYawAngularVelocity().magnitude()) < VisionConstants.k_rejectionRotationRate
+      && estimate.avgTagDist < VisionConstants.k_rejectionDistance;
   }
 
   // Updates Odometry with the Limelight Readings using MT2 - Replacement for updateVisionOdometry()
