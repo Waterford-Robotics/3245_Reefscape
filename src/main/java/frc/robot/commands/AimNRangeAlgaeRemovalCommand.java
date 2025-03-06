@@ -100,7 +100,7 @@ public class AimNRangeAlgaeRemovalCommand extends Command {
     );
 
     // Set Elevator Preset if at Correct Reef
-    if (tiv && m_stage == "position") {
+    if (tiv && m_stage.equals("position")) {
       fiducialID = (int) LimelightHelpers.getFiducialID(VisionConstants.k_limelightName);
       for (int ID : l3CoralIDs) {
         if (ID == fiducialID) {
@@ -110,7 +110,7 @@ public class AimNRangeAlgaeRemovalCommand extends Command {
     }
 
     // Set Constants
-    if (m_stage == "position") {
+    if (m_stage.equals("position")) {
       m_strafeTarget = VisionConstants.k_strafeAlgaePositionTarget;
       m_rangeTarget = VisionConstants.k_rangeAlgaePositionTarget;
       m_aimTarget = VisionConstants.k_aimAlgaePositionTarget;
