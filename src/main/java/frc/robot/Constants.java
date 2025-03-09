@@ -85,7 +85,7 @@ public final class Constants {
     public static final Distance k_zeroHeight = Units.Inches.of(0);
     public static final Distance k_coralL1Height = Units.Inches.of(0); 
     public static final Distance k_coralL2Height = Units.Inches.of(7);
-    public static final Distance k_coralL3Height = Units.Inches.of(21);
+    public static final Distance k_coralL3Height = Units.Inches.of(23);
     public static final Distance k_coralL4Height = Units.Inches.of(48.6);
 
     public static final Distance k_algaeHeight = Units.Inches.of(25);
@@ -96,6 +96,7 @@ public final class Constants {
     public static final double k_shooterRampRate = 0.05;
     public static final double k_shooterClosedMaxSpeed = 0.4;
     public static final int k_supplyCurrentLimit = 40;
+    public static final int k_intakeSupplyCurrentLimit = 60;
 
     public static final double k_shootSpeed = 0.2;
     public static final double k_intakeSpeed = 0.15;

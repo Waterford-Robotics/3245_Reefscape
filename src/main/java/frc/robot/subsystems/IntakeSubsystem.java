@@ -25,7 +25,7 @@ public class IntakeSubsystem extends SubsystemBase{
     shooterConfig.MotorOutput.PeakForwardDutyCycle = WristConstants.k_shooterClosedMaxSpeed;
     shooterConfig.MotorOutput.PeakReverseDutyCycle = -WristConstants.k_shooterClosedMaxSpeed;
     shooterConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-    shooterConfig.CurrentLimits.SupplyCurrentLimit = WristConstants.k_supplyCurrentLimit;
+    shooterConfig.CurrentLimits.SupplyCurrentLimit = WristConstants.k_intakeSupplyCurrentLimit;
 
     m_shooter.getConfigurator().apply(shooterConfig, 0.05);
   }

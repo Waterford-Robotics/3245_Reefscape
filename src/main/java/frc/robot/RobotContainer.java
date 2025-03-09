@@ -51,7 +51,7 @@ public class RobotContainer {
   private final ElevatorSubsystem m_elevatorSubsystem = new ElevatorSubsystem();
   private final WristSubsystem m_wristSubsystem = new WristSubsystem();
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
-  private final AlgaeSubsystem m_algaeSubsystem = new AlgaeSubsystem();
+  // private final AlgaeSubsystem m_algaeSubsystem = new AlgaeSubsystem();
 
   // Create New Choosing Option in SmartDashboard for Autos
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -157,7 +157,7 @@ public class RobotContainer {
      * Left Trig - Eject Algae [TBD!!!!!]
      * Start - Reset Gyro
      * Back - Reset Elevator
-     * POV UP - Automated De-Algae
+     * POV UP - 
      * POV DOWN - 
      * POV LEFT - Set Destination to Left Branch
      * POV RIGHT - Set Destination to Right Branch
@@ -245,11 +245,13 @@ public class RobotContainer {
       );
 
     // Remove Algae
+    /*
     new POVButton(m_driverController.getHID(), ControllerConstants.k_dpadup)
       .onTrue(
         RemoveAlgaeCommand
       );
-
+    */
+    
     // Alg Intake
     /*
     new POVButton(m_driverController.getHID(), ControllerConstants.k_dpadDown)
