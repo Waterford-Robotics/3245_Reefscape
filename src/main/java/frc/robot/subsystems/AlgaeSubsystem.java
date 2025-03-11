@@ -28,7 +28,7 @@ public class AlgaeSubsystem extends SubsystemBase{
 
   public AlgaeSubsystem() {
     
-    m_algaeWrist = new TalonFX(MotorIDConstants.k_algaeWristID);
+    m_algaeWrist = new TalonFX(MotorIDConstants.k_algaeArmID);
     m_algaeIntake = new TalonFX(MotorIDConstants.k_algaeIntakeID);
 
     lastDesiredPosition = Units.Rotations.of(0);
@@ -46,7 +46,7 @@ public class AlgaeSubsystem extends SubsystemBase{
     algaeWristConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = true; 
     algaeWristConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold = Units.Rotations.of(0.7).in(Units.Rotations); // TODO: Check me
     algaeWristConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
-    algaeWristConfig.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Units.Rotations.of(2).in(Units.Rotations); // Starting position
+    algaeWristConfig.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Units.Rotations.of(0).in(Units.Rotations); // Starting position
     algaeWristConfig.Slot0.GravityType = GravityTypeValue.Arm_Cosine;
 
     algaeWristConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;

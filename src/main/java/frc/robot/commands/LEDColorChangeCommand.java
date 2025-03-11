@@ -8,7 +8,7 @@ public class LEDColorChangeCommand extends Command {
     // Instantiate Stuff
     LEDSubsystem m_LEDSubsystem;
 
-    public LEDColorChangeCommand(LEDSubsystem ledSubsystem) {
+    public LEDColorChangeCommand(LEDSubsystem ledSubsystem, String color) {
         
         // Definitions and setting parameters are equal to members!
         m_LEDSubsystem = ledSubsystem;
@@ -20,7 +20,7 @@ public class LEDColorChangeCommand extends Command {
     
     @Override
     public void execute() {
-        m_LEDSubsystem.setConfetti();
+        // m_LEDSubsystem.setConfetti();
     }
 
     @Override

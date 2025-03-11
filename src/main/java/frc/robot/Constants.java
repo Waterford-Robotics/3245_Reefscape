@@ -67,8 +67,8 @@ public final class Constants {
     public static final int k_shooterKrakenID = 32;
 
     // Algae
-    public static final int k_algaeWristID = 41;
-    public static final int k_algaeIntakeID = 40;
+    public static final int k_algaeArmID = 40;
+    public static final int k_algaeIntakeID = 41;
   }
 
   // Constants for Sensor IDs
@@ -110,6 +110,9 @@ public final class Constants {
     public static final double k_algaeRampRate = 0.25;
     public static final double k_algaeClosedMaxSpeed = 0.8;
     public static final int k_algaeSupplyCurrentLimit = 40;
+
+    public static final Angle k_armZeroAngle = Units.Rotations.of(0);
+    public static final Angle k_armIntakeAngle = Units.Rotations.of(2.5);
   }
 
   // Constants for Motors
@@ -227,6 +230,7 @@ public final class Constants {
   }
 
   public static final class LEDConstants {
-    public static final int blinkinPort = 0;
+    public static final int blinkinPortLeft = 0;
+    public static final int blinkinPortRight = 1;
   }
 }

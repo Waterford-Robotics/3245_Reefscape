@@ -21,6 +21,7 @@ import frc.robot.commands.AimNRangeCommand;
 import frc.robot.subsystems.AlgaeSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.WristSubsystem;
 
@@ -52,6 +53,7 @@ public class RobotContainer {
   private final WristSubsystem m_wristSubsystem = new WristSubsystem();
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
   // private final AlgaeSubsystem m_algaeSubsystem = new AlgaeSubsystem();
+  private final LEDSubsystem m_ledSubsystem = new LEDSubsystem();
 
   // Create New Choosing Option in SmartDashboard for Autos
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -251,7 +253,7 @@ public class RobotContainer {
         RemoveAlgaeCommand
       );
     */
-    
+
     // Alg Intake
     /*
     new POVButton(m_driverController.getHID(), ControllerConstants.k_dpadDown)
@@ -432,6 +434,16 @@ public class RobotContainer {
     new ZeroElevatorCommand(m_elevatorSubsystem)
   );
 
+  // Command Chain for Finishing AimNRange
+  SequentialCommandGroup AimNRangeFinishCommand = new SequentialCommandGroup(
+    new SetElevatorCommand(m_elevatorSubsystem, "zero"),
+    new ParallelCommandGroup(
+      new ZeroElevatorCommand(m_elevatorSubsystem),
+      new SetWristCommand(m_wristSubsystem, "intake")
+    ),
+    new InstantCommand(() -> m_ledSubsystem.setAllianceColor(), m_ledSubsystem)
+  );
+
   // Command Chain for Raising to L2
   SequentialCommandGroup RaiseL2Command = new SequentialCommandGroup(
     new ParallelDeadlineGroup(
@@ -494,6 +506,7 @@ public class RobotContainer {
 
   // Command Chain for Completely Automated L2
   SequentialCommandGroup AimNRangescoreL2Command = new SequentialCommandGroup(
+    new InstantCommand(() -> m_ledSubsystem.setColorWavesForestLimelight(), m_ledSubsystem),
     new ZeroElevatorCommand(m_elevatorSubsystem),
     new ParallelDeadlineGroup(
       new ParallelCommandGroup(
@@ -512,11 +525,13 @@ public class RobotContainer {
     new ParallelCommandGroup(
       new ZeroElevatorCommand(m_elevatorSubsystem),
       new SetWristCommand(m_wristSubsystem, "intake")
-    )
+    ),
+    new InstantCommand(() -> m_ledSubsystem.setAllianceColor(), m_ledSubsystem)
   );
 
   // Command Chain for Completely Automated L3
   SequentialCommandGroup AimNRangescoreL3Command = new SequentialCommandGroup(
+    new InstantCommand(() -> m_ledSubsystem.setColorWavesForestLimelight(), m_ledSubsystem),
     new ZeroElevatorCommand(m_elevatorSubsystem),
     new ParallelDeadlineGroup(
       new ParallelCommandGroup(
@@ -535,11 +550,13 @@ public class RobotContainer {
     new ParallelCommandGroup(
       new ZeroElevatorCommand(m_elevatorSubsystem),
       new SetWristCommand(m_wristSubsystem, "intake")
-    )
+    ),
+    new InstantCommand(() -> m_ledSubsystem.setAllianceColor(), m_ledSubsystem)
   );
 
   // Command Chain for Completely Automated L4
   SequentialCommandGroup AimNRangescoreL4Command = new SequentialCommandGroup(
+    new InstantCommand(() -> m_ledSubsystem.setColorWavesForestLimelight(), m_ledSubsystem),
     new ZeroElevatorCommand(m_elevatorSubsystem),
     new ParallelDeadlineGroup(
       new ParallelCommandGroup(
@@ -558,11 +575,13 @@ public class RobotContainer {
     new ParallelCommandGroup(
       new ZeroElevatorCommand(m_elevatorSubsystem),
       new SetWristCommand(m_wristSubsystem, "intake")
-    )
+    ),
+    new InstantCommand(() -> m_ledSubsystem.setAllianceColor(), m_ledSubsystem)
   );
 
   // Command Chain for Completely Automated L4 in Auto - RIGHT REEF
   SequentialCommandGroup AimNRangeScoreAutoRightCommand = new SequentialCommandGroup(
+    new InstantCommand(() -> m_ledSubsystem.setColorWavesForestLimelight(), m_ledSubsystem),
     new ZeroElevatorCommand(m_elevatorSubsystem),
     new ParallelDeadlineGroup(
       new ParallelCommandGroup(
@@ -578,11 +597,13 @@ public class RobotContainer {
     new RunShootForSecsCommand(m_intakeSubsystem, 0.7, VisionConstants.k_positioned),
     new ZeroWristCommand(m_wristSubsystem),
     new SetElevatorCommand(m_elevatorSubsystem, "zero"),
-    new ZeroElevatorCommand(m_elevatorSubsystem)
+    new ZeroElevatorCommand(m_elevatorSubsystem),
+    new InstantCommand(() -> m_ledSubsystem.setAllianceColor(), m_ledSubsystem)
   );
 
   // Command Chain for Completely Automated L4 in Auto - LEFT REEF
   SequentialCommandGroup AimNRangeScoreAutoLeftCommand = new SequentialCommandGroup(
+    new InstantCommand(() -> m_ledSubsystem.setColorWavesForestLimelight(), m_ledSubsystem),
     new ZeroElevatorCommand(m_elevatorSubsystem),
     new ParallelDeadlineGroup(
       new ParallelCommandGroup(
@@ -598,6 +619,7 @@ public class RobotContainer {
     new RunShootForSecsCommand(m_intakeSubsystem, 0.7, VisionConstants.k_positioned),
     new ZeroWristCommand(m_wristSubsystem),
     new SetElevatorCommand(m_elevatorSubsystem, "zero"),
-    new ZeroElevatorCommand(m_elevatorSubsystem)
+    new ZeroElevatorCommand(m_elevatorSubsystem),
+    new InstantCommand(() -> m_ledSubsystem.setAllianceColor(), m_ledSubsystem)
   );
 }
