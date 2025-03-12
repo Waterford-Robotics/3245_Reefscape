@@ -9,7 +9,7 @@
       "prevControl": null,
       "nextControl": {
         "x": 4.166749004368916,
-        "y": 5.649309125293887
+        "y": 5.649309125293888
       },
       "isLocked": false,
       "linkedName": "BargeTeam"
@@ -33,7 +33,7 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 5.7,
+    "maxVelocity": 5.761,
     "maxAcceleration": 5.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,

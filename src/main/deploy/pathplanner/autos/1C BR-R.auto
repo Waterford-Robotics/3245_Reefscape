@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "OppoBarge-CloseLeft-1c"
+            "pathName": "OppoBarge-CloseLeft-1c NO WAYPOINT"
           }
         },
         {
@@ -15,11 +15,17 @@
           "data": {
             "name": "Score Right Reef"
           }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Finish Scoring"
+          }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "COMP 1C",
+  "folder": "Discard",
   "choreoAuto": false
 }

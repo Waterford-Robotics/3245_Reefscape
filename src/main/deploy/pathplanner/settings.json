@@ -14,10 +14,12 @@
     "COMP 0C",
     "COMP 1.5C",
     "COMP 1C",
+    "COMP 2.5C",
     "COMP 2C",
-    "COMP 2.5C"
+    "COMP 3C",
+    "Discard"
   ],
-  "defaultMaxVel": 5.7,
+  "defaultMaxVel": 5.761,
   "defaultMaxAccel": 5.0,
   "defaultMaxAngVel": 540.0,
   "defaultMaxAngAccel": 720.0,
@@ -27,7 +29,7 @@
   "robotTrackwidth": 0.5714996913901667,
   "driveWheelRadius": 0.051,
   "driveGearing": 5.54,
-  "maxDriveSpeed": 5.76072,
+  "maxDriveSpeed": 5.761,
   "driveMotorType": "krakenX60",
   "driveCurrentLimit": 60.0,
   "wheelCOF": 1.2,

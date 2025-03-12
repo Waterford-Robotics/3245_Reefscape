@@ -7,13 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "TeamBarge-CloseRight-1c No Waypoint"
+            "pathName": "OppoBarge-CloseLeft-1c"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Score Right Reef"
+            "name": "Score L4 Left"
           }
         },
         {
@@ -23,7 +23,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "TeamCloseRight-TeamSource-1.5c"
+                  "pathName": "OppoCloseLeft-OppoSource-1.5c"
                 }
               },
               {
@@ -44,13 +44,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "TeamSource-FarRight-2c No Waypoint"
+            "pathName": "OppoSource-FarRight-2c"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Score Right Reef"
+            "name": "Score L4 Left"
           }
         },
         {
@@ -60,7 +60,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "TeamSource-FarRight-2.5c Park"
+                  "pathName": "OppoSource-FarRight-2.5c"
                 }
               },
               {
@@ -75,13 +75,31 @@
         {
           "type": "named",
           "data": {
-            "name": "Zero Gyro"
+            "name": "Intake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "OppoSource-FarRight-2c"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Score L4 Right"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Finish Scoring"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "COMP 2.5C",
+  "folder": "COMP 3C",
   "choreoAuto": false
 }

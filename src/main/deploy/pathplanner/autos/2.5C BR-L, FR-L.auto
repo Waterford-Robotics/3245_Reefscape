@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "OppoBarge-CloseLeft-1c"
+            "pathName": "OppoBarge-CloseLeft-1c NO WAYPOINT"
           }
         },
         {
@@ -29,7 +29,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "Raise Wrist"
+                  "name": "Finish Scoring"
                 }
               }
             ]
@@ -44,7 +44,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "OppoSource-FarRight-2c"
+            "pathName": "OppoSource-FarRight-2c NO WAYPOINT"
           }
         },
         {
@@ -54,9 +54,22 @@
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "OppoSource-FarRight-2.5c"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "OppoSource-FarRight-2.5c Park"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Finish Scoring"
+                }
+              }
+            ]
           }
         },
         {

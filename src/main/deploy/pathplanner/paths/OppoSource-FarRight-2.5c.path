@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 3.132664385708895,
-        "y": 1.5112145163796162
+        "x": 0.621,
+        "y": 1.0646596041592682
       },
       "prevControl": {
-        "x": 3.527261136076488,
-        "y": 2.9010100514441817
+        "x": 1.015596750367593,
+        "y": 2.4544551392238336
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "CoralStationRight"
+      "linkedName": "SourceOppo"
     }
   ],
   "rotationTargets": [],
@@ -33,7 +33,7 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 5.7,
+    "maxVelocity": 5.761,
     "maxAcceleration": 5.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": -124.43934562257046
   },
   "reversed": false,
   "folder": "score2.5c",

@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.177,
+        "x": 1.05,
         "y": 6.897
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.0286685967555744,
-        "y": 6.090844089148608
+        "x": 1.3921957583962286,
+        "y": 6.313449280984241
       },
       "isLocked": false,
       "linkedName": "SourceTeam"
     },
     {
       "anchor": {
-        "x": 3.244,
-        "y": 5.476
+        "x": 3.0,
+        "y": 5.4
       },
       "prevControl": {
-        "x": 2.7854210142900824,
-        "y": 5.818291236271898
+        "x": 2.7734548167459674,
+        "y": 5.7071941385204585
       },
       "nextControl": null,
       "isLocked": false,
@@ -31,9 +31,21 @@
   "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "Raise Elevator",
+      "waypointRelativePos": 0.5,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Prepare to Score"
+        }
+      }
+    }
+  ],
   "globalConstraints": {
-    "maxVelocity": 5.7,
+    "maxVelocity": 5.761,
     "maxAcceleration": 5.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
@@ -41,7 +53,7 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 0,
+    "velocity": 2.0,
     "rotation": -59.22738509098667
   },
   "reversed": false,

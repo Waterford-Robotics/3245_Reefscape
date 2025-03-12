@@ -9,6 +9,12 @@
           "data": {
             "pathName": "OppositeBargeLeave0c"
           }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Zero Gyro"
+          }
         }
       ]
     }

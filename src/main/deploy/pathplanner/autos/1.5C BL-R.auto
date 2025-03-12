@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "TeamBarge-CloseRight-1c"
+            "pathName": "TeamBarge-CloseRight-1c No Waypoint"
           }
         },
         {
@@ -17,9 +17,22 @@
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "TeamCloseRight-TeamSource-1.5c"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "TeamCloseRight-TeamSource-1.5c"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Finish Scoring"
+                }
+              }
+            ]
           }
         }
       ]

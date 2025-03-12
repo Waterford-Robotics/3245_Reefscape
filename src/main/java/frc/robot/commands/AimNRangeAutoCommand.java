@@ -119,7 +119,7 @@ public class AimNRangeAutoCommand extends Command {
     // Update the pose from NetworkTables (Limelight Readings)
     botPoseTargetSpace = NetworkTableInstance.getDefault().getTable(VisionConstants.k_limelightName).getEntry("botpose_targetspace").getDoubleArray(new double[6]);
 
-    if (timer.get() > 2 || !tiv) VisionConstants.k_positioned = false;
+    if (timer.get() > 1.5 || !tiv) VisionConstants.k_positioned = false;
 
     // Checks for a continued valid pose
     if (tiv){
@@ -148,7 +148,7 @@ public class AimNRangeAutoCommand extends Command {
       // I do love to be beside the C
 
       // Other quit conditions
-      || !tiv || timer.get() > 2;
+      || !tiv || timer.get() > 1.5;
   }
 
    // Advanced PID-assisted ranging control with Limelight's TX value from target-relative data

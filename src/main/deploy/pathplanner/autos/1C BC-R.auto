@@ -15,6 +15,12 @@
           "data": {
             "name": "Score Right Reef"
           }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Finish Scoring"
+          }
         }
       ]
     }

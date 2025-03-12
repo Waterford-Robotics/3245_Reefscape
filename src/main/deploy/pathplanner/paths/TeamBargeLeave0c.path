@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.3060753117658574,
-        "y": 6.375482950116798
+        "x": 5.081004712802027,
+        "y": 5.797406637731751
       },
       "isLocked": false,
       "linkedName": "BargeTeam"
     },
     {
       "anchor": {
-        "x": 1.4456414612856778,
-        "y": 7.149731393293901
+        "x": 2.5318384343927556,
+        "y": 6.800696633078835
       },
       "prevControl": {
-        "x": 1.6947065035226092,
-        "y": 7.1281303577743795
+        "x": 2.9565206373470843,
+        "y": 6.861417912152601
       },
       "nextControl": null,
       "isLocked": false,
@@ -33,7 +33,7 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 5.7,
+    "maxVelocity": 5.761,
     "maxAcceleration": 5.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
@@ -41,8 +41,8 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 0,
-    "rotation": 128.98183030071917
+    "velocity": 0.0,
+    "rotation": 0.0
   },
   "reversed": false,
   "folder": null,

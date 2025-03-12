@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.0,
-        "y": 5.4
-      },
-      "prevControl": null,
-      "nextControl": {
-        "x": 1.6098232581967207,
-        "y": 7.370750085382515
-      },
-      "isLocked": false,
-      "linkedName": "FarTeamRight"
-    },
-    {
-      "anchor": {
         "x": 1.05,
         "y": 6.897
       },
+      "prevControl": null,
+      "nextControl": {
+        "x": 1.3921957583962286,
+        "y": 6.313449280984241
+      },
+      "isLocked": false,
+      "linkedName": "SourceTeam"
+    },
+    {
+      "anchor": {
+        "x": 3.0,
+        "y": 5.4
+      },
       "prevControl": {
-        "x": 1.4620773565573761,
-        "y": 6.709692110655738
+        "x": 2.7734548167459674,
+        "y": 5.7071941385204585
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "SourceTeam"
+      "linkedName": "FarTeamRight"
     }
   ],
   "rotationTargets": [],
@@ -41,14 +41,14 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 0,
-    "rotation": 128.28694406704628
+    "velocity": 0.0,
+    "rotation": -59.22738509098667
   },
   "reversed": false,
-  "folder": "score1.5c",
+  "folder": "score2c",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -59.22738509098667
+    "rotation": 128.28694406704628
   },
   "useDefaultConstraints": true
 }

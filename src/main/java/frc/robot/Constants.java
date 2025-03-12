@@ -135,13 +135,13 @@ public final class Constants {
     public static final double k_wristV = 0.001;
     public static final double k_wristG = 0.5;
 
-    public static final double k_algaeWristkP = 0.0;
-    public static final double k_algaeWristkI = 0.0;
-    public static final double k_algaeWristkD = 0.0;
-    public static final double k_algaeWristkS = 0.0;
-    public static final double k_algaeWristkV = 0.0;
-    public static final double k_algaeWristkA = 0.0;
-    public static final double k_algaeWristkG = 0.0;
+    public static final double k_algaeArmkP = 0.0;
+    public static final double k_algaeArmkI = 0.0;
+    public static final double k_algaeArmkD = 0.0;
+    public static final double k_algaeArmkS = 0.0;
+    public static final double k_algaeArmkV = 0.0;
+    public static final double k_algaeArmkA = 0.0;
+    public static final double k_algaeArmkG = 0.0;
   }
 
   // Why did the duck cross the road?

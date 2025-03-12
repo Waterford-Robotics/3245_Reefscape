@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.532545365864776,
-        "y": 1.611583906997906
+        "x": 5.198435808711652,
+        "y": 1.061921600138152
       },
       "isLocked": false,
       "linkedName": "BargeOppo"
     },
     {
       "anchor": {
-        "x": 1.3569619872353293,
-        "y": 0.9828708648681641
+        "x": 2.8981657114895905,
+        "y": 1.6608201633800161
       },
       "prevControl": {
-        "x": 2.9037024296995093,
-        "y": 1.2103584467220891
+        "x": 2.5701382187961777,
+        "y": 1.7977034343958798
       },
       "nextControl": null,
       "isLocked": false,
@@ -33,7 +33,7 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 5.7,
+    "maxVelocity": 5.761,
     "maxAcceleration": 5.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -124.95422317995387
+    "rotation": 0.0
   },
   "reversed": false,
   "folder": null,

@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "OppoBarge-CloseLeft-1c"
+            "pathName": "OppoBarge-CloseLeft-1c NO WAYPOINT"
           }
         },
         {
@@ -29,6 +29,12 @@
               {
                 "type": "named",
                 "data": {
+                  "name": "Finish Scoring"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
                   "name": "Raise Wrist"
                 }
               }
@@ -44,13 +50,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "OppoSource-FarRight-2c"
+            "pathName": "OppoSource-FarRight-2c NO WAYPOINT"
           }
         },
         {
           "type": "named",
           "data": {
             "name": "Score Left Reef"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Finish Scoring"
           }
         }
       ]

@@ -18,40 +18,40 @@ import frc.robot.Constants.MotorPIDConstants;
 
 public class AlgaeSubsystem extends SubsystemBase{
 
-  private TalonFX m_algaeWrist;
+  private TalonFX m_algaeArm;
   private TalonFX m_algaeIntake;
 
-  private TalonFXConfiguration algaeWristConfig;
+  private TalonFXConfiguration algaeArmConfig;
   private TalonFXConfiguration algaeIntakeConfig;
 
   private Angle lastDesiredPosition;
 
   public AlgaeSubsystem() {
     
-    m_algaeWrist = new TalonFX(MotorIDConstants.k_algaeArmID);
+    m_algaeArm = new TalonFX(MotorIDConstants.k_algaeArmID);
     m_algaeIntake = new TalonFX(MotorIDConstants.k_algaeIntakeID);
 
     lastDesiredPosition = Units.Rotations.of(0);
 
-    algaeWristConfig = new TalonFXConfiguration();
-    algaeWristConfig.Slot0.kP = MotorPIDConstants.k_algaeWristkP;
-    algaeWristConfig.Slot0.kI = MotorPIDConstants.k_algaeWristkI;
-    algaeWristConfig.Slot0.kD = MotorPIDConstants.k_algaeWristkD;
-    algaeWristConfig.Slot0.kS = MotorPIDConstants.k_algaeWristkS;
-    algaeWristConfig.Slot0.kV = MotorPIDConstants.k_algaeWristkV;
-    algaeWristConfig.Slot0.kG = MotorPIDConstants.k_algaeWristkG;
+    algaeArmConfig = new TalonFXConfiguration();
+    algaeArmConfig.Slot0.kP = MotorPIDConstants.k_algaeArmkP;
+    algaeArmConfig.Slot0.kI = MotorPIDConstants.k_algaeArmkI;
+    algaeArmConfig.Slot0.kD = MotorPIDConstants.k_algaeArmkD;
+    algaeArmConfig.Slot0.kS = MotorPIDConstants.k_algaeArmkS;
+    algaeArmConfig.Slot0.kV = MotorPIDConstants.k_algaeArmkV;
+    algaeArmConfig.Slot0.kG = MotorPIDConstants.k_algaeArmkG;
 
-    algaeWristConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-    algaeWristConfig.CurrentLimits.SupplyCurrentLimit = AlgaeConstants.k_algaeSupplyCurrentLimit;
-    algaeWristConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = true; 
-    algaeWristConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold = Units.Rotations.of(0.7).in(Units.Rotations); // TODO: Check me
-    algaeWristConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
-    algaeWristConfig.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Units.Rotations.of(0).in(Units.Rotations); // Starting position
-    algaeWristConfig.Slot0.GravityType = GravityTypeValue.Arm_Cosine;
+    algaeArmConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+    algaeArmConfig.CurrentLimits.SupplyCurrentLimit = AlgaeConstants.k_algaeSupplyCurrentLimit;
+    algaeArmConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = true; 
+    algaeArmConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold = Units.Rotations.of(0.7).in(Units.Rotations); // TODO: Check me
+    algaeArmConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
+    algaeArmConfig.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Units.Rotations.of(0).in(Units.Rotations); // Starting position
+    algaeArmConfig.Slot0.GravityType = GravityTypeValue.Arm_Cosine;
 
-    algaeWristConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+    algaeArmConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
 
-    // algaeWristConfig.Feedback.SensorToMechanismRatio = 0.4545;
+    // algaeArmConfig.Feedback.SensorToMechanismRatio = 0.4545;
 
     algaeIntakeConfig = new TalonFXConfiguration();
 
@@ -62,25 +62,25 @@ public class AlgaeSubsystem extends SubsystemBase{
     algaeIntakeConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
     algaeIntakeConfig.CurrentLimits.SupplyCurrentLimit = AlgaeConstants.k_algaeSupplyCurrentLimit;
 
-    m_algaeWrist.getConfigurator().apply(algaeWristConfig, 0.05);
+    m_algaeArm.getConfigurator().apply(algaeArmConfig, 0.05);
     m_algaeIntake.getConfigurator().apply(algaeIntakeConfig, 0.05);
   }
 
     public Angle getWristPosition(){
-      return Units.Rotations.of(m_algaeWrist.get());
+      return Units.Rotations.of(m_algaeArm.get());
     }
 
     public void setPosition(Angle angle){
-      m_algaeWrist.setControl(new PositionVoltage(angle.in(Units.Rotations)));
+      m_algaeArm.setControl(new PositionVoltage(angle.in(Units.Rotations)));
       lastDesiredPosition = angle;
     }
 
     public void setNeutral() {
-      m_algaeWrist.setControl(new NeutralOut());
+      m_algaeArm.setControl(new NeutralOut());
     }
 
     public void resetSensorPosition(Angle setpoint) {
-      m_algaeWrist.setPosition(setpoint.in(Units.Rotations));
+      m_algaeArm.setPosition(setpoint.in(Units.Rotations));
     }
 
     public void shoot(){
@@ -97,11 +97,14 @@ public class AlgaeSubsystem extends SubsystemBase{
 
     public void periodic() {
       // This method will be called once per scheduler run
-      SmartDashboard.putNumber("Wrist/Pos", m_algaeWrist.getPosition().getValueAsDouble());
-      SmartDashboard.putString("Wrist/Units", m_algaeWrist.getPosition().getUnits());
-      SmartDashboard.putNumber("Wrist/CLO", m_algaeWrist.getClosedLoopOutput().getValueAsDouble());
-      SmartDashboard.putNumber("Wrist/Output", m_algaeWrist.get());
-      SmartDashboard.putNumber("Wrist/Inverted", m_algaeWrist.getAppliedRotorPolarity().getValueAsDouble());
-      SmartDashboard.putNumber("Wrist/Current", m_algaeWrist.getSupplyCurrent().getValueAsDouble());
+      SmartDashboard.putNumber("Algae/Pos", m_algaeArm.getPosition().getValueAsDouble());
+
+      /*
+      SmartDashboard.putString("Algae/Units", m_algaeArm.getPosition().getUnits());
+      SmartDashboard.putNumber("Algae/CLO", m_algaeArm.getClosedLoopOutput().getValueAsDouble());
+      SmartDashboard.putNumber("Algae/Output", m_algaeArm.get());
+      SmartDashboard.putNumber("Algae/Inverted", m_algaeArm.getAppliedRotorPolarity().getValueAsDouble());
+      SmartDashboard.putNumber("Algae/Current", m_algaeArm.getSupplyCurrent().getValueAsDouble());
+      */
   }
 }

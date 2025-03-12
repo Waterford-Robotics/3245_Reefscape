@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "OppoBarge-CloseLeft-1c"
+            "pathName": "OppoBarge-CloseLeft-1c NO WAYPOINT"
           }
         },
         {
@@ -20,6 +20,25 @@
           "type": "path",
           "data": {
             "pathName": "OppoCloseLeft-OppoSource-1.5c"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "OppoCloseLeft-OppoSource-1.5c"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Finish Scoring"
+                }
+              }
+            ]
           }
         }
       ]
