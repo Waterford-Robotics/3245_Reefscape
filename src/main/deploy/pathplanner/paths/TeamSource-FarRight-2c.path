@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.3921957583962286,
-        "y": 6.313449280984241
+        "x": 1.073276691412707,
+        "y": 6.088327918596005
       },
       "isLocked": false,
       "linkedName": "SourceTeam"
     },
     {
       "anchor": {
-        "x": 3.0,
+        "x": 2.8,
         "y": 5.4
       },
       "prevControl": {
-        "x": 2.7734548167459674,
-        "y": 5.7071941385204585
+        "x": 1.8466014601965108,
+        "y": 6.26954932065887
       },
       "nextControl": null,
       "isLocked": false,
@@ -34,7 +34,7 @@
   "eventMarkers": [
     {
       "name": "Raise Elevator",
-      "waypointRelativePos": 0.5,
+      "waypointRelativePos": 0.5722240522471527,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",

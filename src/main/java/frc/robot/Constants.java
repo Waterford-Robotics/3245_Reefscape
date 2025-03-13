@@ -232,5 +232,7 @@ public final class Constants {
   public static final class LEDConstants {
     public static final int blinkinPortLeft = 0;
     public static final int blinkinPortRight = 1;
+
+    public static boolean k_allowTIV = true;
   }
 }

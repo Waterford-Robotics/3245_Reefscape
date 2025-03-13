@@ -1,34 +1,42 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.LEDConstants;
 import frc.robot.subsystems.LEDSubsystem;
 
 public class LEDColorChangeCommand extends Command {
         
-    // Instantiate Stuff
-    LEDSubsystem m_LEDSubsystem;
+  // Instantiate Stuff
+  LEDSubsystem m_LEDSubsystem;
+  String m_color;
 
-    public LEDColorChangeCommand(LEDSubsystem ledSubsystem, String color) {
-        
-        // Definitions and setting parameters are equal to members!
-        m_LEDSubsystem = ledSubsystem;
-        addRequirements(ledSubsystem);
+  public LEDColorChangeCommand(LEDSubsystem ledSubsystem, String color) {
+      
+    // Definitions and setting parameters are equal to members!
+    m_LEDSubsystem = ledSubsystem;
+    addRequirements(ledSubsystem);
+
+    m_color = color;
+  }
+
+  public void initialize() {}
+  
+  public void execute() {
+
+    if (m_color.equals("Alliance")) {
+      LEDConstants.k_allowTIV = true;
     }
 
-    @Override
-    public void initialize() {}
-    
-    @Override
-    public void execute() {
-        // m_LEDSubsystem.setConfetti();
+    if (m_color.equals("Scoring")) {
+      m_LEDSubsystem.setRainbowParty();
+      LEDConstants.k_allowTIV = false;
     }
+  }
 
-    @Override
-    public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {}
 
-    @Override
-    public boolean isFinished() {
-        return true;
-    }
+  public boolean isFinished() {
+      return true;
+  }
 }
     

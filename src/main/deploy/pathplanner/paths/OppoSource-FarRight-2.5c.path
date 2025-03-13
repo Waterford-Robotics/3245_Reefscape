@@ -8,24 +8,24 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.0657810363838776,
-        "y": 1.2869124349447758
+        "x": 1.9154631254440415,
+        "y": 2.428801298559793
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 0.621,
+        "x": 0.42,
         "y": 1.0646596041592682
       },
       "prevControl": {
-        "x": 1.015596750367593,
-        "y": 2.4544551392238336
+        "x": 2.422282100789874,
+        "y": 2.891250002016707
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "SourceOppo"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],

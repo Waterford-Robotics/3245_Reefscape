@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "TeamBarge-CloseRight-1c"
+            "pathName": "TeamBarge-CloseRight-1c No Waypoint"
           }
         },
         {
@@ -31,12 +31,6 @@
                 "data": {
                   "name": "Finish Scoring"
                 }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Raise Wrist"
-                }
               }
             ]
           }
@@ -50,7 +44,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "TeamSource-FarRight-2c"
+            "pathName": "TeamSource-FarRight-2c No Waypoint"
           }
         },
         {

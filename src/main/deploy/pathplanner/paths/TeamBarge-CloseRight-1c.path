@@ -8,24 +8,24 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.774211576870551,
-        "y": 6.119505101817407
+        "x": 5.922711498972831,
+        "y": 6.008981123881535
       },
       "isLocked": false,
       "linkedName": "BargeTeam"
     },
     {
       "anchor": {
-        "x": 5.301014744151722,
-        "y": 5.667560872164639
+        "x": 5.574,
+        "y": 5.671946976401589
       },
       "prevControl": {
-        "x": 5.975157617240965,
-        "y": 5.799573705660383
+        "x": 6.313724669704525,
+        "y": 5.883406865762646
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "CloseTeamRight"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
@@ -34,7 +34,7 @@
   "eventMarkers": [
     {
       "name": "Raise Elevator",
-      "waypointRelativePos": 0.45,
+      "waypointRelativePos": 0.2450991814669199,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",

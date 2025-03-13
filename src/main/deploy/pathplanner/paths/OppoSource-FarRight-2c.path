@@ -8,24 +8,24 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.0420821404996286,
-        "y": 2.97334551123992
+        "x": 1.5650009853373676,
+        "y": 3.138562257707449
       },
       "isLocked": false,
       "linkedName": "SourceOppo"
     },
     {
       "anchor": {
-        "x": 3.0767834836786445,
+        "x": 2.8,
         "y": 2.584840323708274
       },
       "prevControl": {
-        "x": 2.3533272838290262,
-        "y": 1.8840779740820015
+        "x": 2.204062386846921,
+        "y": 2.070205845350397
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "FarOppoRight"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
@@ -33,10 +33,15 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "Prepare to Score",
-      "waypointRelativePos": 0.45,
+      "name": "Raise Elevator",
+      "waypointRelativePos": 0.6499439165028471,
       "endWaypointRelativePos": null,
-      "command": null
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Prepare to Score"
+        }
+      }
     }
   ],
   "globalConstraints": {

@@ -32,7 +32,7 @@ public class Robot extends TimedRobot {
     m_robotContainer = new RobotContainer();
 
     // DO THIS AFTER CONFIGURATION OF YOUR DESIRED PATHFINDER
-    PathfindingCommand.warmupCommand().schedule();
+    // PathfindingCommand.warmupCommand().schedule();
   }
 
   /**

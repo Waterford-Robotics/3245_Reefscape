@@ -17,12 +17,6 @@
           }
         },
         {
-          "type": "path",
-          "data": {
-            "pathName": "OppoCloseLeft-OppoSource-1.5c"
-          }
-        },
-        {
           "type": "parallel",
           "data": {
             "commands": [

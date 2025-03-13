@@ -33,15 +33,17 @@ import frc.robot.subsystems.Limelight.LimelightHelpers;
         setAllianceColor();
         m_colorNotSet = false;
       }
-      botPoseTargetSpace = NetworkTableInstance.getDefault().getTable(VisionConstants.k_limelightName).getEntry("botpose_targetspace").getDoubleArray(new double[6]);;
+      botPoseTargetSpace = NetworkTableInstance.getDefault().getTable(VisionConstants.k_limelightName).getEntry("botpose_targetspace").getDoubleArray(new double[6]);
       tiv = (LimelightHelpers.getTV(VisionConstants.k_limelightName) 
       && botPoseTargetSpace[2] > VisionConstants.k_tzValidRange 
       && Math.abs(botPoseTargetSpace[4]) < VisionConstants.k_yawValidRange);
-      if (tiv){
-        setColorWavesForestLimelight();
-      }
-      else {
-        setAllianceColor();
+      if (LEDConstants.k_allowTIV) {
+        if (tiv){
+          setColorWavesForestLimelight();
+        }
+        else {
+          setAllianceColor();
+        }
       }
     }
 

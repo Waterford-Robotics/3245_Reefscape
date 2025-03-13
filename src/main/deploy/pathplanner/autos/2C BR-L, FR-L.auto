@@ -31,12 +31,6 @@
                 "data": {
                   "name": "Finish Scoring"
                 }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Raise Wrist"
-                }
               }
             ]
           }
