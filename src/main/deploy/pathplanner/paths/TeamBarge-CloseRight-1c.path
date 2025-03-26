@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.12117226340554,
-        "y": 6.170253658294678
+        "x": 7.132819851962003,
+        "y": 6.127843492681329
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.922711498972831,
-        "y": 6.008981123881535
+        "x": 6.228173572560018,
+        "y": 5.077902904473093
       },
       "isLocked": false,
       "linkedName": "BargeTeam"
@@ -20,8 +20,8 @@
         "y": 5.671946976401589
       },
       "prevControl": {
-        "x": 6.313724669704525,
-        "y": 5.883406865762646
+        "x": 5.738694208101207,
+        "y": 5.860031579221481
       },
       "nextControl": null,
       "isLocked": false,
@@ -31,23 +31,11 @@
   "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [
-    {
-      "name": "Raise Elevator",
-      "waypointRelativePos": 0.2450991814669199,
-      "endWaypointRelativePos": null,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "Prepare to Score"
-        }
-      }
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 5.761,
+    "maxVelocity": 3.5,
     "maxAcceleration": 5.0,
-    "maxAngularVelocity": 540.0,
+    "maxAngularVelocity": 120.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
     "unlimited": false

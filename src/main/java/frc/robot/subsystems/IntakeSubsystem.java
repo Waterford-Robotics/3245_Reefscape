@@ -30,15 +30,19 @@ public class IntakeSubsystem extends SubsystemBase{
     m_shooter.getConfigurator().apply(shooterConfig, 0.05);
   }
 
-  public void shoot(){
+  public void shoot() {
     m_shooter.set(WristConstants.k_shootSpeed);
   }
 
-  public void stopShooter(){
+  public void shootSpeed(double power) {
+    m_shooter.set(power);
+  }
+
+  public void stopShooter() {
     m_shooter.set(0);
   }
 
-  public void intake(){
+  public void intake() {
     m_shooter.set(-WristConstants.k_intakeSpeed);
   }
 

@@ -44,7 +44,7 @@ public class AlgaeSubsystem extends SubsystemBase{
     algaeArmConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
     algaeArmConfig.CurrentLimits.SupplyCurrentLimit = AlgaeConstants.k_algaeSupplyCurrentLimit;
     algaeArmConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = true; 
-    algaeArmConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold = Units.Rotations.of(0.7).in(Units.Rotations); // TODO: Check me
+    algaeArmConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold = Units.Rotations.of(0.7).in(Units.Rotations); 
     algaeArmConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
     algaeArmConfig.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Units.Rotations.of(0).in(Units.Rotations); // Starting position
     algaeArmConfig.Slot0.GravityType = GravityTypeValue.Arm_Cosine;

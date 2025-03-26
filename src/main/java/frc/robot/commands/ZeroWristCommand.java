@@ -31,7 +31,7 @@ public class ZeroWristCommand extends Command {
   
   // Actual command
   public void execute() {
-    if(m_WristSubsystem.getCurrentPosition() < 2 && m_WristSubsystem.getCurrentVelocity() == 0) {
+    if(m_WristSubsystem.getCurrentPosition() < 0.25 && m_WristSubsystem.getCurrentVelocity() == 0) {
       m_finished = true;
     }
   }

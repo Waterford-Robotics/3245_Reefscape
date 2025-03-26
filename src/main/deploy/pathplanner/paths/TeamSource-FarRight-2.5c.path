@@ -8,41 +8,62 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.8275509850853233,
-        "y": 5.440411460759846
+        "x": 2.718414106830965,
+        "y": 5.787016957075171
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 0.85,
-        "y": 6.897
+        "x": 2.495073535225608,
+        "y": 5.9171224940906875
       },
       "prevControl": {
-        "x": 2.0968480460302015,
-        "y": 5.838136581587146
+        "x": 3.2641140270325972,
+        "y": 5.561144021799299
+      },
+      "nextControl": {
+        "x": 1.9372651837088846,
+        "y": 6.175324457341976
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 1.2043139284307307,
+        "y": 6.526569851962003
+      },
+      "prevControl": {
+        "x": 1.632733557441018,
+        "y": 6.247555871443314
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Coral Station Left Limelight"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1,
+      "rotationDegrees": -59.99999999999999
+    }
+  ],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 5.761,
+    "maxVelocity": 3.5,
     "maxAcceleration": 5.0,
-    "maxAngularVelocity": 540.0,
+    "maxAngularVelocity": 120.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 0,
-    "rotation": 128.28694406704628
+    "velocity": 2.0,
+    "rotation": 150.23416801177146
   },
   "reversed": false,
   "folder": "score2.5c",

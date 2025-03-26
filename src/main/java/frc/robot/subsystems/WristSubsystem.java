@@ -78,8 +78,9 @@ public class WristSubsystem extends SubsystemBase{
 
   public void periodic() {
     // This method will be called once per scheduler run
-    /*
+
     SmartDashboard.putNumber("Wrist/Pos", Units.Rotations.of(m_wrist.getPosition().getValueAsDouble()).magnitude());
+    /*
     SmartDashboard.putString("Wrist/Units", m_wrist.getPosition().getUnits());
     SmartDashboard.putNumber("Wrist/CLO", m_wrist.getClosedLoopOutput().getValueAsDouble());
     SmartDashboard.putNumber("Wrist/Output", m_wrist.get());
@@ -87,6 +88,6 @@ public class WristSubsystem extends SubsystemBase{
     SmartDashboard.putNumber("Wrist/Current", m_wrist.getSupplyCurrent().getValueAsDouble());
     */
     
-    SmartDashboard.putNumber("Wrist/Last Desired Position", lastDesiredPosition.magnitude());
+    // SmartDashboard.putNumber("Wrist/Last Desired Position", lastDesiredPosition.magnitude());
   }
 }

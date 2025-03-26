@@ -94,7 +94,7 @@ public class SwerveSubsystem extends SubsystemBase {
       this::setChassisSpeeds, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
       new PPHolonomicDriveController( // PPHolonomicController is the built in path following controller for holonomic drive trains
         new PIDConstants(5.0, 0.0, 0.0), // Translation PID constants
-        new PIDConstants(5.0, 0.0, 0.0) // Rotation PID constants
+        new PIDConstants(0.0, 0.0, 0.0) // Rotation PID constants
       ),
       config,
       () -> {
@@ -131,6 +131,10 @@ public class SwerveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Strafe", NetworkTableInstance.getDefault().getTable(VisionConstants.k_limelightName).getEntry("botpose_targetspace").getDoubleArray(new double[6])[0]);
     SmartDashboard.putNumber("Range", NetworkTableInstance.getDefault().getTable(VisionConstants.k_limelightName).getEntry("botpose_targetspace").getDoubleArray(new double[6])[2]);
     SmartDashboard.putNumber("Aim", NetworkTableInstance.getDefault().getTable(VisionConstants.k_limelightName).getEntry("botpose_targetspace").getDoubleArray(new double[6])[4]);
+
+    SmartDashboard.putNumber("Strafe Station", NetworkTableInstance.getDefault().getTable(VisionConstants.k_limelightCoralName).getEntry("botpose_targetspace").getDoubleArray(new double[6])[0]);
+    SmartDashboard.putNumber("Range Station", NetworkTableInstance.getDefault().getTable(VisionConstants.k_limelightCoralName).getEntry("botpose_targetspace").getDoubleArray(new double[6])[2]);
+    SmartDashboard.putNumber("Aim Station", NetworkTableInstance.getDefault().getTable(VisionConstants.k_limelightCoralName).getEntry("botpose_targetspace").getDoubleArray(new double[6])[4]);
 
     SmartDashboard.putBoolean("Positioning?", VisionConstants.k_positioning);
   }

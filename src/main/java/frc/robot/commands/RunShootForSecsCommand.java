@@ -14,7 +14,7 @@ public class RunShootForSecsCommand extends Command {
   // Uses Elevator and Subsystems
   IntakeSubsystem m_intakeSubsystem;
   double m_seconds;
-  boolean m_notPositioned;
+  boolean m_positioned;
   Timer m_timer = new Timer();
 
   // Constructor
@@ -28,7 +28,7 @@ public class RunShootForSecsCommand extends Command {
     m_seconds = seconds;
 
     // Position Status
-    m_notPositioned = !positioned;
+    m_positioned = positioned;
   }
 
   // Reset timer when the command starts executing
@@ -54,6 +54,6 @@ public class RunShootForSecsCommand extends Command {
   public boolean isFinished() {
 
     // Am I done?  Am I done? Am I finally done?
-    return m_notPositioned || m_timer.get() > m_seconds;
+    return !m_positioned || m_timer.get() > m_seconds;
   }
 }

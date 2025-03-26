@@ -1,0 +1,61 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "1c Right Start"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Score Left Reef"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "1.5c Coral Station Right"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Position Coral Station Right"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Intake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "2c Coral Station Right to FR"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Score Left Reef"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "OppoSource-FarRight-2.5c Park"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "COMP 2.5C",
+  "choreoAuto": false
+}

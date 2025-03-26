@@ -90,7 +90,7 @@ public class AimNRangeAutoCommand extends Command {
 
     // Checks for TIV
     tiv = (LimelightHelpers.getTV(VisionConstants.k_limelightName) 
-      && botPoseTargetSpace[2] > VisionConstants.k_tzValidRange 
+      && botPoseTargetSpace[2] > VisionConstants.k_tzValidRange
       && Math.abs(botPoseTargetSpace[4]) < VisionConstants.k_yawValidRange
     );
 

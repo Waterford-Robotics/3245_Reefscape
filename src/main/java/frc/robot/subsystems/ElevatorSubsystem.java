@@ -14,12 +14,16 @@ import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.units.measure.Distance;
-import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.units.Units;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ElevatorConstants;
 import frc.robot.Constants.MotorIDConstants;
 import frc.robot.Constants.MotorPIDConstants;
+import frc.robot.Constants.VisionConstants;
+import frc.robot.subsystems.Limelight.LimelightHelpers;
 
 // Elevator Subsystem yay yippee
 public class ElevatorSubsystem extends SubsystemBase {
@@ -30,6 +34,8 @@ public class ElevatorSubsystem extends SubsystemBase {
   // Distance currentLeftPosition = Units.Inches.of(0);
   // Distance currentRightPosition = Units.Inches.of(0);
   private Distance lastDesiredPosition;
+  private boolean m_tiv;
+  private boolean m_reset;
 
   // Creates new elevator
   public ElevatorSubsystem() {
@@ -117,6 +123,60 @@ public class ElevatorSubsystem extends SubsystemBase {
     return m_elevatorKrakenRight.getVelocity().getValueAsDouble();
   }
 
+  public Command automaticRaiseCommand() {
+    return run(() -> {
+      
+        VisionConstants.k_botPoseTargetSpace = NetworkTableInstance
+        .getDefault()
+        .getTable(VisionConstants.k_limelightName)
+        .getEntry("botpose_targetspace")
+        .getDoubleArray(new double[6]
+      );
+
+      m_tiv = (LimelightHelpers.getTV(VisionConstants.k_limelightName) 
+        && VisionConstants.k_botPoseTargetSpace[2] > VisionConstants.k_tzValidRangeElevator 
+        && Math.abs(VisionConstants.k_botPoseTargetSpace[4]) < VisionConstants.k_yawValidRangeElevator
+      );
+
+      // Raise to L2
+      if(m_tiv && ElevatorConstants.k_elevatorSetting.equals("L1")) {
+        setPosition(ElevatorConstants.k_coralL1Height);
+        m_reset = false;
+      }
+
+      // Raise to L2
+      if(m_tiv && ElevatorConstants.k_elevatorSetting.equals("L2")) {
+        setPosition(ElevatorConstants.k_coralL2Height);
+        m_reset = false;
+      }
+    
+      // Raise to L3
+      if(m_tiv && ElevatorConstants.k_elevatorSetting.equals("L3")) {
+        setPosition(ElevatorConstants.k_coralL3Height);
+        m_reset = false;
+      }
+
+      // Raise to L4
+      if(m_tiv && ElevatorConstants.k_elevatorSetting.equals("L4")) {
+        setPosition(ElevatorConstants.k_coralL4Height);
+        m_reset = false;
+      }
+  
+      // Zero
+      if (!m_tiv && getCurrentPosition() > 2) {
+        setPosition(ElevatorConstants.k_zeroHeight);
+      }
+      
+      if(!m_reset && getCurrentPosition() < 2 && getCurrentVelocity() == 0) {
+
+        // Neutral Motors and Reset Encoder Values
+        setNeutral();
+        resetSensorPosition(ElevatorConstants.k_zeroHeight);
+        m_reset = true;
+      }
+    });
+  }
+
   public void periodic() {
     /*
     // This method will be called once per scheduler run
@@ -133,6 +193,8 @@ public class ElevatorSubsystem extends SubsystemBase {
     */
 
     SmartDashboard.putNumber("Elevator/Right/Pos", m_elevatorKrakenRight.getPosition().getValueAsDouble());
+    SmartDashboard.putString("Elevator/Setting", ElevatorConstants.k_elevatorSetting);
+
     /*
     SmartDashboard.putNumber("Elevator/Right/CLO", m_elevatorKrakenRight.getClosedLoopOutput().getValueAsDouble());
     SmartDashboard.putNumber("Elevator/Right/Output", m_elevatorKrakenRight.get());
@@ -140,6 +202,6 @@ public class ElevatorSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Elevator/Right/Current", m_elevatorKrakenRight.getSupplyCurrent().getValueAsDouble());
     */
 
-    SmartDashboard.putNumber("Elevator/Last Desired Position", lastDesiredPosition.magnitude()); 
+   // SmartDashboard.putNumber("Elevator/Last Desired Position", lastDesiredPosition.magnitude()); 
   }
 }

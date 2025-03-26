@@ -9,17 +9,19 @@ import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ElevatorConstants;
 import frc.robot.Constants.VisionConstants;
 import frc.robot.commands.SetElevatorCommand;
+import frc.robot.commands.SetLevelCommand;
 import frc.robot.commands.SetReefCommand;
 import frc.robot.commands.SetWristCommand;
 import frc.robot.commands.ZeroElevatorCommand;
 import frc.robot.commands.ZeroWristCommand;
 import frc.robot.commands.RunIntakeForSecsCommand;
 import frc.robot.commands.RunShootForSecsCommand;
+import frc.robot.commands.RunShootForSecsSpeedCommand;
 import frc.robot.commands.AimNRangeAlgaeRemovalCommand;
 import frc.robot.commands.AimNRangeAutoCommand;
+import frc.robot.commands.AimNRangeAutoCoralStationCommand;
 import frc.robot.commands.AimNRangeCommand;
 import frc.robot.commands.LEDColorChangeCommand;
-import frc.robot.subsystems.AlgaeSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LEDSubsystem;
@@ -71,18 +73,22 @@ public class RobotContainer {
 
     // Makes the drive command the default command (good!)
     m_swerveSubsystem.setDefaultCommand(driveFieldOrientedAngularVelocity);
+    m_elevatorSubsystem.setDefaultCommand(elevatorLimelightCommand);
 
     // Named Command Configuration
     NamedCommands.registerCommand("Score L4", AimNRangescoreL4Command);
-    NamedCommands.registerCommand("Score Left Reef", AimNRangeScoreAutoLeftCommand);
-    NamedCommands.registerCommand("Score Right Reef", AimNRangeScoreAutoRightCommand);
+    NamedCommands.registerCommand("Score Left Reef", AimNRangescoreAllAutoLeftCommand);
+    NamedCommands.registerCommand("Score Right Reef", AimNRangescoreAllAutoRightCommand);
     NamedCommands.registerCommand("Finish Scoring", AimNRangeFinishCommand);
+    NamedCommands.registerCommand("Lower Elevator", new SetLevelCommand("L1"));
     NamedCommands.registerCommand("Raise Wrist", RaiseWristCommand);
     NamedCommands.registerCommand("Intake", IntakeAutoCommand);
     NamedCommands.registerCommand("Prepare to Score", Akatsuki);
     NamedCommands.registerCommand("Score L4 Left", AimNRangeLeftNoElevatorCommand);
     NamedCommands.registerCommand("Score L4 Right", AimNRangeRightNoElevatorCommand);
     NamedCommands.registerCommand("Zero Gyro", new InstantCommand(() -> m_swerveSubsystem.zeroGyro(), m_swerveSubsystem));
+    NamedCommands.registerCommand("Position Coral Station Left", positionNIntakeAutoCoralStationLeft);
+    NamedCommands.registerCommand("Position Coral Station Right", positionNIntakeAutoCoralStationRight);
 
     /* 
      * KEY:
@@ -93,82 +99,18 @@ public class RobotContainer {
     // Autos!
 
     // COMP AUTOS
-    m_chooser.addOption("3C: BL-R, FL-R, FL-L *", m_swerveSubsystem.getAutonomousCommand("3C BL-R, FL-R, FL-L")); // U (P)
-    m_chooser.addOption("3C BR-L, FR-L, FR-R *", m_swerveSubsystem.getAutonomousCommand("3C BR-L, FR-L, FR-R")); // U (P)
+    // m_chooser.addOption("3C: BL-R, FL-R, FL-L REVISED", m_swerveSubsystem.getAutonomousCommand("3C BL-R, FL-R, FL-L REVISED")); // U (P)
+    // m_chooser.addOption("3C BR-L, FR-L, FR-R *", m_swerveSubsystem.getAutonomousCommand("3C BR-L, FR-L, FR-R")); // U (P)
 
-    m_chooser.addOption("2.5C: BL-R, FL-R *", m_swerveSubsystem.getAutonomousCommand("2.5C BL-R, FL-R")); // U (P)
-    m_chooser.addOption("2.5C: BR-L, FR-L *", m_swerveSubsystem.getAutonomousCommand("2.5C BR-L, FR-L")); // U (P)
-
-    m_chooser.addOption("2C: BL-R, FL-R *", m_swerveSubsystem.getAutonomousCommand("2C BL-R, FL-R")); // U (P)
-    m_chooser.addOption("2C: BR-L, FR-L *", m_swerveSubsystem.getAutonomousCommand("2C BR-L, FR-L")); // U (P)
-
-    m_chooser.addOption("1.5C: BL-R", m_swerveSubsystem.getAutonomousCommand("1.5C BL-R")); // U
-    m_chooser.addOption("1.5C: BR-L", m_swerveSubsystem.getAutonomousCommand("1.5C BR-L")); // U
+    m_chooser.addOption("2.5C: BL-R, FL-R *", m_swerveSubsystem.getAutonomousCommand("2.5C BL-R, FL-R REVISED"));
+    m_chooser.addOption("2.5C: BR-L, FR-L *", m_swerveSubsystem.getAutonomousCommand("2.5C BR-L, FR-L REVISED")); 
 
     m_chooser.addOption("1C: BC-L", m_swerveSubsystem.getAutonomousCommand("1C BC-L")); 
     m_chooser.addOption("1C: BC-R", m_swerveSubsystem.getAutonomousCommand("1C BC-R")); 
-    m_chooser.addOption("1C: BL-R", m_swerveSubsystem.getAutonomousCommand("1C BL-R")); 
-    m_chooser.addOption("1C: BR-L", m_swerveSubsystem.getAutonomousCommand("1C BR-L")); // U
 
     m_chooser.addOption("0C: Center Leave", m_swerveSubsystem.getAutonomousCommand("CenterLeave"));
     m_chooser.addOption("0C: Left Leave", m_swerveSubsystem.getAutonomousCommand("LeftLeave")); 
     m_chooser.addOption("0C: Right Leave", m_swerveSubsystem.getAutonomousCommand("RightLeave")); // U
-
-    // 0C - Leave
-    // m_chooser.addOption("0C: Center Leave", m_swerveSubsystem.getAutonomousCommand("CenterLeave")); // U
-    // m_chooser.addOption("0C: Left Leave", m_swerveSubsystem.getAutonomousCommand("LeftLeave")); // U
-    // m_chooser.addOption("0C: Right Leave", m_swerveSubsystem.getAutonomousCommand("RightLeave")); // U
-
-    // 1C - Back Center
-    // m_chooser.addOption("1C: BC-L", m_swerveSubsystem.getAutonomousCommand("1C BC-L")); // U
-    // m_chooser.addOption("1C: BC-R", m_swerveSubsystem.getAutonomousCommand("1C BC-R")); // U
-
-    // 1C - Back Left
-    // m_chooser.addOption("1C: BL-L", m_swerveSubsystem.getAutonomousCommand("1C BL-L")); // U
-    // m_chooser.addOption("1C: BL-R", m_swerveSubsystem.getAutonomousCommand("1C BL-R")); // U
-
-    // 1C - Back Right
-    // m_chooser.addOption("1C: BR-L", m_swerveSubsystem.getAutonomousCommand("1C BR-L")); // U
-    // m_chooser.addOption("1C: BR-R", m_swerveSubsystem.getAutonomousCommand("1C BR-R")); 
-
-    // 1C - Front Left
-    // m_chooser.addOption("1C: FL-L", m_swerveSubsystem.getAutonomousCommand("1C FL-L")); 
-    // m_chooser.addOption("1C: FL-R", m_swerveSubsystem.getAutonomousCommand("1C FL-R"));
-
-    // 1C - Front Right
-    // m_chooser.addOption("1C: FR-L", m_swerveSubsystem.getAutonomousCommand("1C FR-L")); // U
-    // m_chooser.addOption("1C: FR-R", m_swerveSubsystem.getAutonomousCommand("1C FR-R")); // U
-
-    // 1.5C - Back Left
-    // m_chooser.addOption("1.5C: BL-L", m_swerveSubsystem.getAutonomousCommand("1.5C BL-L")); // U
-    // m_chooser.addOption("1.5C: BL-R", m_swerveSubsystem.getAutonomousCommand("1.5C BL-R")); // U
-
-    // 1.5C - Back Right
-    // m_chooser.addOption("1.5C: BR-L", m_swerveSubsystem.getAutonomousCommand("1.5C BR-L")); // U
-    // m_chooser.addOption("1.5C: BR-R", m_swerveSubsystem.getAutonomousCommand("1.5C BR-R")); // U
-
-    // 2C - Back Left -> Front Left
-    // m_chooser.addOption("2C: BL-L, FL-L", m_swerveSubsystem.getAutonomousCommand("2C BL-L, FL-L")); // U
-    // m_chooser.addOption("2C: BL-L, FL-R", m_swerveSubsystem.getAutonomousCommand("2C BL-L, FL-R")); // U
-
-    // m_chooser.addOption("2C: BL-R, FL-L", m_swerveSubsystem.getAutonomousCommand("2C BL-R, FL-L")); // U
-    // m_chooser.addOption("2C: BL-R, FL-R *", m_swerveSubsystem.getAutonomousCommand("2C BL-R, FL-R")); // U (P)
-
-    // 2C - Back Right -> Front Right
-    // m_chooser.addOption("2C: BR-L, FR-L *", m_swerveSubsystem.getAutonomousCommand("2C BR-L, FR-L")); // U (P)
-    // m_chooser.addOption("2C: BR-L, FR-R", m_swerveSubsystem.getAutonomousCommand("2C BR-L, FR-R")); // U
-
-    // m_chooser.addOption("2C: BR-R, FR-L", m_swerveSubsystem.getAutonomousCommand("2C BR-R, FR-L")); // U
-    // m_chooser.addOption("2C: BR-R, FR-R", m_swerveSubsystem.getAutonomousCommand("2C BR-R, FR-R")); // U 
-
-    // 2.5C - Back Left -> Front Left
-    // m_chooser.addOption("2.5C: BL-R, FL-R *", m_swerveSubsystem.getAutonomousCommand("2.5C BL-R, FL-R")); // U (P)
-
-    // 2.5C - Back Right -> Front Right
-    // m_chooser.addOption("2.5C: BR-L, FR-L *", m_swerveSubsystem.getAutonomousCommand("2.5C BR-L, FR-L")); // U (P)
-
-    // 3C - Back Right -> Front Right -> Front Left
-    // m_chooser.addOption("3C: BL-R, FL-R, FL-L *", m_swerveSubsystem.getAutonomousCommand("3C BL-R, FL-R, FL-L")); // U (P)
 
     // Puts a chooser on the SmartDashboard!
     SmartDashboard.putData("AutoMode", m_chooser);
@@ -179,18 +121,18 @@ public class RobotContainer {
     
     /*
      * DRIVER CONTROLLER
-     * A - 
-     * B - AimNRangeL2
-     * X - AimNRangeL3
-     * Y - AimNRangeL4
+     * A - Set L1
+     * B - Set L2
+     * X - Set L3
+     * Y - Set L4
      * Right Bump - Raise Wrist
-     * Left Bump - Intake Algae [TBD!!!!!]
-     * Right Trig - Strafe and Intake
-     * Left Trig - Eject Algae [TBD!!!!!]
+     * Left Bump - Lower Wrist
+     * Right Trig - Intake and Set X
+     * Left Trig - Align with Coral Station
      * Start - Reset Gyro
      * Back - Reset Elevator
-     * POV UP - 
-     * POV DOWN - 
+     * POV UP - Position and Score (REQUIRES [A, B, X, Y] ELEVATOR SETTING!)
+     * POV DOWN - Shoot Slowly (For L1)
      * POV LEFT - Set Destination to Left Branch
      * POV RIGHT - Set Destination to Right Branch
      */
@@ -198,25 +140,25 @@ public class RobotContainer {
     // Automatic Reset Elevator - "A" Button
     new JoystickButton(m_driverController.getHID(), ControllerConstants.k_A)
       .onTrue(
-        ResetElevatorCommand
+        new SetLevelCommand("L1")
       );
     
     // Automated Coral L2 - "B" Button
     new JoystickButton(m_driverController.getHID(), ControllerConstants.k_B)
       .onTrue(
-        AimNRangescoreL2Command
+        new SetLevelCommand("L2")
       );
 
     // Automated Coral L3 - "X" Button
     new JoystickButton(m_driverController.getHID(), ControllerConstants.k_X)
       .onTrue(
-        AimNRangescoreL3Command
+        new SetLevelCommand("L3")
       );
 
     // Automated Coral L4 - "Y" Button
     new JoystickButton(m_driverController.getHID(), ControllerConstants.k_Y)
       .onTrue(
-        AimNRangescoreL4Command
+        new SetLevelCommand("L4")
       );
     
     // Raise Wrist - Right Bump
@@ -225,32 +167,28 @@ public class RobotContainer {
         RaiseWristCommand
       );
 
-    // Intake Algae - Left Bump
-    /*
+    // Lower Wrist - Left Bump
     new JoystickButton(m_driverController.getHID(), ControllerConstants.k_leftbump)
       .onTrue(
         LowerWristCommand
       );
-    */
 
-    // Intake and Strafe Together - Right Trig
+    // Intake and Set X - Right Trig
     new Trigger(() -> m_driverController.getRawAxis(ControllerConstants.k_righttrig) > 0.05)
       .whileTrue(
         new InstantCommand(() -> m_intakeSubsystem.intake(), m_intakeSubsystem).alongWith(
-        new RunCommand(() -> m_swerveSubsystem.driveCommandLimelight(0, 0.15, 0), m_swerveSubsystem))
+        new RunCommand(() -> m_swerveSubsystem.setx()))
       )
       .onFalse(
         new InstantCommand(() -> m_intakeSubsystem.stopShooter(), m_intakeSubsystem).alongWith(
         new InstantCommand(() -> m_swerveSubsystem.driveCommandLimelight(0, 0, 0), m_swerveSubsystem))
       );
 
-    // Eject Algae - Left Trig
-    /* 
+    // Align with Coral Station - Left Trig
     new Trigger(() -> m_driverController.getRawAxis(ControllerConstants.k_lefttrig) > 0.05)
       .onTrue(
-        RaiseWristCommand
+        new AimNRangeAutoCoralStationCommand(m_swerveSubsystem, true)
       );
-    */
 
     // Reset Gyro - Start Button
     new JoystickButton(m_driverController.getHID(), ControllerConstants.k_start)
@@ -276,24 +214,17 @@ public class RobotContainer {
         new SetReefCommand("left")
       );
 
-    // Remove Algae
-    /*
+    // All in One!
     new POVButton(m_driverController.getHID(), ControllerConstants.k_dpadup)
       .onTrue(
-        RemoveAlgaeCommand
+        AimNRangescoreAllCommand
       );
-    */
 
-    // Alg Intake
-    /*
+    // L1 Eject TODO: Test L1 Eject (I'm bad rawr)
     new POVButton(m_driverController.getHID(), ControllerConstants.k_dpadDown)
       .whileTrue(
-        new InstantCommand(() -> m_algaeSubsystem.intake(), m_algaeSubsystem)
-      )
-      .onFalse(
-        new InstantCommand(() -> m_algaeSubsystem.stopShooter(), m_algaeSubsystem)
+        new RunShootForSecsSpeedCommand(m_intakeSubsystem, 1, true, 0.1)
       );
-    */
 
     /*
      * OPERATOR CONTROLLER
@@ -307,8 +238,8 @@ public class RobotContainer {
      * Left Trig - Shoot Coral
      * Start - Neutral Elevator Manual
      * Back - Zero Elevator Manual
-     * TODO: POV UP - Algae Intake [TBD!!!!!!]
-     * TODO: POV DOWN - Algae Eject [TBD!!!!!!]
+     * POV UP - 
+     * POV DOWN - 
      * POV LEFT - Set Destination to Left Branch
      * POV RIGHT - Set Destination to Right Branch
      */
@@ -316,25 +247,25 @@ public class RobotContainer {
     // Lower Elevator - "A" Button
     new JoystickButton(m_operatorController.getHID(), ControllerConstants.k_A)
       .onTrue(
-        ResetElevatorCommand
+        new SetLevelCommand("L1")
       );
     
-    // Raise Elevator to L2 - "B" Button
+    // Raise Elevator to L2 - "B" Button TODO: Test manual elevator setting
     new JoystickButton(m_operatorController.getHID(), ControllerConstants.k_B)
       .onTrue(
-        RaiseL2Command
+        new SetLevelCommand("L2")
       );
 
     // Raise Elevator to L3 - "X" Button
     new JoystickButton(m_operatorController.getHID(), ControllerConstants.k_X)
       .onTrue(
-        RaiseL3Command
+        new SetLevelCommand("L3")
       );
 
     // Raise Elevator to L4 - "Y" Button
     new JoystickButton(m_operatorController.getHID(), ControllerConstants.k_Y)
       .onTrue(
-        RaiseL4Command
+        new SetLevelCommand("L4")
       );
     
     // Raise Wrist - Right Bump
@@ -428,6 +359,8 @@ public class RobotContainer {
     return m_chooser.getSelected(); 
   }
 
+  public Command elevatorLimelightCommand = m_elevatorSubsystem.automaticRaiseCommand();
+
   // Command Chain for Raising Wrist
   SequentialCommandGroup RaiseWristCommand = new SequentialCommandGroup(
     new ZeroWristCommand(m_wristSubsystem),
@@ -448,10 +381,11 @@ public class RobotContainer {
   
   // Command Chain for Intake Auto
   SequentialCommandGroup IntakeAutoCommand = new SequentialCommandGroup(
+    new SetWristCommand(m_wristSubsystem, "intake"), 
     new RunIntakeForSecsCommand(m_intakeSubsystem, 1.0)
   );
 
-  // Command Chain for Intake Auto
+  // Command Chain for Shoot Auto
   SequentialCommandGroup ShootAutoCommand = new SequentialCommandGroup(
     new RunShootForSecsCommand(m_intakeSubsystem, 0.5, true)
   );
@@ -616,6 +550,22 @@ public class RobotContainer {
     )
   );
 
+  // Command Chain for Scoring Preparation no Elevator
+  SequentialCommandGroup PrepareToScore = new SequentialCommandGroup(
+    new LEDColorChangeCommand(m_ledSubsystem, "Scoring"),
+    new ZeroElevatorCommand(m_elevatorSubsystem),
+    new ParallelDeadlineGroup(
+      new ParallelCommandGroup(
+        new SetElevatorCommand(m_elevatorSubsystem, "L4"),
+        new SequentialCommandGroup(
+          new SetWristCommand(m_wristSubsystem, "score"),
+          new ZeroWristCommand(m_wristSubsystem)
+        ) 
+      ),
+      new RunIntakeForSecsCommand(m_intakeSubsystem, 3.0)
+    )
+  );
+
   // Command Chain for Elevator Preset L4 - RIGHT REEF
   SequentialCommandGroup AimNRangeRightNoElevatorCommand = new SequentialCommandGroup(
     new AimNRangeAutoCommand(m_swerveSubsystem, true), 
@@ -674,5 +624,79 @@ public class RobotContainer {
     new ZeroElevatorCommand(m_elevatorSubsystem),
     new InstantCommand(() -> m_ledSubsystem.setAllianceColor(), m_ledSubsystem)
     */
+  );
+
+  // Command Chain for Completely Automated Scoring with Automated Elevator
+  SequentialCommandGroup AimNRangescoreAllCommand = new SequentialCommandGroup(
+    new LEDColorChangeCommand(m_ledSubsystem, "Scoring"),
+    new ParallelDeadlineGroup(
+      new ParallelCommandGroup(
+        new AimNRangeCommand(m_swerveSubsystem),
+        new SequentialCommandGroup(
+          new SetWristCommand(m_wristSubsystem, "score"),
+          new ZeroWristCommand(m_wristSubsystem)
+        )
+      ),
+      new RunIntakeForSecsCommand(m_intakeSubsystem, 3.0)
+    ),
+    new RunShootForSecsCommand(m_intakeSubsystem, 0.5, VisionConstants.k_positioned),
+    new ZeroWristCommand(m_wristSubsystem),
+    new SetWristCommand(m_wristSubsystem, "intake"),
+    new LEDColorChangeCommand(m_ledSubsystem, "Alliance"), 
+    new SetLevelCommand("L1")
+  );
+
+  // Command Chain for Completely Automated Scoring with Automated Elevator
+  SequentialCommandGroup AimNRangescoreAllAutoRightCommand = new SequentialCommandGroup(
+    new SetLevelCommand("L4"),
+    new LEDColorChangeCommand(m_ledSubsystem, "Scoring"),
+    new ParallelDeadlineGroup(
+      new ParallelCommandGroup(
+        new AimNRangeAutoCommand(m_swerveSubsystem, true),
+        new SequentialCommandGroup(
+          new SetWristCommand(m_wristSubsystem, "score"),
+          new ZeroWristCommand(m_wristSubsystem)
+        )
+      ),
+      new RunIntakeForSecsCommand(m_intakeSubsystem, 3.0)
+    ),
+    new RunShootForSecsCommand(m_intakeSubsystem, 0.5, VisionConstants.k_positioned),
+    new ZeroWristCommand(m_wristSubsystem),
+    new SetWristCommand(m_wristSubsystem, "intake"),
+    new LEDColorChangeCommand(m_ledSubsystem, "Alliance"), 
+    new SetLevelCommand("L1")
+  );
+
+  // Command Chain for Completely Automated Scoring with Automated Elevator
+  SequentialCommandGroup AimNRangescoreAllAutoLeftCommand = new SequentialCommandGroup(
+    new SetLevelCommand("L4"),
+    new LEDColorChangeCommand(m_ledSubsystem, "Scoring"),
+    new ParallelDeadlineGroup(
+      new ParallelCommandGroup(
+        new AimNRangeAutoCommand(m_swerveSubsystem, false),
+        new SequentialCommandGroup(
+          new SetWristCommand(m_wristSubsystem, "score"),
+          new ZeroWristCommand(m_wristSubsystem)
+        )
+      ),
+      new RunIntakeForSecsCommand(m_intakeSubsystem, 3.0)
+    ),
+    new RunShootForSecsCommand(m_intakeSubsystem, 0.7, VisionConstants.k_positioned),
+    new ZeroWristCommand(m_wristSubsystem),
+    new SetWristCommand(m_wristSubsystem, "intake"),
+    new LEDColorChangeCommand(m_ledSubsystem, "Alliance"), 
+    new SetLevelCommand("L1")
+  );
+
+  // Command Chain for Positioning and Loading at the Coral Station in Auto
+  ParallelDeadlineGroup positionNIntakeAutoCoralStationLeft = new ParallelDeadlineGroup(
+    new AimNRangeAutoCoralStationCommand(m_swerveSubsystem, false),
+    new RunIntakeForSecsCommand(m_intakeSubsystem, 3)
+  );
+
+  // Command Chain for Positioning and Loading at the Coral Station in Auto
+  ParallelDeadlineGroup positionNIntakeAutoCoralStationRight = new ParallelDeadlineGroup(
+    new AimNRangeAutoCoralStationCommand(m_swerveSubsystem, true),
+    new RunIntakeForSecsCommand(m_intakeSubsystem, 3)
   );
 }

@@ -1,0 +1,67 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "1c Left Start"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Score Right Reef"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "TeamCloseRight-TeamSource-1.5c"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Position Coral Station Left"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Intake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "2c Coral Station Left"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Score Right Reef"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "TeamSource-FarRight-2.5c Park"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Zero Gyro"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "COMP 2.5C",
+  "choreoAuto": false
+}

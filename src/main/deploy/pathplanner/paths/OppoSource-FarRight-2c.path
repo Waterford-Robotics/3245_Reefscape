@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.621,
-        "y": 1.0646596041592682
+        "x": 0.6837529745968906,
+        "y": 1.1670730417424988
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.5650009853373676,
-        "y": 3.138562257707449
+        "x": 1.627753959934258,
+        "y": 3.240975695290679
       },
       "isLocked": false,
       "linkedName": "SourceOppo"
@@ -45,9 +45,9 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 5.761,
+    "maxVelocity": 3.5,
     "maxAcceleration": 5.0,
-    "maxAngularVelocity": 540.0,
+    "maxAngularVelocity": 120.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
     "unlimited": false
@@ -60,7 +60,7 @@
   "folder": "score2c",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -124.43934562257046
+    "rotation": -128.07897219511455
   },
   "useDefaultConstraints": true
 }

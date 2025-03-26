@@ -83,12 +83,14 @@ public final class Constants {
     public static final int k_elevatorSupplyCurrentLimit = 40;
 
     public static final Distance k_zeroHeight = Units.Inches.of(0);
-    public static final Distance k_coralL1Height = Units.Inches.of(0); 
-    public static final Distance k_coralL2Height = Units.Inches.of(7);
-    public static final Distance k_coralL3Height = Units.Inches.of(23);
-    public static final Distance k_coralL4Height = Units.Inches.of(48.6);
+    public static final Distance k_coralL1Height = Units.Inches.of(3); 
+    public static final Distance k_coralL2Height = Units.Inches.of(6.5);
+    public static final Distance k_coralL3Height = Units.Inches.of(22.5);
+    public static final Distance k_coralL4Height = Units.Inches.of(48.25);
 
     public static final Distance k_algaeHeight = Units.Inches.of(25);
+
+    public static String k_elevatorSetting = "L4";
   }
 
   // Constants for Wrist
@@ -120,9 +122,9 @@ public final class Constants {
 
   // Constants for PID
   public static final class MotorPIDConstants {
-    public static final double k_elevatorkP = 0.5;
-    public static final double k_elevatorkI = 0.1;
-    public static final double k_elevatorkD = 0.15;
+    public static final double k_elevatorkP = 0.60;
+    public static final double k_elevatorkI = 0.11;
+    public static final double k_elevatorkD = 0.08;
     public static final double k_elevatorkS = 0.4;
     public static final double k_elevatorkV = 0.001;
     public static final double k_elevatorkA = 0.0;
@@ -154,6 +156,7 @@ public final class Constants {
 
     // Name
     public static final String k_limelightName = "limelight-four";
+    public static final String k_limelightCoralName = "limelight-three";
     
     // Boolean for Left/Right Reef
     public static boolean k_isRightReef = true;
@@ -177,6 +180,19 @@ public final class Constants {
     public static final double kI_strafe = 0.0;
     public static final double kD_strafe = 0.0;
 
+    // PID for Tag Relative Control for Scoring
+    public static final double kP_aimCoral = 0.15;
+    public static final double kI_aimCoral = 0.000;
+    public static final double kD_aimCoral = 0.000;
+
+    public static final double kP_rangeCoral = 0.70;
+    public static final double kI_rangeCoral = 0.0;
+    public static final double kD_rangeCoral = 0.0;
+
+    public static final double kP_strafeCoral = 0.70;
+    public static final double kI_strafeCoral = 0.0;
+    public static final double kD_strafeCoral = 0.0;
+
     // PID for Tag Relative Control for Algae Removal
     public static final double kP_aimAlgae = 0.04;
     public static final double kI_aimAlgae = 0.000;
@@ -192,13 +208,23 @@ public final class Constants {
 
     // AimNRange Reef Right
     public static final double k_aimReefRightTarget = 0;
-    public static final double k_rangeReefRightTarget = -0.54;
-    public static final double k_strafeReefRightTarget = 0.16;
+    public static final double k_rangeReefRightTarget = -0.56;
+    public static final double k_strafeReefRightTarget = 0.17;
 
     // AimNRange Reef Left
     public static final double k_aimReefLeftTarget = 0;
     public static final double k_rangeReefLeftTarget = -0.54;
     public static final double k_strafeReefLeftTarget = -0.18;
+
+    // Coral Station Right
+    public static final double k_aimCoralStationRightTarget = 0;
+    public static final double k_rangeCoralStationRightTarget = -0.55;
+    public static final double k_strafeCoralStationRightTarget = -0.05;
+
+    // Coral Station Left
+    public static final double k_aimCoralStationLeftTarget = 0;
+    public static final double k_rangeCoralStationLeftTarget = -0.52;
+    public static final double k_strafeCoralStationLeftTarget = 0.39;
 
     // AimNRange Algae Removal Positioning 
     public static final double k_aimAlgaePositionTarget = 0;
@@ -212,11 +238,14 @@ public final class Constants {
 
     // Prerequisites
     public static final double k_tzValidRange = -1.5;
+    public static final double k_tzValidRangeCoralStation = -1.5;
+    public static final double k_tzValidRangeElevator = -1.2;
     public static final double k_yawValidRange = 35;
+    public static final double k_yawValidRangeElevator = 25;
 
     // Thresholds
-    public static final double k_rangeThreshold = 0.03;
-    public static final double k_strafeThreshold = 0.03;
+    public static final double k_rangeThreshold = 0.02;
+    public static final double k_strafeThreshold = 0.02;
     public static final double k_aimThreshold = 0.5;
 
     // Tag Reject Distance
@@ -227,6 +256,8 @@ public final class Constants {
 
     // For testing
     public static boolean k_positioning = false;
+
+    public static double[] k_botPoseTargetSpace = new double[6];
   }
 
   public static final class LEDConstants {

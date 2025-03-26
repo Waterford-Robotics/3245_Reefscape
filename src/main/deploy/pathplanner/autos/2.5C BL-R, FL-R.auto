@@ -82,6 +82,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "COMP 2.5C",
+  "folder": null,
   "choreoAuto": false
 }

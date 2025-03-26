@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.12117226340554,
-        "y": 6.170253658294678
+        "x": 7.132819851962003,
+        "y": 6.127843492681329
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.635110315778542,
-        "y": 4.537460640284183
+        "x": 2.646757904335005,
+        "y": 4.495050474670834
       },
       "isLocked": false,
       "linkedName": "BargeTeam"
@@ -38,9 +38,9 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 5.761,
+    "maxVelocity": 3.5,
     "maxAcceleration": 5.0,
-    "maxAngularVelocity": 540.0,
+    "maxAngularVelocity": 120.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
     "unlimited": false
