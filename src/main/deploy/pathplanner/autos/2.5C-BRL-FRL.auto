@@ -1,0 +1,73 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "1C-BR"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Score L4 Left"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "1,5C-BRL"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Position Coral Station Left"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Intake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "2&3C-FR"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Score L4 Left"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "2,5C-FRL"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Position Coral Station Left"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Intake"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "COMP 2.5C",
+  "choreoAuto": true
+}

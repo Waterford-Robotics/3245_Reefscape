@@ -15,15 +15,12 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.units.Units;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ElevatorConstants;
+import frc.robot.Constants.MotorConstants;
 import frc.robot.Constants.MotorIDConstants;
 import frc.robot.Constants.MotorPIDConstants;
-import frc.robot.Constants.VisionConstants;
-import frc.robot.subsystems.Limelight.LimelightHelpers;
 
 // Elevator Subsystem yay yippee
 public class ElevatorSubsystem extends SubsystemBase {
@@ -31,17 +28,9 @@ public class ElevatorSubsystem extends SubsystemBase {
   private TalonFX m_elevatorKrakenLeft;
   private TalonFX m_elevatorKrakenRight;
   private TalonFXConfiguration krakenConfig;
-  // Distance currentLeftPosition = Units.Inches.of(0);
-  // Distance currentRightPosition = Units.Inches.of(0);
-  private Distance lastDesiredPosition;
-  private boolean m_tiv;
-  private boolean m_reset;
 
   // Creates new elevator
   public ElevatorSubsystem() {
-
-    // Last position is home position
-    lastDesiredPosition = Units.Inches.of(0);
 
     // Krakens
     m_elevatorKrakenLeft = new TalonFX(MotorIDConstants.k_elevatorKrakenLeftID, "Elevator/Coral");
@@ -80,9 +69,8 @@ public class ElevatorSubsystem extends SubsystemBase {
     m_elevatorKrakenLeft.getConfigurator().apply(krakenConfig, 0.5);
     m_elevatorKrakenRight.getConfigurator().apply(krakenConfig, 0.5);
 
-    // (Deprecated)
-    // m_elevatorKrakenLeft.setInverted(false); 
-    // m_elevatorKrakenRight.setInverted(false);
+    MotorConstants.k_orchestra.addInstrument(m_elevatorKrakenLeft); 
+    MotorConstants.k_orchestra.addInstrument(m_elevatorKrakenRight); 
   }
 
   // Gets current position of elevator
@@ -94,13 +82,10 @@ public class ElevatorSubsystem extends SubsystemBase {
   public void setPosition(Distance height) {
 
     // Right motor is leader
-    m_elevatorKrakenRight.setControl(new PositionVoltage(height.in(Units.Inches)));
+    m_elevatorKrakenRight.setControl(new PositionVoltage(height.in(Units.Inches)).withEnableFOC(true));
 
     // Left motor is follower
     m_elevatorKrakenLeft.setControl(new Follower(m_elevatorKrakenRight.getDeviceID(), false));
-
-    // Updates the last desired position
-    lastDesiredPosition = height;
   }
 
   // Sets motors to neutral mode
@@ -123,85 +108,23 @@ public class ElevatorSubsystem extends SubsystemBase {
     return m_elevatorKrakenRight.getVelocity().getValueAsDouble();
   }
 
-  public Command automaticRaiseCommand() {
-    return run(() -> {
-      
-        VisionConstants.k_botPoseTargetSpace = NetworkTableInstance
-        .getDefault()
-        .getTable(VisionConstants.k_limelightName)
-        .getEntry("botpose_targetspace")
-        .getDoubleArray(new double[6]
-      );
-
-      m_tiv = (LimelightHelpers.getTV(VisionConstants.k_limelightName) 
-        && VisionConstants.k_botPoseTargetSpace[2] > VisionConstants.k_tzValidRangeElevator 
-        && Math.abs(VisionConstants.k_botPoseTargetSpace[4]) < VisionConstants.k_yawValidRangeElevator
-      );
-
-      // Raise to L2
-      if(m_tiv && ElevatorConstants.k_elevatorSetting.equals("L1")) {
-        setPosition(ElevatorConstants.k_coralL1Height);
-        m_reset = false;
-      }
-
-      // Raise to L2
-      if(m_tiv && ElevatorConstants.k_elevatorSetting.equals("L2")) {
-        setPosition(ElevatorConstants.k_coralL2Height);
-        m_reset = false;
-      }
-    
-      // Raise to L3
-      if(m_tiv && ElevatorConstants.k_elevatorSetting.equals("L3")) {
-        setPosition(ElevatorConstants.k_coralL3Height);
-        m_reset = false;
-      }
-
-      // Raise to L4
-      if(m_tiv && ElevatorConstants.k_elevatorSetting.equals("L4")) {
-        setPosition(ElevatorConstants.k_coralL4Height);
-        m_reset = false;
-      }
-  
-      // Zero
-      if (!m_tiv && getCurrentPosition() > 2) {
-        setPosition(ElevatorConstants.k_zeroHeight);
-      }
-      
-      if(!m_reset && getCurrentPosition() < 2 && getCurrentVelocity() == 0) {
-
-        // Neutral Motors and Reset Encoder Values
-        setNeutral();
-        resetSensorPosition(ElevatorConstants.k_zeroHeight);
-        m_reset = true;
-      }
-    });
-  }
-
   public void periodic() {
-    /*
     // This method will be called once per scheduler run
-    currentLeftPosition = Units.Inches.of(m_elevatorKrakenLeft.getPosition().getValueAsDouble());
-    currentRightPosition = Units.Inches.of(m_elevatorKrakenRight.getPosition().getValueAsDouble());
+    /*
     SmartDashboard.putNumber("Elevator/Left/Pos", m_elevatorKrakenLeft.getPosition().getValueAsDouble());
     SmartDashboard.putNumber("Elevator/Left/CLO", m_elevatorKrakenLeft.getClosedLoopOutput().getValueAsDouble());
     SmartDashboard.putNumber("Elevator/Left/Output", m_elevatorKrakenLeft.get());
     SmartDashboard.putNumber("Elevator/Left/Inverted", m_elevatorKrakenLeft.getAppliedRotorPolarity().getValueAsDouble());
     SmartDashboard.putNumber("Elevator/Left/Current", m_elevatorKrakenLeft.getSupplyCurrent().getValueAsDouble());
-
-    // What did Shuffleboard say to the Programmer?
-    // I'm drowning in numbers!
-    */
-
-    SmartDashboard.putNumber("Elevator/Right/Pos", m_elevatorKrakenRight.getPosition().getValueAsDouble());
-    SmartDashboard.putString("Elevator/Setting", ElevatorConstants.k_elevatorSetting);
-
-    /*
     SmartDashboard.putNumber("Elevator/Right/CLO", m_elevatorKrakenRight.getClosedLoopOutput().getValueAsDouble());
     SmartDashboard.putNumber("Elevator/Right/Output", m_elevatorKrakenRight.get());
     SmartDashboard.putNumber("Elevator/Right/Inverted", m_elevatorKrakenRight.getAppliedRotorPolarity().getValueAsDouble());
     SmartDashboard.putNumber("Elevator/Right/Current", m_elevatorKrakenRight.getSupplyCurrent().getValueAsDouble());
     */
 
-   // SmartDashboard.putNumber("Elevator/Last Desired Position", lastDesiredPosition.magnitude()); 
+    // What did Shuffleboard say to the Programmer?
+    // I'm drowning in numbers!
+    SmartDashboard.putNumber("Elevator/Right/Pos", m_elevatorKrakenRight.getPosition().getValueAsDouble());
+    // SmartDashboard.putString("Elevator/Setting", ElevatorConstants.k_elevatorSetting);
   }
 }

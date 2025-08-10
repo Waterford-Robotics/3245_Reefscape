@@ -1,0 +1,78 @@
+{
+ "name":"Nessy Offseason",
+ "version":1,
+ "type":"Swerve",
+ "variables":{
+  "expressions":{},
+  "poses":{}
+ },
+ "config":{
+  "frontLeft":{
+   "x":{
+    "exp":"11 in",
+    "val":0.2794
+   },
+   "y":{
+    "exp":"11 in",
+    "val":0.2794
+   }
+  },
+  "backLeft":{
+   "x":{
+    "exp":"-11 in",
+    "val":-0.2794
+   },
+   "y":{
+    "exp":"11 in",
+    "val":0.2794
+   }
+  },
+  "mass":{
+   "exp":"103.5 lbs",
+   "val":46.946810295
+  },
+  "inertia":{
+   "exp":"6.883 kg m ^ 2",
+   "val":6.883
+  },
+  "gearing":{
+   "exp":"5.54",
+   "val":5.54
+  },
+  "radius":{
+   "exp":"2 in",
+   "val":0.0508
+  },
+  "vmax":{
+   "exp":"6000 RPM",
+   "val":628.3185307179587
+  },
+  "tmax":{
+   "exp":"1.2 N * m",
+   "val":1.2
+  },
+  "cof":{
+   "exp":"1.2",
+   "val":1.2
+  },
+  "bumper":{
+   "front":{
+    "exp":"18 in",
+    "val":0.4572
+   },
+   "side":{
+    "exp":"18 in",
+    "val":0.4572
+   },
+   "back":{
+    "exp":"18 in",
+    "val":0.4572
+   }
+  },
+  "differentialTrackWidth":{
+   "exp":"22 in",
+   "val":0.5588
+  }
+ },
+ "generationFeatures":[]
+}

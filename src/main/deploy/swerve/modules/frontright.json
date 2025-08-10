@@ -5,7 +5,7 @@
   },
   "absoluteEncoderOffset": 0,
   "drive": {
-    "type": "krakenx60",
+    "type": "krakenx60foc",
     "id": 3,
     "canbus": "Drivebase"
   },
@@ -14,7 +14,7 @@
     "angle": true
   },
   "angle": {
-    "type": "krakenx60",
+    "type": "krakenx60foc",
     "id": 4,
     "canbus": "Drivebase"
   },

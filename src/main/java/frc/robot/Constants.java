@@ -6,6 +6,9 @@ package frc.robot;
 
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.Distance;
+
+import com.ctre.phoenix6.Orchestra;
+
 import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj.XboxController.Axis;
 import edu.wpi.first.wpilibj.XboxController.Button;
@@ -42,7 +45,7 @@ public final class Constants {
   public static final class SwerveConstants {
 
     // Must be max physically possible speed
-    public static final double k_maxSpeed = edu.wpi.first.math.util.Units.feetToMeters(18.9); // Meters per second
+    public static final double k_maxSpeed = edu.wpi.first.math.util.Units.feetToMeters(18.9); // Meters per second CONVERT FROM FEET
     public static final double k_maxAngularSpeed = 1.5 * Math.PI; // Radians per second
   }
 
@@ -72,9 +75,7 @@ public final class Constants {
   }
 
   // Constants for Sensor IDs
-  public static final class SensorIDConstants {
-
-  }
+  public static final class SensorIDConstants {}
 
   // Constants for Elevator
   public static final class ElevatorConstants {
@@ -89,8 +90,6 @@ public final class Constants {
     public static final Distance k_coralL4Height = Units.Inches.of(48.25);
 
     public static final Distance k_algaeHeight = Units.Inches.of(25);
-
-    public static String k_elevatorSetting = "L4";
   }
 
   // Constants for Wrist
@@ -118,7 +117,9 @@ public final class Constants {
   }
 
   // Constants for Motors
-  public static final class MotorConstants {}
+  public static final class MotorConstants {
+    public static final Orchestra k_orchestra = new Orchestra();
+  }
 
   // Constants for PID
   public static final class MotorPIDConstants {
@@ -149,23 +150,14 @@ public final class Constants {
   // Why did the duck cross the road?
   // He wanted a quacker
 
-  // Constants for Autonomous
-  public static final class AutoConstants {}
-
   public static final class VisionConstants {
 
     // Name
     public static final String k_limelightName = "limelight-four";
     public static final String k_limelightCoralName = "limelight-three";
-    
-    // Boolean for Left/Right Reef
-    public static boolean k_isRightReef = true;
-
+  
     // Boolean for Committing to Shoot
     public static boolean k_positioned = true;
-
-    // Boolean for Algae Elevator Raise
-    public static boolean k_isAlgaeL3 = false;
 
     // PID for Tag Relative Control for Scoring
     public static final double kP_aim = 0.10;
@@ -193,19 +185,6 @@ public final class Constants {
     public static final double kI_strafeCoral = 0.0;
     public static final double kD_strafeCoral = 0.0;
 
-    // PID for Tag Relative Control for Algae Removal
-    public static final double kP_aimAlgae = 0.04;
-    public static final double kI_aimAlgae = 0.000;
-    public static final double kD_aimAlgae = 0.000;
-
-    public static final double kP_rangeAlgae = 0.35;
-    public static final double kI_rangeAlgae = 0.0;
-    public static final double kD_rangeAlgae = 0.0;
-
-    public static final double kP_strafeAlgae = 0.35;
-    public static final double kI_strafeAlgae = 0.0;
-    public static final double kD_strafeAlgae = 0.0;
-
     // AimNRange Reef Right
     public static final double k_aimReefRightTarget = 0;
     public static final double k_rangeReefRightTarget = -0.56;
@@ -226,44 +205,65 @@ public final class Constants {
     public static final double k_rangeCoralStationLeftTarget = -0.52;
     public static final double k_strafeCoralStationLeftTarget = 0.39;
 
-    // AimNRange Algae Removal Positioning 
-    public static final double k_aimAlgaePositionTarget = 0;
-    public static final double k_rangeAlgaePositionTarget = -0.46;
-    public static final double k_strafeAlgaePositionTarget = 0;
-
-    // AimNRange Algae Removal Removing 
-    public static final double k_aimAlgaeRemoveTarget = 0;
-    public static final double k_rangeAlgaeRemoveTarget = -0.96;
-    public static final double k_strafeAlgaeRemoveTarget = 0;
-
     // Prerequisites
     public static final double k_tzValidRange = -1.5;
     public static final double k_tzValidRangeCoralStation = -1.5;
-    public static final double k_tzValidRangeElevator = -1.2;
     public static final double k_yawValidRange = 35;
-    public static final double k_yawValidRangeElevator = 25;
 
     // Thresholds
     public static final double k_rangeThreshold = 0.02;
     public static final double k_strafeThreshold = 0.02;
     public static final double k_aimThreshold = 0.5;
 
-    // Tag Reject Distance
-    public static final int k_rejectionDistance = 3;
-
-    // Tag Reject Rotation Rate
-    public static final int k_rejectionRotationRate = 720;
-
-    // For testing
+    // Diagnostic
     public static boolean k_positioning = false;
-
-    public static double[] k_botPoseTargetSpace = new double[6];
   }
 
   public static final class LEDConstants {
-    public static final int blinkinPortLeft = 0;
-    public static final int blinkinPortRight = 1;
+    public static final int k_blinkinPortLeft = 0;
+    public static final int k_blinkinPortRight = 1;
+  }
 
-    public static boolean k_allowTIV = true;
+  public static final class ReactConstants {
+    
+    // DASH - AUTOS
+    public static String _selectedAuto = "NONE";
+    public static String[] _autoSelector = {
+      "1C-BCL",
+      "1C-BCR",
+      "3C-BRL-FRR-FRL",
+      "3C-BLR-FLL-FLR"
+    };
+
+    // DASH - STRING
+    public static String _intakeType = "MANUAL";
+    public static String _coralStationLane = "CENTER";
+    public static String _ledSelection = "NONE";
+
+    // DASH - LEVELS
+    public static String _levelSelection = "4";
+    public static String _sideSelection = "R";
+    
+    // DASH - BOOLEAN
+    public static boolean _raiseElevator = false;
+    public static boolean _scoreCoral = false;
+    public static boolean _resetGyro = false;
+    public static boolean _neutralElevator = false;
+    public static boolean _zeroElevator = false;
+    public static boolean _playOrchestra = false;
+
+    // Flags for Triggers
+    public static boolean _triggerElevatorScore = false;
+    public static boolean _triggerElevatorReset = false;
+
+    public static boolean _triggerLEDScoreSignal = false;
+    public static boolean _triggerLEDManualSignal = false;
+    public static boolean _triggerLEDParkSignal = false;
+    public static boolean _triggerLEDAllianceSignal = false;
+    public static boolean _triggerLEDLimelightSignal = false;
+
+    // Limelight stuff
+    public static double[] _botPoseTargetSpace = new double[6];
+    public static boolean _tiv = false;
   }
 }

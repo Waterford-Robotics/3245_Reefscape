@@ -6,27 +6,34 @@ package frc.robot;
 
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.DriveConstants;
-import frc.robot.Constants.ElevatorConstants;
+import frc.robot.Constants.ReactConstants;
 import frc.robot.Constants.VisionConstants;
-import frc.robot.commands.SetElevatorCommand;
-import frc.robot.commands.SetLevelCommand;
-import frc.robot.commands.SetReefCommand;
-import frc.robot.commands.SetWristCommand;
-import frc.robot.commands.ZeroElevatorCommand;
-import frc.robot.commands.ZeroWristCommand;
-import frc.robot.commands.RunIntakeForSecsCommand;
-import frc.robot.commands.RunShootForSecsCommand;
-import frc.robot.commands.RunShootForSecsSpeedCommand;
-import frc.robot.commands.AimNRangeAlgaeRemovalCommand;
-import frc.robot.commands.AimNRangeAutoCommand;
-import frc.robot.commands.AimNRangeAutoCoralStationCommand;
-import frc.robot.commands.AimNRangeCommand;
-import frc.robot.commands.LEDColorChangeCommand;
+import frc.robot.commands.New.PlayOrchestraCommand;
+import frc.robot.commands.New.ResetGyroCommand;
+import frc.robot.commands.New.SetElevatorReactCommand;
+import frc.robot.commands.New.SetLevelReactCommand;
+import frc.robot.commands.New.SetSideReactCommand;
+import frc.robot.commands.New.StopOrchestraCommand;
+import frc.robot.commands.New.TriggerElevatorCommand;
+import frc.robot.commands.Updated.AimNRangeAutoCoralStationCommand;
+import frc.robot.commands.Updated.AimNRangeCommand;
+import frc.robot.commands.Updated.LEDColorChangeCommand;
+import frc.robot.commands.Updated.NeutralElevatorCommand;
+import frc.robot.commands.Updated.RunIntakeForSecsCommand;
+import frc.robot.commands.Updated.RunShootForSecsSpeedCommand;
+import frc.robot.commands.Updated.SetElevatorCommand;
+import frc.robot.commands.Updated.SetWristCommand;
+import frc.robot.commands.Updated.ZeroElevatorCommand;
+import frc.robot.commands.Updated.ZeroWristCommand;
+import frc.robot.subsystems.AutoDashboardSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.LEDSubsystem;
+import frc.robot.subsystems.ReactDashSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
+import frc.robot.subsystems.TeleopDashboardSubsystem;
 import frc.robot.subsystems.WristSubsystem;
+import frc.robot.subsystems.Limelight.LimelightSubsystem;
+import frc.robot.subsystems.LEDSubsystem;
 
 import com.pathplanner.lib.auto.NamedCommands;
 
@@ -41,7 +48,6 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 // This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -55,15 +61,20 @@ public class RobotContainer {
   private final ElevatorSubsystem m_elevatorSubsystem = new ElevatorSubsystem();
   private final WristSubsystem m_wristSubsystem = new WristSubsystem();
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
-  // private final AlgaeSubsystem m_algaeSubsystem = new AlgaeSubsystem();
   private final LEDSubsystem m_ledSubsystem = new LEDSubsystem();
+  private final LimelightSubsystem m_limelightSubsystem = new LimelightSubsystem();
+
+  // REACT
+  private final ReactDashSubsystem m_reactDashSubsystem = new ReactDashSubsystem();
+  private final AutoDashboardSubsystem m_autoDashboardSubsystem = new AutoDashboardSubsystem();
+  private final TeleopDashboardSubsystem m_teleopDashboardSubsystem = new TeleopDashboardSubsystem();
 
   // Create New Choosing Option in SmartDashboard for Autos
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController = new CommandXboxController(ControllerConstants.k_driverControllerPort);
-  private final CommandXboxController m_operatorController = new CommandXboxController(ControllerConstants.k_operatorControllerPort);
+  // private final CommandXboxController m_operatorController = new CommandXboxController(ControllerConstants.k_operatorControllerPort);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -73,44 +84,19 @@ public class RobotContainer {
 
     // Makes the drive command the default command (good!)
     m_swerveSubsystem.setDefaultCommand(driveFieldOrientedAngularVelocity);
-    m_elevatorSubsystem.setDefaultCommand(elevatorLimelightCommand);
 
     // Named Command Configuration
-    NamedCommands.registerCommand("Score L4", AimNRangescoreL4Command);
-    NamedCommands.registerCommand("Score Left Reef", AimNRangescoreAllAutoLeftCommand);
-    NamedCommands.registerCommand("Score Right Reef", AimNRangescoreAllAutoRightCommand);
-    NamedCommands.registerCommand("Finish Scoring", AimNRangeFinishCommand);
-    NamedCommands.registerCommand("Lower Elevator", new SetLevelCommand("L1"));
-    NamedCommands.registerCommand("Raise Wrist", RaiseWristCommand);
-    NamedCommands.registerCommand("Intake", IntakeAutoCommand);
-    NamedCommands.registerCommand("Prepare to Score", Akatsuki);
-    NamedCommands.registerCommand("Score L4 Left", AimNRangeLeftNoElevatorCommand);
-    NamedCommands.registerCommand("Score L4 Right", AimNRangeRightNoElevatorCommand);
+    NamedCommands.registerCommand("Raise Wrist", RaiseWristCommand());
+    NamedCommands.registerCommand("Intake", IntakeAutoCommand());
+    NamedCommands.registerCommand("Score L4 Left", AimNRangeScoreAutoLeftCommand());
+    NamedCommands.registerCommand("Score L4 Right", AimNRangeScoreAutoRightCommand());
     NamedCommands.registerCommand("Zero Gyro", new InstantCommand(() -> m_swerveSubsystem.zeroGyro(), m_swerveSubsystem));
-    NamedCommands.registerCommand("Position Coral Station Left", positionNIntakeAutoCoralStationLeft);
-    NamedCommands.registerCommand("Position Coral Station Right", positionNIntakeAutoCoralStationRight);
-
-    /* 
-     * KEY:
-     * U - UNCONFIRMED
-     * P - Preferred
-    */
-
-    // Autos!
+    NamedCommands.registerCommand("Position Coral Station Left", positionNIntakeAutoCoralStationLeft());
+    NamedCommands.registerCommand("Position Coral Station Right", positionNIntakeAutoCoralStationRight());
 
     // COMP AUTOS
     // m_chooser.addOption("3C: BL-R, FL-R, FL-L REVISED", m_swerveSubsystem.getAutonomousCommand("3C BL-R, FL-R, FL-L REVISED")); // U (P)
     // m_chooser.addOption("3C BR-L, FR-L, FR-R *", m_swerveSubsystem.getAutonomousCommand("3C BR-L, FR-L, FR-R")); // U (P)
-
-    m_chooser.addOption("2.5C: BL-R, FL-R *", m_swerveSubsystem.getAutonomousCommand("2.5C BL-R, FL-R REVISED"));
-    m_chooser.addOption("2.5C: BR-L, FR-L *", m_swerveSubsystem.getAutonomousCommand("2.5C BR-L, FR-L REVISED")); 
-
-    m_chooser.addOption("1C: BC-L", m_swerveSubsystem.getAutonomousCommand("1C BC-L")); 
-    m_chooser.addOption("1C: BC-R", m_swerveSubsystem.getAutonomousCommand("1C BC-R")); 
-
-    m_chooser.addOption("0C: Center Leave", m_swerveSubsystem.getAutonomousCommand("CenterLeave"));
-    m_chooser.addOption("0C: Left Leave", m_swerveSubsystem.getAutonomousCommand("LeftLeave")); 
-    m_chooser.addOption("0C: Right Leave", m_swerveSubsystem.getAutonomousCommand("RightLeave")); // U
 
     // Puts a chooser on the SmartDashboard!
     SmartDashboard.putData("AutoMode", m_chooser);
@@ -121,56 +107,23 @@ public class RobotContainer {
     
     /*
      * DRIVER CONTROLLER
-     * A - Set L1
-     * B - Set L2
-     * X - Set L3
-     * Y - Set L4
      * Right Bump - Raise Wrist
      * Left Bump - Lower Wrist
      * Right Trig - Intake and Set X
-     * Left Trig - Align with Coral Station
      * Start - Reset Gyro
-     * Back - Reset Elevator
-     * POV UP - Position and Score (REQUIRES [A, B, X, Y] ELEVATOR SETTING!)
-     * POV DOWN - Shoot Slowly (For L1)
-     * POV LEFT - Set Destination to Left Branch
-     * POV RIGHT - Set Destination to Right Branch
+     * Back - Stop Orchestra
      */
-    
-    // Automatic Reset Elevator - "A" Button
-    new JoystickButton(m_driverController.getHID(), ControllerConstants.k_A)
-      .onTrue(
-        new SetLevelCommand("L1")
-      );
-    
-    // Automated Coral L2 - "B" Button
-    new JoystickButton(m_driverController.getHID(), ControllerConstants.k_B)
-      .onTrue(
-        new SetLevelCommand("L2")
-      );
-
-    // Automated Coral L3 - "X" Button
-    new JoystickButton(m_driverController.getHID(), ControllerConstants.k_X)
-      .onTrue(
-        new SetLevelCommand("L3")
-      );
-
-    // Automated Coral L4 - "Y" Button
-    new JoystickButton(m_driverController.getHID(), ControllerConstants.k_Y)
-      .onTrue(
-        new SetLevelCommand("L4")
-      );
     
     // Raise Wrist - Right Bump
     new JoystickButton(m_driverController.getHID(), ControllerConstants.k_rightbump)
       .onTrue(
-        RaiseWristCommand
+        RaiseWristCommand()
       );
 
     // Lower Wrist - Left Bump
     new JoystickButton(m_driverController.getHID(), ControllerConstants.k_leftbump)
       .onTrue(
-        LowerWristCommand
+        LowerWristCommand()
       );
 
     // Intake and Set X - Right Trig
@@ -184,163 +137,84 @@ public class RobotContainer {
         new InstantCommand(() -> m_swerveSubsystem.driveCommandLimelight(0, 0, 0), m_swerveSubsystem))
       );
 
-    // Align with Coral Station - Left Trig
-    new Trigger(() -> m_driverController.getRawAxis(ControllerConstants.k_lefttrig) > 0.05)
-      .onTrue(
-        new AimNRangeAutoCoralStationCommand(m_swerveSubsystem, true)
-      );
-
     // Reset Gyro - Start Button
     new JoystickButton(m_driverController.getHID(), ControllerConstants.k_start)
       .onTrue(
         new InstantCommand(() -> m_swerveSubsystem.zeroGyro(), m_swerveSubsystem)
       );
     
-    // Reset Elevator - Back Button
+    // Stop Orchestra - Back Button
     new JoystickButton(m_driverController.getHID(), ControllerConstants.k_back)
     .onTrue(
-      ResetElevatorCommand
+      new StopOrchestraCommand(m_swerveSubsystem, m_elevatorSubsystem, m_wristSubsystem, m_intakeSubsystem)
     );
-
-    // Set AimNRange Destination to "Right"
-    new POVButton(m_driverController.getHID(), ControllerConstants.k_dpadRight)
-      .onTrue(
-        new SetReefCommand("right")
-      );
-
-    // Set AimNRange Destination to "Left"
-    new POVButton(m_driverController.getHID(), ControllerConstants.k_dpadLeft)
-      .onTrue(
-        new SetReefCommand("left")
-      );
-
-    // All in One!
-    new POVButton(m_driverController.getHID(), ControllerConstants.k_dpadup)
-      .onTrue(
-        AimNRangescoreAllCommand
-      );
-
-    // L1 Eject TODO: Test L1 Eject (I'm bad rawr)
-    new POVButton(m_driverController.getHID(), ControllerConstants.k_dpadDown)
-      .whileTrue(
-        new RunShootForSecsSpeedCommand(m_intakeSubsystem, 1, true, 0.1)
-      );
 
     /*
-     * OPERATOR CONTROLLER
-     * A - Lower Elevator
-     * B - Raise L2
-     * X - Raise L3
-     * Y - Raise L4
-     * Right Bump - Raise Wrist
-     * Left Bump - Lower Wrist
-     * Right Trig - Intake Coral
-     * Left Trig - Shoot Coral
-     * Start - Neutral Elevator Manual
-     * Back - Zero Elevator Manual
-     * POV UP - 
-     * POV DOWN - 
-     * POV LEFT - Set Destination to Left Branch
-     * POV RIGHT - Set Destination to Right Branch
+     * TRIGGERS
+     * Reset Gyro
+     * Elevator Raise to Preset
+     * Elevator Raise Manual
+     * Reset Elevator - Automatic
+     * Neutral Elevator - Manual
+     * Zero Elevator - Manual
+     * Score Coral
+     * LEDs - Five Statuses
+     * Play Orchestra
      */
-    
-    // Lower Elevator - "A" Button
-    new JoystickButton(m_operatorController.getHID(), ControllerConstants.k_A)
-      .onTrue(
-        new SetLevelCommand("L1")
-      );
-    
-    // Raise Elevator to L2 - "B" Button TODO: Test manual elevator setting
-    new JoystickButton(m_operatorController.getHID(), ControllerConstants.k_B)
-      .onTrue(
-        new SetLevelCommand("L2")
-      );
 
-    // Raise Elevator to L3 - "X" Button
-    new JoystickButton(m_operatorController.getHID(), ControllerConstants.k_X)
-      .onTrue(
-        new SetLevelCommand("L3")
-      );
-
-    // Raise Elevator to L4 - "Y" Button
-    new JoystickButton(m_operatorController.getHID(), ControllerConstants.k_Y)
-      .onTrue(
-        new SetLevelCommand("L4")
-      );
-    
-    // Raise Wrist - Right Bump
-    new JoystickButton(m_operatorController.getHID(), ControllerConstants.k_rightbump)
-      .onTrue(
-        RaiseWristCommand
-      );
-
-    // Lower Wrist - Left Bump
-    new JoystickButton(m_operatorController.getHID(), ControllerConstants.k_leftbump)
-      .onTrue(
-        LowerWristCommand
-      );
-
-    // Intake - Right Trig
-    new Trigger(() -> m_operatorController.getRawAxis(ControllerConstants.k_righttrig) > 0.05)
-      .whileTrue(
-        new InstantCommand(() -> m_intakeSubsystem.intake(), m_intakeSubsystem)
-      )
-      .onFalse(
-        new InstantCommand(() -> m_intakeSubsystem.stopShooter(), m_intakeSubsystem)
-      );
-
-    // Eject Algae - Left Trig
-    new Trigger(() -> m_operatorController.getRawAxis(ControllerConstants.k_lefttrig) > 0.05)
-      .whileTrue(
-        new InstantCommand(() -> m_intakeSubsystem.shoot(), m_intakeSubsystem)
-      )
-      .onFalse(
-        new InstantCommand(() -> m_intakeSubsystem.stopShooter(), m_intakeSubsystem)
-      );
-
-    // Neutral Elevator - Start Button
-    new JoystickButton(m_operatorController.getHID(), ControllerConstants.k_start)
-      .onTrue(
-        new InstantCommand(() -> m_elevatorSubsystem.setNeutral(), m_elevatorSubsystem)
-      );
-    
-    // Reset Elevator Manually - Back Button
-    new JoystickButton(m_operatorController.getHID(), ControllerConstants.k_back)
-    .onTrue(
-      new InstantCommand(() -> m_elevatorSubsystem.resetSensorPosition(ElevatorConstants.k_zeroHeight), m_elevatorSubsystem)
+    // REACT DASH STUFF!!
+    new Trigger(() -> ReactConstants._resetGyro)
+      .onTrue(new ResetGyroCommand(m_swerveSubsystem)
     );
 
-    // Set AimNRange Destination to "Right"
-    new POVButton(m_operatorController.getHID(), ControllerConstants.k_dpadRight)
-      .onTrue(
-        new SetReefCommand("right")
-      );
-
-    // Set AimNRange Destination to "Left"
-    new POVButton(m_operatorController.getHID(), ControllerConstants.k_dpadLeft)
-      .onTrue(
-        new SetReefCommand("left")
-      );
-
-    /* 
-    // Algae Intake
-    new POVButton(m_driverController.getHID(), ControllerConstants.k_dpadup)
-    .whileTrue(
-      new InstantCommand(() -> m_algaeSubsystem.intake(), m_algaeSubsystem)
-    )
-    .onFalse(
-      new InstantCommand(() -> m_algaeSubsystem.stopShooter(), m_algaeSubsystem)
+    new Trigger(() -> ReactConstants._triggerElevatorScore)
+      .onTrue(new SetElevatorReactCommand(m_elevatorSubsystem)
     );
 
-    // Algae Eject
-    new POVButton(m_driverController.getHID(), ControllerConstants.k_dpadDown)
-      .whileTrue(
-        new InstantCommand(() -> m_algaeSubsystem.shoot(), m_algaeSubsystem)
-      )
-      .onFalse(
-        new InstantCommand(() -> m_algaeSubsystem.stopShooter(), m_algaeSubsystem)
-      );
-      */
+    new Trigger(() -> ReactConstants._raiseElevator)
+      .onTrue(new SetElevatorCommand(m_elevatorSubsystem, "L3"))
+      .onFalse(ResetElevatorCommand()
+    );
+
+    new Trigger(() -> ReactConstants._triggerElevatorReset)
+      .onTrue(ResetElevatorCommand()
+    );
+
+    new Trigger(() -> ReactConstants._neutralElevator)
+      .onTrue(new NeutralElevatorCommand(m_elevatorSubsystem)
+    );
+
+    new Trigger(() -> ReactConstants._zeroElevator)
+      .onTrue(new ZeroElevatorCommand(m_elevatorSubsystem)
+    );
+
+    new Trigger(() -> ReactConstants._scoreCoral)
+      .onTrue(AimNRangeScoreCommand()
+    );
+
+    new Trigger(() -> ReactConstants._triggerLEDScoreSignal)
+      .onTrue(new InstantCommand(() -> m_ledSubsystem.setRainbowRainbow(), m_ledSubsystem)
+    );
+
+    new Trigger(() -> ReactConstants._triggerLEDManualSignal)
+      .onTrue(new InstantCommand(() -> m_ledSubsystem.setRainbowParty(), m_ledSubsystem)
+    );
+
+    new Trigger(() -> ReactConstants._triggerLEDParkSignal)
+      .onTrue(new InstantCommand(() -> m_ledSubsystem.setStrobeWhite(), m_ledSubsystem)
+    );
+
+    new Trigger(() -> ReactConstants._triggerLEDAllianceSignal)
+      .onTrue(new InstantCommand(() -> m_ledSubsystem.setAllianceColor(), m_ledSubsystem)
+    );
+
+    new Trigger(() -> ReactConstants._triggerLEDLimelightSignal)
+      .onTrue(new InstantCommand(() -> m_ledSubsystem.setColorWavesForestLimelight(), m_ledSubsystem)
+    );
+
+    new Trigger(() -> ReactConstants._playOrchestra)
+      .onTrue(new PlayOrchestraCommand(m_swerveSubsystem, m_elevatorSubsystem, m_wristSubsystem, m_intakeSubsystem)
+    );
   }
   
   // Commands!
@@ -356,347 +230,131 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
 
     // The selected auto on SmartDashboard will be run in autonomous
-    return m_chooser.getSelected(); 
+    // return m_chooser.getSelected();
+
+    // The selected auto will be run in autonomous (or not haha)
+    if (ReactConstants._selectedAuto.equals("NONE")) return null;
+    else return m_swerveSubsystem.getAutonomousCommand(ReactConstants._selectedAuto);
   }
 
-  public Command elevatorLimelightCommand = m_elevatorSubsystem.automaticRaiseCommand();
-
   // Command Chain for Raising Wrist
-  SequentialCommandGroup RaiseWristCommand = new SequentialCommandGroup(
-    new ZeroWristCommand(m_wristSubsystem),
-    new SetWristCommand(m_wristSubsystem, "intake")
-  );
+  public SequentialCommandGroup RaiseWristCommand() {
+    return new SequentialCommandGroup(
+      new ZeroWristCommand(m_wristSubsystem),
+      new SetWristCommand(m_wristSubsystem, "INTAKE")
+    );
+  }
 
   // Command Chain for Lowering Wrist
-  SequentialCommandGroup LowerWristCommand = new SequentialCommandGroup(
-    new SetWristCommand(m_wristSubsystem, "score"),
-    new ZeroWristCommand(m_wristSubsystem)
-  );
+  public SequentialCommandGroup LowerWristCommand() {
+    return new SequentialCommandGroup(
+      new SetWristCommand(m_wristSubsystem, "SCORE"),
+      new ZeroWristCommand(m_wristSubsystem)
+    );
+  }
 
   // Command Chain for Manual Reset
-  SequentialCommandGroup ResetElevatorCommand = new SequentialCommandGroup(
-    new SetElevatorCommand(m_elevatorSubsystem, "zero"),
-    new ZeroElevatorCommand(m_elevatorSubsystem)
-  );
-  
+  public SequentialCommandGroup ResetElevatorCommand() {
+    return new SequentialCommandGroup(
+      new SetElevatorCommand(m_elevatorSubsystem, "zero"),
+      new ZeroElevatorCommand(m_elevatorSubsystem)
+    );
+  }
+
   // Command Chain for Intake Auto
-  SequentialCommandGroup IntakeAutoCommand = new SequentialCommandGroup(
-    new SetWristCommand(m_wristSubsystem, "intake"), 
-    new RunIntakeForSecsCommand(m_intakeSubsystem, 1.0)
-  );
+  public SequentialCommandGroup IntakeAutoCommand() {
+    return new SequentialCommandGroup(
+      new SetWristCommand(m_wristSubsystem, "INTAKE"), 
+      new RunIntakeForSecsCommand(m_intakeSubsystem, 1.0)
+    );
+  }
 
-  // Command Chain for Shoot Auto
-  SequentialCommandGroup ShootAutoCommand = new SequentialCommandGroup(
-    new RunShootForSecsCommand(m_intakeSubsystem, 0.5, true)
-  );
+  // Command Chain for Positioning and Loading at the Left Side of the Coral Station in Auto
+  public ParallelDeadlineGroup positionNIntakeAutoCoralStationLeft() {
+    return new ParallelDeadlineGroup(
+      new AimNRangeAutoCoralStationCommand(m_swerveSubsystem, false),
+      new RunIntakeForSecsCommand(m_intakeSubsystem, 3)
+    );
+  }
 
-  // Command Chain for Removing Algae
-  SequentialCommandGroup RemoveAlgaeCommand = new SequentialCommandGroup(
-    new SetWristCommand(m_wristSubsystem, "score"),
-    new ZeroWristCommand(m_wristSubsystem),
-    new AimNRangeAlgaeRemovalCommand(m_swerveSubsystem, "position"),
-    new ParallelCommandGroup(
-      new SetElevatorCommand(m_elevatorSubsystem, "algae"),
-      new RunIntakeForSecsCommand(m_intakeSubsystem, 1)
-    ),
-    new ZeroWristCommand(m_wristSubsystem),
-    new SetWristCommand(m_wristSubsystem, "intake"),
-    new AimNRangeAlgaeRemovalCommand(m_swerveSubsystem, "remove"),
-    new SetElevatorCommand(m_elevatorSubsystem, "zero"),
-    new ZeroElevatorCommand(m_elevatorSubsystem)
-  );
+  // Command Chain for Positioning and Loading at the Right Side of the Coral Station in Auto
+  public ParallelDeadlineGroup positionNIntakeAutoCoralStationRight() {
+    return new ParallelDeadlineGroup(
+      new AimNRangeAutoCoralStationCommand(m_swerveSubsystem, true),
+      new RunIntakeForSecsCommand(m_intakeSubsystem, 3)
+    );
+  }
 
-  // Command Chain for Finishing AimNRange
-  SequentialCommandGroup AimNRangeFinishCommand = new SequentialCommandGroup(
-    new ZeroWristCommand(m_wristSubsystem),
-    new SetElevatorCommand(m_elevatorSubsystem, "zero"),
-    new ParallelCommandGroup(
-      new ZeroElevatorCommand(m_elevatorSubsystem),
-      new SetWristCommand(m_wristSubsystem, "intake")
-    ),
-    new LEDColorChangeCommand(m_ledSubsystem, "Alliance")
-  );
-
-  // Command Chain for Raising to L2
-  SequentialCommandGroup RaiseL2Command = new SequentialCommandGroup(
-    new ParallelDeadlineGroup(
-      new ParallelCommandGroup(
-        new SetElevatorCommand(m_elevatorSubsystem, "L2"),
-        new SequentialCommandGroup(
-          new SetWristCommand(m_wristSubsystem, "score"),
-          new ZeroWristCommand(m_wristSubsystem)
-        ) 
+  // Command Chain for Completely Automated Scoring
+  public SequentialCommandGroup AimNRangeScoreCommand() {
+    return new SequentialCommandGroup(
+      new TriggerElevatorCommand("SCORE"),
+      new LEDColorChangeCommand("SCORE_SIGNAL"),
+      new ParallelDeadlineGroup(
+        new ParallelCommandGroup(
+          new AimNRangeCommand(m_swerveSubsystem),
+          new SequentialCommandGroup(
+            new SetWristCommand(m_wristSubsystem, "SCORE"),
+            new ZeroWristCommand(m_wristSubsystem)
+          )
+        ),
+        new RunIntakeForSecsCommand(m_intakeSubsystem, 3.0)
       ),
-      new RunIntakeForSecsCommand(m_intakeSubsystem, 3.0)
-    )
-  );
+      new RunShootForSecsSpeedCommand(m_intakeSubsystem, 0.5, VisionConstants.k_positioned, 0.5),
+      new ZeroWristCommand(m_wristSubsystem),
+      new SetWristCommand(m_wristSubsystem, "INTAKE"),
+      new TriggerElevatorCommand("RESET"),
+      new LEDColorChangeCommand("NONE")
+    );
+  }
 
-  // Command Chain for Raising to L3
-  SequentialCommandGroup RaiseL3Command = new SequentialCommandGroup(
-    new ParallelDeadlineGroup(
-      new ParallelCommandGroup(
-        new SetElevatorCommand(m_elevatorSubsystem, "L3"),
-        new SequentialCommandGroup(
-          new SetWristCommand(m_wristSubsystem, "score"),
-          new ZeroWristCommand(m_wristSubsystem)
-        ) 
+  // Automated Scoring in Autonomous Period - Right
+  public SequentialCommandGroup AimNRangeScoreAutoRightCommand() {
+    return new SequentialCommandGroup(
+      new SetLevelReactCommand("4"),
+      new SetSideReactCommand("R"),
+      new TriggerElevatorCommand("SCORE"),
+      new LEDColorChangeCommand("SCORE_SIGNAL"),
+      new ParallelDeadlineGroup(
+        new ParallelCommandGroup(
+          new AimNRangeCommand(m_swerveSubsystem),
+          new SequentialCommandGroup(
+            new SetWristCommand(m_wristSubsystem, "SCORE"),
+            new ZeroWristCommand(m_wristSubsystem)
+          )
+        ),
+        new RunIntakeForSecsCommand(m_intakeSubsystem, 3.0)
       ),
-      new RunIntakeForSecsCommand(m_intakeSubsystem, 3.0)
-    )
-  );
+      new RunShootForSecsSpeedCommand(m_intakeSubsystem, 0.5, VisionConstants.k_positioned, 0.5),
+      new ZeroWristCommand(m_wristSubsystem),
+      new SetWristCommand(m_wristSubsystem, "INTAKE"),
+      new TriggerElevatorCommand("RESET"),
+      new LEDColorChangeCommand("NONE")
+    );
+  }
 
-  // Command Chain for Raising to L4
-  SequentialCommandGroup RaiseL4Command = new SequentialCommandGroup(
-    new ParallelDeadlineGroup(
-      new ParallelCommandGroup(
-        new SetElevatorCommand(m_elevatorSubsystem, "L4"),
-        new SequentialCommandGroup(
-          new SetWristCommand(m_wristSubsystem, "score"),
-          new ZeroWristCommand(m_wristSubsystem)
-        ) 
+  // Automated Scoring in Autonomous Period - Left
+  public SequentialCommandGroup AimNRangeScoreAutoLeftCommand() {
+    return new SequentialCommandGroup(
+      new SetLevelReactCommand("4"),
+      new SetSideReactCommand("L"),
+      new TriggerElevatorCommand("SCORE"),
+      new LEDColorChangeCommand("SCORE_SIGNAL"),
+      new ParallelDeadlineGroup(
+        new ParallelCommandGroup(
+          new AimNRangeCommand(m_swerveSubsystem),
+          new SequentialCommandGroup(
+            new SetWristCommand(m_wristSubsystem, "SCORE"),
+            new ZeroWristCommand(m_wristSubsystem)
+          )
+        ),
+        new RunIntakeForSecsCommand(m_intakeSubsystem, 3.0)
       ),
-      new RunIntakeForSecsCommand(m_intakeSubsystem, 3.0)
-    )
-  );
-
-  // Command Chain for Completely Automated L2
-  SequentialCommandGroup AimNRangescoreL2Command = new SequentialCommandGroup(
-    new LEDColorChangeCommand(m_ledSubsystem, "Scoring"),
-    new ZeroElevatorCommand(m_elevatorSubsystem),
-    new ParallelDeadlineGroup(
-      new ParallelCommandGroup(
-        new AimNRangeCommand(m_swerveSubsystem),
-        new SetElevatorCommand(m_elevatorSubsystem, "L2"),
-        new SequentialCommandGroup(
-          new SetWristCommand(m_wristSubsystem, "score"),
-          new ZeroWristCommand(m_wristSubsystem)
-        ) 
-      ),
-      new RunIntakeForSecsCommand(m_intakeSubsystem, 3.0)
-    ),
-    new RunShootForSecsCommand(m_intakeSubsystem, 0.7, VisionConstants.k_positioned),
-    new ZeroWristCommand(m_wristSubsystem),
-    new SetElevatorCommand(m_elevatorSubsystem, "zero"),
-    new ParallelCommandGroup(
-      new ZeroElevatorCommand(m_elevatorSubsystem),
-      new SetWristCommand(m_wristSubsystem, "intake")
-    ),
-    new LEDColorChangeCommand(m_ledSubsystem, "Alliance")
-  );
-
-  // Command Chain for Completely Automated L3
-  SequentialCommandGroup AimNRangescoreL3Command = new SequentialCommandGroup(
-    new LEDColorChangeCommand(m_ledSubsystem, "Scoring"),
-    new ZeroElevatorCommand(m_elevatorSubsystem),
-    new ParallelDeadlineGroup(
-      new ParallelCommandGroup(
-        new AimNRangeCommand(m_swerveSubsystem),
-        new SetElevatorCommand(m_elevatorSubsystem, "L3"),
-        new SequentialCommandGroup(
-          new SetWristCommand(m_wristSubsystem, "score"),
-          new ZeroWristCommand(m_wristSubsystem)
-        ) 
-      ),
-      new RunIntakeForSecsCommand(m_intakeSubsystem, 3.0)
-    ),
-    new RunShootForSecsCommand(m_intakeSubsystem, 0.7, VisionConstants.k_positioned),
-    new ZeroWristCommand(m_wristSubsystem),
-    new SetElevatorCommand(m_elevatorSubsystem, "zero"),
-    new ParallelCommandGroup(
-      new ZeroElevatorCommand(m_elevatorSubsystem),
-      new SetWristCommand(m_wristSubsystem, "intake")
-    ),
-    new LEDColorChangeCommand(m_ledSubsystem, "Alliance")
-  );
-
-  // Command Chain for Completely Automated L4
-  SequentialCommandGroup AimNRangescoreL4Command = new SequentialCommandGroup(
-    new LEDColorChangeCommand(m_ledSubsystem, "Scoring"),
-    new ZeroElevatorCommand(m_elevatorSubsystem),
-    new ParallelDeadlineGroup(
-      new ParallelCommandGroup(
-        new AimNRangeCommand(m_swerveSubsystem),
-        new SetElevatorCommand(m_elevatorSubsystem, "L4"),
-        new SequentialCommandGroup(
-          new SetWristCommand(m_wristSubsystem, "score"),
-          new ZeroWristCommand(m_wristSubsystem)
-        ) 
-      ),
-      new RunIntakeForSecsCommand(m_intakeSubsystem, 3.0)
-    ),
-    new RunShootForSecsCommand(m_intakeSubsystem, 0.7, VisionConstants.k_positioned),
-    new ZeroWristCommand(m_wristSubsystem),
-    new SetElevatorCommand(m_elevatorSubsystem, "zero"),
-    new ParallelCommandGroup(
-      new ZeroElevatorCommand(m_elevatorSubsystem),
-      new SetWristCommand(m_wristSubsystem, "intake")
-    ),
-    new LEDColorChangeCommand(m_ledSubsystem, "Alliance")
-  );
-
-  // Command Chain for Early Elevator Raise in Auto
-  SequentialCommandGroup Akatsuki = new SequentialCommandGroup(
-    new LEDColorChangeCommand(m_ledSubsystem, "Scoring"),
-    new ZeroElevatorCommand(m_elevatorSubsystem),
-    new ParallelDeadlineGroup(
-      new ParallelCommandGroup(
-        new SetElevatorCommand(m_elevatorSubsystem, "L4"),
-        new SequentialCommandGroup(
-          new SetWristCommand(m_wristSubsystem, "score"),
-          new ZeroWristCommand(m_wristSubsystem)
-        ) 
-      ),
-      new RunIntakeForSecsCommand(m_intakeSubsystem, 3.0)
-    )
-  );
-
-  // Command Chain for Scoring Preparation no Elevator
-  SequentialCommandGroup PrepareToScore = new SequentialCommandGroup(
-    new LEDColorChangeCommand(m_ledSubsystem, "Scoring"),
-    new ZeroElevatorCommand(m_elevatorSubsystem),
-    new ParallelDeadlineGroup(
-      new ParallelCommandGroup(
-        new SetElevatorCommand(m_elevatorSubsystem, "L4"),
-        new SequentialCommandGroup(
-          new SetWristCommand(m_wristSubsystem, "score"),
-          new ZeroWristCommand(m_wristSubsystem)
-        ) 
-      ),
-      new RunIntakeForSecsCommand(m_intakeSubsystem, 3.0)
-    )
-  );
-
-  // Command Chain for Elevator Preset L4 - RIGHT REEF
-  SequentialCommandGroup AimNRangeRightNoElevatorCommand = new SequentialCommandGroup(
-    new AimNRangeAutoCommand(m_swerveSubsystem, true), 
-    new RunShootForSecsCommand(m_intakeSubsystem, 0.5, VisionConstants.k_positioned)
-  );
-
-  // Command Chain for Elevator Preset L4 - LEFT REEF
-  SequentialCommandGroup AimNRangeLeftNoElevatorCommand = new SequentialCommandGroup(
-    new AimNRangeAutoCommand(m_swerveSubsystem, false), 
-    new RunShootForSecsCommand(m_intakeSubsystem, 0.5, VisionConstants.k_positioned)
-  );
-
-  // Command Chain for Completely Automated L4 in Auto - RIGHT REEF
-  SequentialCommandGroup AimNRangeScoreAutoRightCommand = new SequentialCommandGroup(
-    new LEDColorChangeCommand(m_ledSubsystem, "Scoring"),
-    new ZeroElevatorCommand(m_elevatorSubsystem),
-    new ParallelDeadlineGroup(
-      new ParallelCommandGroup(
-        new AimNRangeAutoCommand(m_swerveSubsystem, true),
-        new SetElevatorCommand(m_elevatorSubsystem, "L4"),
-        new SequentialCommandGroup(
-          new SetWristCommand(m_wristSubsystem, "score"),
-          new ZeroWristCommand(m_wristSubsystem)
-        ) 
-      ),
-      new RunIntakeForSecsCommand(m_intakeSubsystem, 3.0)
-    ),
-    new RunShootForSecsCommand(m_intakeSubsystem, 0.5, VisionConstants.k_positioned)
-    /*
-    new ZeroWristCommand(m_wristSubsystem),
-    new SetElevatorCommand(m_elevatorSubsystem, "zero"),
-    new ZeroElevatorCommand(m_elevatorSubsystem),
-    new InstantCommand(() -> m_ledSubsystem.setAllianceColor(), m_ledSubsystem)
-    */
-  );
-
-  // Command Chain for Completely Automated L4 in Auto - LEFT REEF
-  SequentialCommandGroup AimNRangeScoreAutoLeftCommand = new SequentialCommandGroup(
-    new LEDColorChangeCommand(m_ledSubsystem, "Scoring"),
-    new ZeroElevatorCommand(m_elevatorSubsystem),
-    new ParallelDeadlineGroup(
-      new ParallelCommandGroup(
-        new AimNRangeAutoCommand(m_swerveSubsystem, false),
-        new SetElevatorCommand(m_elevatorSubsystem, "L4"),
-        new SequentialCommandGroup(
-          new SetWristCommand(m_wristSubsystem, "score"),
-          new ZeroWristCommand(m_wristSubsystem)
-        ) 
-      ),
-      new RunIntakeForSecsCommand(m_intakeSubsystem, 3.0)
-    ),
-    new RunShootForSecsCommand(m_intakeSubsystem, 0.5, VisionConstants.k_positioned)
-    /*
-    new ZeroWristCommand(m_wristSubsystem),
-    new SetElevatorCommand(m_elevatorSubsystem, "zero"),
-    new ZeroElevatorCommand(m_elevatorSubsystem),
-    new InstantCommand(() -> m_ledSubsystem.setAllianceColor(), m_ledSubsystem)
-    */
-  );
-
-  // Command Chain for Completely Automated Scoring with Automated Elevator
-  SequentialCommandGroup AimNRangescoreAllCommand = new SequentialCommandGroup(
-    new LEDColorChangeCommand(m_ledSubsystem, "Scoring"),
-    new ParallelDeadlineGroup(
-      new ParallelCommandGroup(
-        new AimNRangeCommand(m_swerveSubsystem),
-        new SequentialCommandGroup(
-          new SetWristCommand(m_wristSubsystem, "score"),
-          new ZeroWristCommand(m_wristSubsystem)
-        )
-      ),
-      new RunIntakeForSecsCommand(m_intakeSubsystem, 3.0)
-    ),
-    new RunShootForSecsCommand(m_intakeSubsystem, 0.5, VisionConstants.k_positioned),
-    new ZeroWristCommand(m_wristSubsystem),
-    new SetWristCommand(m_wristSubsystem, "intake"),
-    new LEDColorChangeCommand(m_ledSubsystem, "Alliance"), 
-    new SetLevelCommand("L1")
-  );
-
-  // Command Chain for Completely Automated Scoring with Automated Elevator
-  SequentialCommandGroup AimNRangescoreAllAutoRightCommand = new SequentialCommandGroup(
-    new SetLevelCommand("L4"),
-    new LEDColorChangeCommand(m_ledSubsystem, "Scoring"),
-    new ParallelDeadlineGroup(
-      new ParallelCommandGroup(
-        new AimNRangeAutoCommand(m_swerveSubsystem, true),
-        new SequentialCommandGroup(
-          new SetWristCommand(m_wristSubsystem, "score"),
-          new ZeroWristCommand(m_wristSubsystem)
-        )
-      ),
-      new RunIntakeForSecsCommand(m_intakeSubsystem, 3.0)
-    ),
-    new RunShootForSecsCommand(m_intakeSubsystem, 0.5, VisionConstants.k_positioned),
-    new ZeroWristCommand(m_wristSubsystem),
-    new SetWristCommand(m_wristSubsystem, "intake"),
-    new LEDColorChangeCommand(m_ledSubsystem, "Alliance"), 
-    new SetLevelCommand("L1")
-  );
-
-  // Command Chain for Completely Automated Scoring with Automated Elevator
-  SequentialCommandGroup AimNRangescoreAllAutoLeftCommand = new SequentialCommandGroup(
-    new SetLevelCommand("L4"),
-    new LEDColorChangeCommand(m_ledSubsystem, "Scoring"),
-    new ParallelDeadlineGroup(
-      new ParallelCommandGroup(
-        new AimNRangeAutoCommand(m_swerveSubsystem, false),
-        new SequentialCommandGroup(
-          new SetWristCommand(m_wristSubsystem, "score"),
-          new ZeroWristCommand(m_wristSubsystem)
-        )
-      ),
-      new RunIntakeForSecsCommand(m_intakeSubsystem, 3.0)
-    ),
-    new RunShootForSecsCommand(m_intakeSubsystem, 0.7, VisionConstants.k_positioned),
-    new ZeroWristCommand(m_wristSubsystem),
-    new SetWristCommand(m_wristSubsystem, "intake"),
-    new LEDColorChangeCommand(m_ledSubsystem, "Alliance"), 
-    new SetLevelCommand("L1")
-  );
-
-  // Command Chain for Positioning and Loading at the Coral Station in Auto
-  ParallelDeadlineGroup positionNIntakeAutoCoralStationLeft = new ParallelDeadlineGroup(
-    new AimNRangeAutoCoralStationCommand(m_swerveSubsystem, false),
-    new RunIntakeForSecsCommand(m_intakeSubsystem, 3)
-  );
-
-  // Command Chain for Positioning and Loading at the Coral Station in Auto
-  ParallelDeadlineGroup positionNIntakeAutoCoralStationRight = new ParallelDeadlineGroup(
-    new AimNRangeAutoCoralStationCommand(m_swerveSubsystem, true),
-    new RunIntakeForSecsCommand(m_intakeSubsystem, 3)
-  );
+      new RunShootForSecsSpeedCommand(m_intakeSubsystem, 0.5, VisionConstants.k_positioned, 0.5),
+      new ZeroWristCommand(m_wristSubsystem),
+      new SetWristCommand(m_wristSubsystem, "INTAKE"),
+      new TriggerElevatorCommand("RESET"),
+      new LEDColorChangeCommand("NONE")
+    );
+  }
 }

@@ -13,22 +13,18 @@ import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.WristConstants;
+import frc.robot.Constants.MotorConstants;
 import frc.robot.Constants.MotorIDConstants;
 import frc.robot.Constants.MotorPIDConstants;
 
 public class WristSubsystem extends SubsystemBase{
 
   private TalonFX m_wrist;
-
   private TalonFXConfiguration wristConfig;
-
-  private Angle lastDesiredPosition;
 
   public WristSubsystem() {
     
     m_wrist = new TalonFX(MotorIDConstants.k_wristKrakenID, "Elevator/Coral");
-
-    lastDesiredPosition = Units.Rotations.of(0);
 
     wristConfig = new TalonFXConfiguration();
     wristConfig.Slot0.kP = MotorPIDConstants.k_wristP;
@@ -49,6 +45,8 @@ public class WristSubsystem extends SubsystemBase{
     wristConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive; 
 
     m_wrist.getConfigurator().apply(wristConfig, 0.05);
+
+    MotorConstants.k_orchestra.addInstrument(m_wrist); 
   }
 
   public Angle getWristPosition(){
@@ -56,8 +54,7 @@ public class WristSubsystem extends SubsystemBase{
   }
 
   public void setPosition(Angle angle){
-    m_wrist.setControl(new PositionVoltage(angle.in(Units.Rotations)));
-    lastDesiredPosition = angle;
+    m_wrist.setControl(new PositionVoltage(angle.in(Units.Rotations)).withEnableFOC(true));
   }
 
   public void setNeutral() {
@@ -78,8 +75,8 @@ public class WristSubsystem extends SubsystemBase{
 
   public void periodic() {
     // This method will be called once per scheduler run
-
     SmartDashboard.putNumber("Wrist/Pos", Units.Rotations.of(m_wrist.getPosition().getValueAsDouble()).magnitude());
+    
     /*
     SmartDashboard.putString("Wrist/Units", m_wrist.getPosition().getUnits());
     SmartDashboard.putNumber("Wrist/CLO", m_wrist.getClosedLoopOutput().getValueAsDouble());
@@ -87,7 +84,5 @@ public class WristSubsystem extends SubsystemBase{
     SmartDashboard.putNumber("Wrist/Inverted", m_wrist.getAppliedRotorPolarity().getValueAsDouble());
     SmartDashboard.putNumber("Wrist/Current", m_wrist.getSupplyCurrent().getValueAsDouble());
     */
-    
-    // SmartDashboard.putNumber("Wrist/Last Desired Position", lastDesiredPosition.magnitude());
   }
 }

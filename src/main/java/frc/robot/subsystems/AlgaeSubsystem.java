@@ -10,7 +10,6 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.Units;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.AlgaeConstants;
 import frc.robot.Constants.MotorIDConstants;
@@ -24,14 +23,10 @@ public class AlgaeSubsystem extends SubsystemBase{
   private TalonFXConfiguration algaeArmConfig;
   private TalonFXConfiguration algaeIntakeConfig;
 
-  private Angle lastDesiredPosition;
-
   public AlgaeSubsystem() {
     
     m_algaeArm = new TalonFX(MotorIDConstants.k_algaeArmID);
     m_algaeIntake = new TalonFX(MotorIDConstants.k_algaeIntakeID);
-
-    lastDesiredPosition = Units.Rotations.of(0);
 
     algaeArmConfig = new TalonFXConfiguration();
     algaeArmConfig.Slot0.kP = MotorPIDConstants.k_algaeArmkP;
@@ -50,8 +45,6 @@ public class AlgaeSubsystem extends SubsystemBase{
     algaeArmConfig.Slot0.GravityType = GravityTypeValue.Arm_Cosine;
 
     algaeArmConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
-
-    // algaeArmConfig.Feedback.SensorToMechanismRatio = 0.4545;
 
     algaeIntakeConfig = new TalonFXConfiguration();
 
@@ -72,7 +65,6 @@ public class AlgaeSubsystem extends SubsystemBase{
 
     public void setPosition(Angle angle){
       m_algaeArm.setControl(new PositionVoltage(angle.in(Units.Rotations)));
-      lastDesiredPosition = angle;
     }
 
     public void setNeutral() {
@@ -97,9 +89,8 @@ public class AlgaeSubsystem extends SubsystemBase{
 
     public void periodic() {
       // This method will be called once per scheduler run
-      SmartDashboard.putNumber("Algae/Pos", m_algaeArm.getPosition().getValueAsDouble());
-
       /*
+      SmartDashboard.putNumber("Algae/Pos", m_algaeArm.getPosition().getValueAsDouble());
       SmartDashboard.putString("Algae/Units", m_algaeArm.getPosition().getUnits());
       SmartDashboard.putNumber("Algae/CLO", m_algaeArm.getClosedLoopOutput().getValueAsDouble());
       SmartDashboard.putNumber("Algae/Output", m_algaeArm.get());

@@ -6,20 +6,19 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.MotorConstants;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.Constants.VisionConstants;
-import frc.robot.subsystems.Limelight.LimelightHelpers;
-import frc.robot.subsystems.Limelight.Localization;
 
 import java.io.File;
 import java.util.function.DoubleSupplier;
 
+import com.ctre.phoenix6.hardware.TalonFX;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
-import com.pathplanner.lib.path.PathPlannerPath;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
@@ -29,8 +28,8 @@ import swervelib.parser.SwerveParser;
 import swervelib.telemetry.SwerveDriveTelemetry;
 import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
 import swervelib.SwerveDrive;
+import swervelib.SwerveModule;
 import swervelib.math.SwerveMath;
-import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -58,7 +57,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
     // Configure the Telemetry before creating the SwerveDrive to avoid unnecessary objects being created.
     // TURN OFF DURING COMPETITION BECAUSE IT * WILL *  SLOW YOUR ROBOT (It's for displaying info in Shuffleboard)
-    SwerveDriveTelemetry.verbosity = TelemetryVerbosity.HIGH;
+    SwerveDriveTelemetry.verbosity = TelemetryVerbosity.NONE;
     
     // Initializes robot using the JSON Files with all the constants so you don't have to. Hooray!
     try {
@@ -69,7 +68,8 @@ public class SwerveSubsystem extends SubsystemBase {
     }
     
     // Now you have to it manually (aww)
-    swerveDrive.pushOffsetsToEncoders();
+    // Deprecated: swerveDrive.pushOffsetsToEncoders()
+    swerveDrive.useExternalFeedbackSensor();
 
     // Cosine Compensator makes your robot slower on some wheels. Set it to opposite bool if it drives funky
     swerveDrive.setCosineCompensator(false);
@@ -77,8 +77,14 @@ public class SwerveSubsystem extends SubsystemBase {
     // Keeps robot locked in position when moving, keep false
     swerveDrive.setHeadingCorrection(false);
 
+    // Add all module Krakens to the Orchestra
+    for(SwerveModule m : swerveDrive.getModules()) {
+      MotorConstants.k_orchestra.addInstrument((TalonFX) m.getAngleMotor().getMotor()); 
+      MotorConstants.k_orchestra.addInstrument((TalonFX) m.getDriveMotor().getMotor());
+    }
+
     // Field on Smart Dashboard
-    SmartDashboard.putData("Field", m_field);
+    // SmartDashboard.putData("Field", m_field);
 
     // Load the RobotConfig from the GUI settings
     try{
@@ -118,25 +124,22 @@ public class SwerveSubsystem extends SubsystemBase {
   // Periodically update the odometry w/vision
   public void periodic() {
 
-    // Updates Odometry with Vision if Applicable
-    // updateVisionMeasurements();
-
     // Update Field2d
     m_field.setRobotPose(swerveDrive.getPose());
 
     // Puts position of robot on smartdashboard
-    SmartDashboard.putNumber("X Position", swerveDrive.getPose().getX());
-    SmartDashboard.putNumber("Y Position", swerveDrive.getPose().getY());
+    // SmartDashboard.putNumber("X Position", swerveDrive.getPose().getX());
+    // SmartDashboard.putNumber("Y Position", swerveDrive.getPose().getY());
 
-    SmartDashboard.putBoolean("Right Reef?", VisionConstants.k_isRightReef);
+    // SmartDashboard.putBoolean("Right Reef?", VisionConstants.k_isRightReef);
 
     SmartDashboard.putNumber("Strafe", NetworkTableInstance.getDefault().getTable(VisionConstants.k_limelightName).getEntry("botpose_targetspace").getDoubleArray(new double[6])[0]);
     SmartDashboard.putNumber("Range", NetworkTableInstance.getDefault().getTable(VisionConstants.k_limelightName).getEntry("botpose_targetspace").getDoubleArray(new double[6])[2]);
     SmartDashboard.putNumber("Aim", NetworkTableInstance.getDefault().getTable(VisionConstants.k_limelightName).getEntry("botpose_targetspace").getDoubleArray(new double[6])[4]);
 
-    SmartDashboard.putNumber("Strafe Station", NetworkTableInstance.getDefault().getTable(VisionConstants.k_limelightCoralName).getEntry("botpose_targetspace").getDoubleArray(new double[6])[0]);
-    SmartDashboard.putNumber("Range Station", NetworkTableInstance.getDefault().getTable(VisionConstants.k_limelightCoralName).getEntry("botpose_targetspace").getDoubleArray(new double[6])[2]);
-    SmartDashboard.putNumber("Aim Station", NetworkTableInstance.getDefault().getTable(VisionConstants.k_limelightCoralName).getEntry("botpose_targetspace").getDoubleArray(new double[6])[4]);
+    // SmartDashboard.putNumber("Strafe Station", NetworkTableInstance.getDefault().getTable(VisionConstants.k_limelightCoralName).getEntry("botpose_targetspace").getDoubleArray(new double[6])[0]);
+    // SmartDashboard.putNumber("Range Station", NetworkTableInstance.getDefault().getTable(VisionConstants.k_limelightCoralName).getEntry("botpose_targetspace").getDoubleArray(new double[6])[2]);
+    // SmartDashboard.putNumber("Aim Station", NetworkTableInstance.getDefault().getTable(VisionConstants.k_limelightCoralName).getEntry("botpose_targetspace").getDoubleArray(new double[6])[4]);
 
     SmartDashboard.putBoolean("Positioning?", VisionConstants.k_positioning);
   }
@@ -176,28 +179,6 @@ public class SwerveSubsystem extends SubsystemBase {
       false);
   }
 
-  // Command to drive the robot using translative values and heading as a setpoint.
-  // translationX Translation in the X direction. Cubed for smoother controls.
-  // translationY Translation in the Y direction. Cubed for smoother controls.
-  // headingX     Heading X to calculate angle of the joystick.
-  // headingY     Heading Y to calculate angle of the joystick.
-  // returns Drive command.
-  // I'm kinda useless btw, thanks for reading
-  
-  public Command driveCommandTranslative(DoubleSupplier translationX, DoubleSupplier translationY, DoubleSupplier headingX, DoubleSupplier headingY) {
-    return run(() -> {
-      Translation2d scaledInputs = SwerveMath.scaleTranslation(new Translation2d(translationX.getAsDouble(), translationY.getAsDouble()), 0.8);
-
-      // Make the robot move
-      driveFieldOriented(swerveDrive.swerveController.getTargetSpeeds(
-        scaledInputs.getX(), scaledInputs.getY(),
-        headingX.getAsDouble(), headingY.getAsDouble(),
-        swerveDrive.getOdometryHeading().getRadians(),
-        swerveDrive.getMaximumChassisVelocity()
-      ));
-    });
-  }
-
   // Gets the current pose (position and rotation) of the robot, as reported by odometry.
   public Pose2d getPose() {
     return swerveDrive.getPose();
@@ -208,98 +189,6 @@ public class SwerveSubsystem extends SubsystemBase {
   // keep working.
   public void resetOdometry(Pose2d initialHolonomicPose) {
     swerveDrive.resetOdometry(initialHolonomicPose);
-  }
-
-  // Updates Odometry with the Limelight Readings using MT2 - Old, use updateVisionMeasurements()
-  public void updateVisionOdometry() {
-
-    // Used to stop updating upon condiditions
-    boolean doRejectUpdate = false;
-
-    // Setting Yaw to Compensate for Red Alliance Limelight Localization
-    var alliance = DriverStation.getAlliance();
-    if (alliance.isPresent()){
-      if (alliance.get() == DriverStation.Alliance.Red) {
-        AllianceYaw = 180;
-      }
-
-      // What did the Limelight say to the robot?
-      // "You look really blue today"
-      else if (alliance.get() == DriverStation.Alliance.Blue){
-        AllianceYaw = 0;
-      }
-    }
-
-    // Gets the robot's yaw for LL, then gets a field pose estimate using MT2
-    // IMPORTANT: LOOK AT THE NOTE ABOVE FOR THE ALLIANCE YAW VARIABLE!!!
-    LimelightHelpers.SetRobotOrientation("", swerveDrive.getYaw().getDegrees() + AllianceYaw, 0, 0, 0, 0, 0);
-    LimelightHelpers.PoseEstimate mt2Estimate = LimelightHelpers.getBotPoseEstimate_wpiBlue("");
-    
-    // If angular velocity is greater than 720 deg/s, ignore vision updates
-    if (Math.abs(swerveDrive.getGyro().getYawAngularVelocity().magnitude()) > 720) {
-      doRejectUpdate = true;
-    }
-
-    // If there are no tags in sight, ignore vision updates
-    if (mt2Estimate.tagCount == 0 || mt2Estimate == null) {
-      doRejectUpdate = true;
-    }
-
-    // If all conditions are met, update vision
-    if (!doRejectUpdate && mt2Estimate != null) {
-      swerveDrive.addVisionMeasurement(mt2Estimate.pose, mt2Estimate.timestampSeconds, VecBuilder.fill(.7,.7,9999999));
-    }
-  }
-
-  // Check if pose estimate is valid
-  private boolean poseEstimateIsValid(LimelightHelpers.PoseEstimate estimate) {
-    return Math.abs(swerveDrive.getGyro().getYawAngularVelocity().magnitude()) < VisionConstants.k_rejectionRotationRate
-      && estimate.avgTagDist < VisionConstants.k_rejectionDistance;
-  }
-
-  // Updates Odometry with the Limelight Readings using MT2 - Replacement for updateVisionOdometry()
-  public void updateVisionMeasurements() {
-
-    // Setting Yaw to Compensate for Red Alliance Limelight Localization
-    var alliance = DriverStation.getAlliance();
-    if (alliance.isPresent()){
-      if (alliance.get() == DriverStation.Alliance.Red) {
-        AllianceYaw = 180;
-      }
-      else if (alliance.get() == DriverStation.Alliance.Blue){
-        AllianceYaw = 0;
-      }
-    }
-
-    // For each limelight...
-    for (Localization.LimelightPoseEstimateWrapper estimateWrapper : Localization.getPoseEstimates(swerveDrive.getYaw().getDegrees())) {
-
-      // If there is a tag in view and the pose estimate is valid...
-      if (estimateWrapper.tiv && poseEstimateIsValid(estimateWrapper.poseEstimate)) {
-
-        // Add the vision measurement to the swerve drive
-        swerveDrive.addVisionMeasurement(estimateWrapper.poseEstimate.pose,
-          estimateWrapper.poseEstimate.timestampSeconds,
-          estimateWrapper.getStdvs(estimateWrapper.poseEstimate.avgTagDist));
-
-        // Update position on Field2d
-        estimateWrapper.field.setRobotPose(estimateWrapper.poseEstimate.pose);
-        m_field.setRobotPose(estimateWrapper.field.getRobotPose());
-      }
-    }
-  }
-
-  // Very big and scary follow path command. Pray it works, because you never know...
-  public void followPathAutobuilderCommand(String pathName) {
-    try{
-        // Load the path you want to follow using its name in the GUI
-        PathPlannerPath path = PathPlannerPath.fromPathFile(pathName);
-
-        // Create a path following command using AutoBuilder. This will also trigger event markers.
-        AutoBuilder.followPath(path).schedule();;
-    } catch (Exception e) {
-        DriverStation.reportError("What did the AutoBuilder say to the programmer?: " + e.getMessage(), e.getStackTrace());
-    }
   }
 
   // Gets the current velocity (x, y and omega) of the robot

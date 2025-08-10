@@ -6,6 +6,7 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.WristConstants;
+import frc.robot.Constants.MotorConstants;
 import frc.robot.Constants.MotorIDConstants;
 
 public class IntakeSubsystem extends SubsystemBase{
@@ -28,6 +29,8 @@ public class IntakeSubsystem extends SubsystemBase{
     shooterConfig.CurrentLimits.SupplyCurrentLimit = WristConstants.k_intakeSupplyCurrentLimit;
 
     m_shooter.getConfigurator().apply(shooterConfig, 0.05);
+
+    MotorConstants.k_orchestra.addInstrument(m_shooter); 
   }
 
   public void shoot() {
