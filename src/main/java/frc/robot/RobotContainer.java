@@ -126,15 +126,19 @@ public class RobotContainer {
         LowerWristCommand()
       );
 
+    // Score Coral - A
+    new JoystickButton(m_driverController.getHID(), ControllerConstants.k_A)
+      .onTrue(
+        AimNRangeScoreCommand()
+      );
+
     // Intake and Set X - Right Trig
     new Trigger(() -> m_driverController.getRawAxis(ControllerConstants.k_righttrig) > 0.05)
       .whileTrue(
-        new InstantCommand(() -> m_intakeSubsystem.intake(), m_intakeSubsystem).alongWith(
-        new RunCommand(() -> m_swerveSubsystem.setx()))
+        new InstantCommand(() -> m_intakeSubsystem.intake(), m_intakeSubsystem)
       )
       .onFalse(
-        new InstantCommand(() -> m_intakeSubsystem.stopShooter(), m_intakeSubsystem).alongWith(
-        new InstantCommand(() -> m_swerveSubsystem.driveCommandLimelight(0, 0, 0), m_swerveSubsystem))
+        new InstantCommand(() -> m_intakeSubsystem.stopShooter(), m_intakeSubsystem)
       );
 
     // Reset Gyro - Start Button
