@@ -4,23 +4,32 @@
 
 package frc.robot.subsystems;
 
+import static edu.wpi.first.units.Units.Degree;
+import static edu.wpi.first.units.Units.Inches;
+import static edu.wpi.first.units.Units.Radian;
+import static edu.wpi.first.units.Units.Rotation;
+
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.NeutralOut;
 import com.ctre.phoenix6.controls.PositionVoltage;
+import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
+import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ElevatorConstants;
 import frc.robot.Constants.MotorConstants;
 import frc.robot.Constants.MotorIDConstants;
 import frc.robot.Constants.MotorPIDConstants;
+import frc.robot.Constants.SensorIDConstants;
 
 // Elevator Subsystem yay yippee
 public class ElevatorSubsystem extends SubsystemBase {
@@ -28,6 +37,9 @@ public class ElevatorSubsystem extends SubsystemBase {
   private TalonFX m_elevatorKrakenLeft;
   private TalonFX m_elevatorKrakenRight;
   private TalonFXConfiguration krakenConfig;
+  private CANcoder m_CANcoder;
+  private int rotations = 0;
+  private double CANcoderLastAngle = 0.5; // set bottom position as 180
 
   // Creates new elevator
   public ElevatorSubsystem() {
@@ -69,6 +81,9 @@ public class ElevatorSubsystem extends SubsystemBase {
     m_elevatorKrakenLeft.getConfigurator().apply(krakenConfig, 0.5);
     m_elevatorKrakenRight.getConfigurator().apply(krakenConfig, 0.5);
 
+    // Init CANCoder
+    m_CANcoder = new CANcoder(SensorIDConstants.k_CANcoderID);
+
     MotorConstants.k_orchestra.addInstrument(m_elevatorKrakenLeft); 
     MotorConstants.k_orchestra.addInstrument(m_elevatorKrakenRight); 
   }
@@ -78,6 +93,16 @@ public class ElevatorSubsystem extends SubsystemBase {
     return Units.Inches.of(m_elevatorKrakenRight.getPosition().getValueAsDouble());
   }
 
+  // Gets current position of CANcoder
+  public double getCANcoderPosition(){
+    return m_CANcoder.getAbsolutePosition().getValue().abs(Units.Rotation);
+  }
+
+  // Get elevator position in inches
+  public Distance getElevatorPositionCANcoder() {
+    return Units.Inches.of((rotations + getCANcoderPosition() - 0.5) * SensorIDConstants.k_CANcoderRotationHeight);
+  }
+
   // Moves the elevator to position
   public void setPosition(Distance height) {
 
@@ -85,6 +110,16 @@ public class ElevatorSubsystem extends SubsystemBase {
     m_elevatorKrakenRight.setControl(new PositionVoltage(height.in(Units.Inches)).withEnableFOC(true));
 
     // Left motor is follower
+    m_elevatorKrakenLeft.setControl(new Follower(m_elevatorKrakenRight.getDeviceID(), false));
+  }
+
+  // Moves elevator to position with CANcoder
+  public void setPositionCANcoder(Distance height) {
+    double kp = 1;
+    double kd = 0;
+    double ki = 0;
+    ProfiledPIDController elevatorPidController = new ProfiledPIDController(kp, ki, kd, null);
+    m_elevatorKrakenRight.set(elevatorPidController.calculate(getElevatorPositionCANcoder().abs(Units.Inches),height.abs(Units.Inches)));
     m_elevatorKrakenLeft.setControl(new Follower(m_elevatorKrakenRight.getDeviceID(), false));
   }
 
@@ -98,6 +133,13 @@ public class ElevatorSubsystem extends SubsystemBase {
   public void resetSensorPosition(Distance setpoint) {
     m_elevatorKrakenRight.setPosition(setpoint.in(Units.Inches));
     m_elevatorKrakenLeft.setPosition(setpoint.in(Units.Inches));
+  }
+  
+  // Resets CANcoder position to the value provided
+  public void resetCANcoderPosition(Distance setpoint){
+    double totalRotations = setpoint.in(Units.Inches)/SensorIDConstants.k_CANcoderRotationHeight + 0.5;
+    rotations = (int) totalRotations;
+    m_CANcoder.setPosition(totalRotations%1);
   }
 
   public double getCurrentPosition() {
@@ -126,5 +168,13 @@ public class ElevatorSubsystem extends SubsystemBase {
     // I'm drowning in numbers!
     SmartDashboard.putNumber("Elevator/Right/Pos", m_elevatorKrakenRight.getPosition().getValueAsDouble());
     // SmartDashboard.putString("Elevator/Setting", ElevatorConstants.k_elevatorSetting);
+    if (getCANcoderPosition() - CANcoderLastAngle >= 0.5){
+      rotations += 1;
+    }
+    if (getCANcoderPosition() - CANcoderLastAngle <= -0.5){
+      rotations -= 1;
+    }
+    CANcoderLastAngle = getCANcoderPosition();
+    SmartDashboard.putNumber("elevator position cancoder", getElevatorPositionCANcoder().in(Inches));
   }
 }

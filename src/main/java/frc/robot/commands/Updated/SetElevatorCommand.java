@@ -36,27 +36,27 @@ public class SetElevatorCommand extends Command {
 
     // Zero
     if (m_level.equals("zero")) {
-      m_elevatorSubsystem.setPosition(ElevatorConstants.k_zeroHeight);
+      m_elevatorSubsystem.setPositionCANcoder(ElevatorConstants.k_zeroHeight);
     }
 
     // Raise to L1
     if(m_level.equals("L1")) {
-      m_elevatorSubsystem.setPosition(ElevatorConstants.k_coralL1Height);
+      m_elevatorSubsystem.setPositionCANcoder(ElevatorConstants.k_coralL1Height);
     }
 
     // Raise to L2
     if(m_level.equals("L2")) {
-      m_elevatorSubsystem.setPosition(ElevatorConstants.k_coralL2Height);
+      m_elevatorSubsystem.setPositionCANcoder(ElevatorConstants.k_coralL2Height);
     }
 
     // Raise to L3
     if(m_level.equals("L3")) {
-      m_elevatorSubsystem.setPosition(ElevatorConstants.k_coralL3Height);
+      m_elevatorSubsystem.setPositionCANcoder(ElevatorConstants.k_coralL3Height);
     }
 
     // Raise to L4
     if(m_level.equals("L4")) {
-      m_elevatorSubsystem.setPosition(ElevatorConstants.k_coralL4Height);
+      m_elevatorSubsystem.setPositionCANcoder(ElevatorConstants.k_coralL4Height);
     }
   }
 

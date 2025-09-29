@@ -75,7 +75,11 @@ public final class Constants {
   }
 
   // Constants for Sensor IDs
-  public static final class SensorIDConstants {}
+  public static final class SensorIDConstants {
+    public static final int k_CANcoderID = 41;
+
+    public static final double k_CANcoderRotationHeight = (0.9337012-0.498291);
+  }
 
   // Constants for Elevator
   public static final class ElevatorConstants {
@@ -88,6 +92,11 @@ public final class Constants {
     public static final Distance k_coralL2Height = Units.Inches.of(6.5);
     public static final Distance k_coralL3Height = Units.Inches.of(22.5);
     public static final Distance k_coralL4Height = Units.Inches.of(48.25);
+
+    public static final double k_coralL1HeightCANCoder = 0;
+    public static final double k_coralL2HeightCANCoder = 1.345703;
+    public static final double k_coralL3HeightCANCoder = 3.871826;
+    public static final double k_coralL4HeightCANCoder = 8.427490;
 
     public static final Distance k_algaeHeight = Units.Inches.of(25);
   }
