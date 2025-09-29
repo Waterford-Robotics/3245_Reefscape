@@ -7,7 +7,6 @@ package frc.robot;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ReactConstants;
-import frc.robot.Constants.VisionConstants;
 import frc.robot.commands.New.PlayOrchestraCommand;
 import frc.robot.commands.New.ResetGyroCommand;
 import frc.robot.commands.New.SetElevatorReactCommand;
@@ -17,21 +16,23 @@ import frc.robot.commands.New.StopOrchestraCommand;
 import frc.robot.commands.New.TriggerElevatorCommand;
 import frc.robot.commands.Updated.AimNRangeAutoCoralStationCommand;
 import frc.robot.commands.Updated.AimNRangeCommand;
+import frc.robot.commands.Updated.GuidedShotCommand;
 import frc.robot.commands.Updated.LEDColorChangeCommand;
 import frc.robot.commands.Updated.NeutralElevatorCommand;
 import frc.robot.commands.Updated.RunIntakeForSecsCommand;
 import frc.robot.commands.Updated.RunShootForSecsSpeedCommand;
 import frc.robot.commands.Updated.SetElevatorCommand;
 import frc.robot.commands.Updated.SetWristCommand;
+import frc.robot.commands.Updated.SoftZeroElevatorCommand;
 import frc.robot.commands.Updated.ZeroElevatorCommand;
 import frc.robot.commands.Updated.ZeroWristCommand;
-import frc.robot.subsystems.AutoDashboardSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.ReactDashSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
-import frc.robot.subsystems.TeleopDashboardSubsystem;
 import frc.robot.subsystems.WristSubsystem;
+import frc.robot.subsystems.Dashboard.AutoDashboardSubsystem;
+import frc.robot.subsystems.Dashboard.ReactDashSubsystem;
+import frc.robot.subsystems.Dashboard.TeleopDashboardSubsystem;
 import frc.robot.subsystems.Limelight.LimelightSubsystem;
 import frc.robot.subsystems.LEDSubsystem;
 
@@ -44,7 +45,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -62,11 +62,18 @@ public class RobotContainer {
   private final WristSubsystem m_wristSubsystem = new WristSubsystem();
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
   private final LEDSubsystem m_ledSubsystem = new LEDSubsystem();
+
+  @SuppressWarnings("unused")
   private final LimelightSubsystem m_limelightSubsystem = new LimelightSubsystem();
 
   // REACT
+  @SuppressWarnings("unused")
   private final ReactDashSubsystem m_reactDashSubsystem = new ReactDashSubsystem();
+
+  @SuppressWarnings("unused")
   private final AutoDashboardSubsystem m_autoDashboardSubsystem = new AutoDashboardSubsystem();
+
+  @SuppressWarnings("unused")
   private final TeleopDashboardSubsystem m_teleopDashboardSubsystem = new TeleopDashboardSubsystem();
 
   // Create New Choosing Option in SmartDashboard for Autos
@@ -261,7 +268,7 @@ public class RobotContainer {
   public SequentialCommandGroup ResetElevatorCommand() {
     return new SequentialCommandGroup(
       new SetElevatorCommand(m_elevatorSubsystem, "zero"),
-      new ZeroElevatorCommand(m_elevatorSubsystem)
+      new SoftZeroElevatorCommand(m_elevatorSubsystem) // TODO: TEST THIS YEAH?
     );
   }
 
@@ -304,7 +311,7 @@ public class RobotContainer {
         ),
         new RunIntakeForSecsCommand(m_intakeSubsystem, 3.0)
       ),
-      new RunShootForSecsSpeedCommand(m_intakeSubsystem, 0.5, VisionConstants.k_positioned, 0.5),
+      new GuidedShotCommand(m_intakeSubsystem, 0.5),
       new ZeroWristCommand(m_wristSubsystem),
       new SetWristCommand(m_wristSubsystem, "INTAKE"),
       new TriggerElevatorCommand("RESET"),
@@ -329,7 +336,7 @@ public class RobotContainer {
         ),
         new RunIntakeForSecsCommand(m_intakeSubsystem, 3.0)
       ),
-      new RunShootForSecsSpeedCommand(m_intakeSubsystem, 0.5, VisionConstants.k_positioned, 0.5),
+      new RunShootForSecsSpeedCommand(m_intakeSubsystem, 0.5, true, 0.5),
       new ZeroWristCommand(m_wristSubsystem),
       new SetWristCommand(m_wristSubsystem, "INTAKE"),
       new TriggerElevatorCommand("RESET"),
@@ -354,7 +361,7 @@ public class RobotContainer {
         ),
         new RunIntakeForSecsCommand(m_intakeSubsystem, 3.0)
       ),
-      new RunShootForSecsSpeedCommand(m_intakeSubsystem, 0.5, VisionConstants.k_positioned, 0.5),
+      new RunShootForSecsSpeedCommand(m_intakeSubsystem, 0.5, true, 0.5),
       new ZeroWristCommand(m_wristSubsystem),
       new SetWristCommand(m_wristSubsystem, "INTAKE"),
       new TriggerElevatorCommand("RESET"),

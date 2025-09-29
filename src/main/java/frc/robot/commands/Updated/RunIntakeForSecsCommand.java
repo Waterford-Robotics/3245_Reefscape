@@ -23,7 +23,7 @@ public class RunIntakeForSecsCommand extends Command {
     m_intakeSubsystem = intakeSubsystem;
     addRequirements(intakeSubsystem);
 
-    // Level
+    // Time
     m_seconds = seconds;
   }
 

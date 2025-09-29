@@ -79,9 +79,6 @@ public class AimNRangeAutoCoralStationCommand extends Command {
   // What we do to set up the command 
   public void initialize() {
 
-    // Reset the Shoot Commit Boolean
-    VisionConstants.k_positioned = true;
-
     // Adds condition that filters out undesired IDs
     LimelightHelpers.SetFiducialIDFiltersOverride(VisionConstants.k_limelightCoralName, validIDs);
 
@@ -119,7 +116,7 @@ public class AimNRangeAutoCoralStationCommand extends Command {
     // Update the pose from NetworkTables (Limelight Readings)
     botPoseTargetSpace = NetworkTableInstance.getDefault().getTable(VisionConstants.k_limelightCoralName).getEntry("botpose_targetspace").getDoubleArray(new double[6]);
 
-    if (timer.get() > 1.3 || !tiv) VisionConstants.k_positioned = false;
+    // if (timer.get() > 1.3 || !tiv) VisionConstants._positioned = false;
 
     // Checks for a continued valid pose
     if (tiv){

@@ -4,30 +4,29 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.NeutralOut;
 import com.ctre.phoenix6.controls.PositionVoltage;
+import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix6.signals.GravityTypeValue;
-import com.ctre.phoenix6.signals.InvertedValue;
-import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.ElevatorConstants;
+import frc.robot.Configs.ElevatorConfigs;
 import frc.robot.Constants.MotorConstants;
 import frc.robot.Constants.MotorIDConstants;
-import frc.robot.Constants.MotorPIDConstants;
+import frc.robot.Constants.SensorIDConstants;
 
 // Elevator Subsystem yay yippee
 public class ElevatorSubsystem extends SubsystemBase {
+
   // Init stuff
   private TalonFX m_elevatorKrakenLeft;
   private TalonFX m_elevatorKrakenRight;
-  private TalonFXConfiguration krakenConfig;
+
+  private CANcoder m_elevatorCANCoder;
 
   // Creates new elevator
   public ElevatorSubsystem() {
@@ -36,38 +35,14 @@ public class ElevatorSubsystem extends SubsystemBase {
     m_elevatorKrakenLeft = new TalonFX(MotorIDConstants.k_elevatorKrakenLeftID, "Elevator/Coral");
     m_elevatorKrakenRight = new TalonFX(MotorIDConstants.k_elevatorKrakenRightID, "Elevator/Coral");
 
-    // Init krakenConfig
-    krakenConfig = new TalonFXConfiguration();
-
-    // PID Stuff
-    krakenConfig.Slot0.kP = MotorPIDConstants.k_elevatorkP;
-    krakenConfig.Slot0.kI = MotorPIDConstants.k_elevatorkI;
-    krakenConfig.Slot0.kD = MotorPIDConstants.k_elevatorkD;
-    krakenConfig.Slot0.kS = MotorPIDConstants.k_elevatorkS;
-    krakenConfig.Slot0.kV = MotorPIDConstants.k_elevatorkV;
-    krakenConfig.Slot0.kG = MotorPIDConstants.k_elevatorkG;
-    krakenConfig.Slot0.kA = MotorPIDConstants.k_elevatorkA;
-
-    // Kraken Configs
-    krakenConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-    krakenConfig.CurrentLimits.SupplyCurrentLimit = ElevatorConstants.k_elevatorSupplyCurrentLimit;
-    krakenConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
-
-    // Motor Limitations
-    krakenConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = true; // No breaking elevator
-    krakenConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold = Units.Inches.of(49).in(Units.Inches);
-    krakenConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
-    krakenConfig.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Units.Inches.of(0).in(Units.Inches); // Starting position
-
-    // Elevator Mode
-    krakenConfig.Slot0.GravityType = GravityTypeValue.Elevator_Static;
-    
-    // Elevator motors will provide feedback in INCHES the carriage has moved
-    krakenConfig.Feedback.SensorToMechanismRatio = 0.4545;
+    // CANCoder
+    m_elevatorCANCoder = new CANcoder(SensorIDConstants.k_elevatorCANCoderID, "Elevator/Coral");
 
     // Apply Configs, Inversion, Control requests
-    m_elevatorKrakenLeft.getConfigurator().apply(krakenConfig, 0.5);
-    m_elevatorKrakenRight.getConfigurator().apply(krakenConfig, 0.5);
+    m_elevatorKrakenLeft.getConfigurator().apply(ElevatorConfigs.ELEVATOR_TALON_FX_CONFIGURATION, 0.5);
+    m_elevatorKrakenRight.getConfigurator().apply(ElevatorConfigs.ELEVATOR_TALON_FX_CONFIGURATION, 0.5);
+
+    m_elevatorCANCoder.getConfigurator().apply(ElevatorConfigs.ELEVATOR_CANCODER_CONFIGURATION, 0.5);
 
     MotorConstants.k_orchestra.addInstrument(m_elevatorKrakenLeft); 
     MotorConstants.k_orchestra.addInstrument(m_elevatorKrakenRight); 

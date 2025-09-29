@@ -75,13 +75,22 @@ public final class Constants {
   }
 
   // Constants for Sensor IDs
-  public static final class SensorIDConstants {}
+  public static final class SensorIDConstants {
+    
+    // Elevator CANCoder
+    public static final int k_elevatorCANCoderID = 41;
+
+    // Intake CANRange
+    public static final int k_intakeCANRange = 42;
+  }
 
   // Constants for Elevator
   public static final class ElevatorConstants {
     public static final double k_elevatorRampRate = 0.25;
     public static final double k_elevatorClosedMaxSpeed = 0.8;
     public static final int k_elevatorSupplyCurrentLimit = 40;
+
+    public static final double k_elevatorCANCoderOffset = 0.280517;
 
     public static final Distance k_zeroHeight = Units.Inches.of(0);
     public static final Distance k_coralL1Height = Units.Inches.of(3); 
@@ -104,16 +113,8 @@ public final class Constants {
 
     public static final Angle k_wristScoreAngle = Units.Rotations.of(0);
     public static final Angle k_wristIntakeAngle = Units.Rotations.of(2.5);
-  }
-
-  // Constants for Algae
-  public static final class AlgaeConstants {
-    public static final double k_algaeRampRate = 0.25;
-    public static final double k_algaeClosedMaxSpeed = 0.8;
-    public static final int k_algaeSupplyCurrentLimit = 40;
-
-    public static final Angle k_armZeroAngle = Units.Rotations.of(0);
-    public static final Angle k_armIntakeAngle = Units.Rotations.of(2.5);
+    
+    public static final double k_extendedShotTime = 0.1; // TODO: Tune additional shot time
   }
 
   // Constants for Motors
@@ -157,7 +158,7 @@ public final class Constants {
     public static final String k_limelightCoralName = "limelight-three";
   
     // Boolean for Committing to Shoot
-    public static boolean k_positioned = true;
+    public static boolean _positioned = true;
 
     // PID for Tag Relative Control for Scoring
     public static final double kP_aim = 0.10;

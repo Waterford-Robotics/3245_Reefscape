@@ -76,9 +76,6 @@ public class AimNRangeCommand extends Command {
   // What we do to set up the command 
   public void initialize() {
 
-    // Reset the Shoot Commit Boolean
-    VisionConstants.k_positioned = false;
-
     // Adds condition that filters out undesired IDs
     LimelightHelpers.SetFiducialIDFiltersOverride(VisionConstants.k_limelightName, validIDs);
 
@@ -136,7 +133,7 @@ public class AimNRangeCommand extends Command {
       // Aim (Angle)
       Math.abs(botPoseTargetSpace[4] - m_aimTarget) < VisionConstants.k_aimThreshold) {
         
-        VisionConstants.k_positioned = true;
+        VisionConstants._positioned = true;
     }
   }
 
