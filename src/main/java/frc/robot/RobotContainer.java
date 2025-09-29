@@ -22,6 +22,7 @@ import frc.robot.commands.AimNRangeAutoCommand;
 import frc.robot.commands.AimNRangeAutoCoralStationCommand;
 import frc.robot.commands.AimNRangeCommand;
 import frc.robot.commands.LEDColorChangeCommand;
+import frc.robot.subsystems.CANrangeSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LEDSubsystem;
@@ -56,6 +57,7 @@ public class RobotContainer {
   private final WristSubsystem m_wristSubsystem = new WristSubsystem();
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
   // private final AlgaeSubsystem m_algaeSubsystem = new AlgaeSubsystem();
+  private final CANrangeSubsystem m_CANrangeSubsystem = new CANrangeSubsystem();
   private final LEDSubsystem m_ledSubsystem = new LEDSubsystem();
 
   // Create New Choosing Option in SmartDashboard for Autos
@@ -176,9 +178,9 @@ public class RobotContainer {
     // Intake and Set X - Right Trig
     new Trigger(() -> m_driverController.getRawAxis(ControllerConstants.k_righttrig) > 0.05)
       .whileTrue(
-        new InstantCommand(() -> m_intakeSubsystem.intake(), m_intakeSubsystem).alongWith(
-        new RunCommand(() -> m_swerveSubsystem.setx()))
-      )
+        new InstantCommand(() -> m_intakeSubsystem.intake(), m_intakeSubsystem).until(() -> m_CANrangeSubsystem.getIsDetected()))// .alongWith(
+        //new RunCommand(() -> m_swerveSubsystem.setx()))
+      
       .onFalse(
         new InstantCommand(() -> m_intakeSubsystem.stopShooter(), m_intakeSubsystem).alongWith(
         new InstantCommand(() -> m_swerveSubsystem.driveCommandLimelight(0, 0, 0), m_swerveSubsystem))
