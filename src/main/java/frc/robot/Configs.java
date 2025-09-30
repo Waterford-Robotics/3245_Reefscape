@@ -72,7 +72,6 @@ public final class Configs {
        ********************************************
       */
       
-      // TODO: CHECK VALUES
       ELEVATOR_CANCODER_CONFIGURATION.MagnetSensor.MagnetOffset = ElevatorConstants.k_elevatorCANCoderOffset;
       ELEVATOR_CANCODER_CONFIGURATION.MagnetSensor.SensorDirection = SensorDirectionValue.CounterClockwise_Positive;
 		}
@@ -141,7 +140,7 @@ public final class Configs {
 
       // Distance stuff uh huh
       INTAKE_CANRANGE_CONFIGURATION.ProximityParams.MinSignalStrengthForValidMeasurement = 2500; // TODO: Make it bigger?
-      INTAKE_CANRANGE_CONFIGURATION.ProximityParams.ProximityThreshold = 0.02; // TODO: Measuring time omg
+      INTAKE_CANRANGE_CONFIGURATION.ProximityParams.ProximityThreshold = 0.1; // TODO: Tune for status Lights
       INTAKE_CANRANGE_CONFIGURATION.ProximityParams.ProximityHysteresis = 0.01;
       
       INTAKE_CANRANGE_CONFIGURATION.ToFParams.UpdateFrequency = 50;

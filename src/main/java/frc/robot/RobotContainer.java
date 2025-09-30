@@ -7,8 +7,11 @@ package frc.robot;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ReactConstants;
+import frc.robot.Constants.VisionConstants;
+import frc.robot.Constants.WristConstants;
 import frc.robot.commands.New.PlayOrchestraCommand;
 import frc.robot.commands.New.ResetGyroCommand;
+import frc.robot.commands.New.RunShootCommand;
 import frc.robot.commands.New.SetElevatorReactCommand;
 import frc.robot.commands.New.SetLevelReactCommand;
 import frc.robot.commands.New.SetSideReactCommand;
@@ -16,7 +19,6 @@ import frc.robot.commands.New.StopOrchestraCommand;
 import frc.robot.commands.New.TriggerElevatorCommand;
 import frc.robot.commands.Updated.AimNRangeAutoCoralStationCommand;
 import frc.robot.commands.Updated.AimNRangeCommand;
-import frc.robot.commands.Updated.GuidedShotCommand;
 import frc.robot.commands.Updated.LEDColorChangeCommand;
 import frc.robot.commands.Updated.NeutralElevatorCommand;
 import frc.robot.commands.Updated.RunIntakeForSecsCommand;
@@ -26,6 +28,7 @@ import frc.robot.commands.Updated.SetWristCommand;
 import frc.robot.commands.Updated.SoftZeroElevatorCommand;
 import frc.robot.commands.Updated.ZeroElevatorCommand;
 import frc.robot.commands.Updated.ZeroWristCommand;
+import frc.robot.subsystems.CANRangeSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
@@ -62,6 +65,7 @@ public class RobotContainer {
   private final WristSubsystem m_wristSubsystem = new WristSubsystem();
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
   private final LEDSubsystem m_ledSubsystem = new LEDSubsystem();
+  private final CANRangeSubsystem m_canRangeSubsystem = new CANRangeSubsystem();
 
   @SuppressWarnings("unused")
   private final LimelightSubsystem m_limelightSubsystem = new LimelightSubsystem();
@@ -137,12 +141,16 @@ public class RobotContainer {
     new JoystickButton(m_driverController.getHID(), ControllerConstants.k_A)
       .onTrue(
         AimNRangeScoreCommand()
+          .onlyIf(() -> m_canRangeSubsystem.getIsDetected()
+        )
       );
 
     // Intake and Set X - Right Trig
     new Trigger(() -> m_driverController.getRawAxis(ControllerConstants.k_righttrig) > 0.05)
       .whileTrue(
         new InstantCommand(() -> m_intakeSubsystem.intake(), m_intakeSubsystem)
+          .until(() -> m_canRangeSubsystem.getIsDetected()
+        )
       )
       .onFalse(
         new InstantCommand(() -> m_intakeSubsystem.stopShooter(), m_intakeSubsystem)
@@ -268,7 +276,7 @@ public class RobotContainer {
   public SequentialCommandGroup ResetElevatorCommand() {
     return new SequentialCommandGroup(
       new SetElevatorCommand(m_elevatorSubsystem, "zero"),
-      new SoftZeroElevatorCommand(m_elevatorSubsystem) // TODO: TEST THIS YEAH?
+      new SoftZeroElevatorCommand(m_elevatorSubsystem) 
     );
   }
 
@@ -311,7 +319,8 @@ public class RobotContainer {
         ),
         new RunIntakeForSecsCommand(m_intakeSubsystem, 3.0)
       ),
-      new GuidedShotCommand(m_intakeSubsystem, 0.5),
+      new RunShootCommand(m_intakeSubsystem, m_canRangeSubsystem, VisionConstants._positioned),
+      new RunShootForSecsSpeedCommand(m_intakeSubsystem, WristConstants.k_extendedShotTime, VisionConstants._positioned, 0.5),
       new ZeroWristCommand(m_wristSubsystem),
       new SetWristCommand(m_wristSubsystem, "INTAKE"),
       new TriggerElevatorCommand("RESET"),

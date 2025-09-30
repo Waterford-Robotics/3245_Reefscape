@@ -81,7 +81,7 @@ public final class Constants {
     public static final int k_elevatorCANCoderID = 41;
 
     // Intake CANRange
-    public static final int k_intakeCANRange = 42;
+    public static final int k_intakeCANRangeID = 42;
   }
 
   // Constants for Elevator
@@ -114,7 +114,8 @@ public final class Constants {
     public static final Angle k_wristScoreAngle = Units.Rotations.of(0);
     public static final Angle k_wristIntakeAngle = Units.Rotations.of(2.5);
     
-    public static final double k_extendedShotTime = 0.1; // TODO: Tune additional shot time
+    // Extra time to shoot after CANRang controlled outtaking
+    public static final double k_extendedShotTime = 0.2;
   }
 
   // Constants for Motors
