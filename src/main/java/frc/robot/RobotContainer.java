@@ -25,7 +25,6 @@ import frc.robot.commands.Updated.RunIntakeForSecsCommand;
 import frc.robot.commands.Updated.RunShootForSecsSpeedCommand;
 import frc.robot.commands.Updated.SetElevatorCommand;
 import frc.robot.commands.Updated.SetWristCommand;
-import frc.robot.commands.Updated.SoftZeroElevatorCommand;
 import frc.robot.commands.Updated.ZeroElevatorCommand;
 import frc.robot.commands.Updated.ZeroWristCommand;
 import frc.robot.subsystems.CANRangeSubsystem;
@@ -141,7 +140,7 @@ public class RobotContainer {
     new JoystickButton(m_driverController.getHID(), ControllerConstants.k_A)
       .onTrue(
         AimNRangeScoreCommand()
-          .onlyIf(() -> m_canRangeSubsystem.getIsDetected()
+          .onlyIf(() -> (m_canRangeSubsystem.getIsDetected() && ReactConstants._tiv)
         )
       );
 
@@ -276,7 +275,7 @@ public class RobotContainer {
   public SequentialCommandGroup ResetElevatorCommand() {
     return new SequentialCommandGroup(
       new SetElevatorCommand(m_elevatorSubsystem, "zero"),
-      new SoftZeroElevatorCommand(m_elevatorSubsystem) 
+      new ZeroElevatorCommand(m_elevatorSubsystem) 
     );
   }
 

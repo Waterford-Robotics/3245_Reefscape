@@ -73,6 +73,8 @@ public class ElevatorSubsystem extends SubsystemBase {
   public void resetSensorPosition(Distance setpoint) {
     m_elevatorKrakenRight.setPosition(setpoint.in(Units.Inches));
     m_elevatorKrakenLeft.setPosition(setpoint.in(Units.Inches));
+
+    m_elevatorCANCoder.setPosition(setpoint.in(Units.Inches));
   }
 
   public double getCurrentPosition() {
