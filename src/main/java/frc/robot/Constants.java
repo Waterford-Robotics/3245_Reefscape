@@ -267,5 +267,8 @@ public final class Constants {
     // Limelight stuff
     public static double[] _botPoseTargetSpace = new double[6];
     public static boolean _tiv = false;
+
+    public static double[] _botPoseTargetSpaceCoral = new double[6];
+    public static boolean _tivCoral = false;
   }
 }

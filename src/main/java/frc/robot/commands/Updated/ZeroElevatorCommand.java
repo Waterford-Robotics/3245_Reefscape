@@ -32,7 +32,7 @@ public class ZeroElevatorCommand extends Command {
   
   // Actual command
   public void execute() {
-    if(m_elevatorSubsystem.getCurrentPosition() < 10 && m_elevatorSubsystem.getCurrentVelocity() == 0) {
+    if(m_elevatorSubsystem.getCurrentPosition() < 2 && m_elevatorSubsystem.getCurrentVelocity() == 0) {
       m_finished = true;
     }
   }

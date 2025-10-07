@@ -230,6 +230,10 @@ public class RobotContainer {
       .onTrue(new InstantCommand(() -> m_ledSubsystem.setColorWavesForestLimelight(), m_ledSubsystem)
     );
 
+    new Trigger(() -> ReactConstants._tivCoral)
+      .onTrue(new InstantCommand(() -> m_ledSubsystem.setStrobeWhite(), m_ledSubsystem)
+    );
+
     new Trigger(() -> ReactConstants._playOrchestra)
       .onTrue(new PlayOrchestraCommand(m_swerveSubsystem, m_elevatorSubsystem, m_wristSubsystem, m_intakeSubsystem)
     );
@@ -344,7 +348,8 @@ public class RobotContainer {
         ),
         new RunIntakeForSecsCommand(m_intakeSubsystem, 3.0)
       ),
-      new RunShootForSecsSpeedCommand(m_intakeSubsystem, 0.5, true, 0.5),
+      new RunShootCommand(m_intakeSubsystem, m_canRangeSubsystem, VisionConstants._positioned),
+      new RunShootForSecsSpeedCommand(m_intakeSubsystem, WristConstants.k_extendedShotTime, VisionConstants._positioned, 0.5),
       new ZeroWristCommand(m_wristSubsystem),
       new SetWristCommand(m_wristSubsystem, "INTAKE"),
       new TriggerElevatorCommand("RESET"),
@@ -369,7 +374,8 @@ public class RobotContainer {
         ),
         new RunIntakeForSecsCommand(m_intakeSubsystem, 3.0)
       ),
-      new RunShootForSecsSpeedCommand(m_intakeSubsystem, 0.5, true, 0.5),
+      new RunShootCommand(m_intakeSubsystem, m_canRangeSubsystem, VisionConstants._positioned),
+      new RunShootForSecsSpeedCommand(m_intakeSubsystem, WristConstants.k_extendedShotTime, VisionConstants._positioned, 0.5),
       new ZeroWristCommand(m_wristSubsystem),
       new SetWristCommand(m_wristSubsystem, "INTAKE"),
       new TriggerElevatorCommand("RESET"),
