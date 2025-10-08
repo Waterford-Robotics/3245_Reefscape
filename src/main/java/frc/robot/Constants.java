@@ -209,7 +209,7 @@ public final class Constants {
 
     // Prerequisites
     public static final double k_tzValidRange = -1.5;
-    public static final double k_tzValidRangeCoralStation = -1.5;
+    public static final double k_tzValidRangeCoralStation = -2.5;
     public static final double k_yawValidRange = 35;
 
     // Thresholds
