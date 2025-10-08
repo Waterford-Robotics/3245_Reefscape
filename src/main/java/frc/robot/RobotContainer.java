@@ -255,8 +255,9 @@ public class RobotContainer {
     // return m_chooser.getSelected();
 
     // The selected auto will be run in autonomous (or not haha)
-    if (ReactConstants._selectedAuto.equals("NONE")) return null;
-    else return m_swerveSubsystem.getAutonomousCommand(ReactConstants._selectedAuto);
+    // if (ReactConstants._selectedAuto.equals("NONE")) return null;
+    // else return m_swerveSubsystem.getAutonomousCommand(ReactConstants._selectedAuto);
+    return m_swerveSubsystem.getAutonomousCommand("3C-BLR-FLL-FLR");
   }
 
   // Command Chain for Raising Wrist

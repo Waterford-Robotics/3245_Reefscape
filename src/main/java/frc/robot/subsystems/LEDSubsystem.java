@@ -54,8 +54,8 @@ import frc.robot.Constants.LEDConstants;
     }
 
     public void setStrobeWhite() {
-      m_blinkinLeft.set(-0.05);
-      m_blinkinRight.set(-0.05);
+      m_blinkinLeft.set(0.91);
+      m_blinkinRight.set(0.91);
     }
 
     public void setOceanPaletteBlueAlliance() {
