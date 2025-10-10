@@ -21,6 +21,7 @@ import frc.robot.commands.Updated.AimNRangeAutoCoralStationCommand;
 import frc.robot.commands.Updated.AimNRangeCommand;
 import frc.robot.commands.Updated.LEDColorChangeCommand;
 import frc.robot.commands.Updated.NeutralElevatorCommand;
+import frc.robot.commands.Updated.RunIntakeForSecsAutoCommand;
 import frc.robot.commands.Updated.RunIntakeForSecsCommand;
 import frc.robot.commands.Updated.RunShootForSecsSpeedCommand;
 import frc.robot.commands.Updated.SetElevatorCommand;
@@ -255,9 +256,9 @@ public class RobotContainer {
     // return m_chooser.getSelected();
 
     // The selected auto will be run in autonomous (or not haha)
-    // if (ReactConstants._selectedAuto.equals("NONE")) return null;
-    // else return m_swerveSubsystem.getAutonomousCommand(ReactConstants._selectedAuto);
-    return m_swerveSubsystem.getAutonomousCommand("3C-BLR-FLL-FLR");
+    if (ReactConstants._selectedAuto.equals("NONE")) return null;
+    else return m_swerveSubsystem.getAutonomousCommand(ReactConstants._selectedAuto);
+    // return m_swerveSubsystem.getAutonomousCommand("3C-BLR-FLL-FLR");
   }
 
   // Command Chain for Raising Wrist
@@ -296,7 +297,7 @@ public class RobotContainer {
   public ParallelDeadlineGroup positionNIntakeAutoCoralStationLeft() {
     return new ParallelDeadlineGroup(
       new AimNRangeAutoCoralStationCommand(m_swerveSubsystem, true),
-      new RunIntakeForSecsCommand(m_intakeSubsystem, 3)
+      new RunIntakeForSecsAutoCommand(m_intakeSubsystem, m_canRangeSubsystem, 3)
     );
   }
 
@@ -304,7 +305,7 @@ public class RobotContainer {
   public ParallelDeadlineGroup positionNIntakeAutoCoralStationRight() {
     return new ParallelDeadlineGroup(
       new AimNRangeAutoCoralStationCommand(m_swerveSubsystem, true),
-      new RunIntakeForSecsCommand(m_intakeSubsystem, 3)
+      new RunIntakeForSecsAutoCommand(m_intakeSubsystem, m_canRangeSubsystem, 3)
     );
   }
 

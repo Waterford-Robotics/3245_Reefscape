@@ -95,8 +95,8 @@ public final class Constants {
     public static final Distance k_zeroHeight = Units.Inches.of(0);
     public static final Distance k_coralL1Height = Units.Inches.of(3); 
     public static final Distance k_coralL2Height = Units.Inches.of(6.5);
-    public static final Distance k_coralL3Height = Units.Inches.of(22.5);
-    public static final Distance k_coralL4Height = Units.Inches.of(48.25);
+    public static final Distance k_coralL3Height = Units.Inches.of(21.5);
+    public static final Distance k_coralL4Height = Units.Inches.of(47.5);
 
     public static final Distance k_algaeHeight = Units.Inches.of(25);
   }
