@@ -94,13 +94,13 @@ public final class Constants {
 
     public static final Distance k_zeroHeight = Units.Inches.of(0);
     public static final Distance k_coralL1Height = Units.Inches.of(3); 
-    public static final Distance k_coralL2Height = Units.Inches.of(6.5);
+    public static final Distance k_coralL2Height = Units.Inches.of(5.5);
     public static final Distance k_coralL3Height = Units.Inches.of(21.5);
     public static final Distance k_coralL4Height = Units.Inches.of(47.5);
 
     public static final Distance k_algaeHeight = Units.Inches.of(25);
   }
-
+  
   // Constants for Wrist
   public static final class WristConstants {
     public static final double k_shooterRampRate = 0.05;
@@ -190,7 +190,7 @@ public final class Constants {
     // AimNRange Reef Right
     public static final double k_aimReefRightTarget = 0;
     public static final double k_rangeReefRightTarget = -0.41;
-    public static final double k_strafeReefRightTarget = 0.17;
+    public static final double k_strafeReefRightTarget = 0.175;
 
     // AimNRange Reef Left
     public static final double k_aimReefLeftTarget = 0;

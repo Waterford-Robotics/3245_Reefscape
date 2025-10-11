@@ -296,8 +296,8 @@ public class RobotContainer {
   // Command Chain for Positioning and Loading at the Left Side of the Coral Station in Auto
   public ParallelDeadlineGroup positionNIntakeAutoCoralStationLeft() {
     return new ParallelDeadlineGroup(
-      new AimNRangeAutoCoralStationCommand(m_swerveSubsystem, true),
-      new RunIntakeForSecsAutoCommand(m_intakeSubsystem, m_canRangeSubsystem, 3)
+      new RunIntakeForSecsAutoCommand(m_intakeSubsystem, m_canRangeSubsystem, 3),
+      new AimNRangeAutoCoralStationCommand(m_swerveSubsystem, true)
     );
   }
 
